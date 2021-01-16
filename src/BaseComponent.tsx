@@ -5,7 +5,7 @@ class BaseComponent extends React.Component {
  		super(props)
  	}
   render (){
-    return <h1>BaseComponent</h1>
+    return <h1>BasezComponent</h1>
   }
 }
 export default BaseComponent
