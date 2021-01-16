@@ -1,5 +1,5 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
-import BaseComponent from "./BaseComponent"
+import GuitarTrainer from "./GuitarTrainer"
 
-ReactDOM.render(React.createElement(BaseComponent, null), document.getElementById('pocket'))
+ReactDOM.render(React.createElement(GuitarTrainer, null), document.getElementById('pocket'))
