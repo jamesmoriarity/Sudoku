@@ -1,0 +1,50 @@
+Exercise
+  History
+  SequencePlayer
+    Sequence
+      Frame
+        Action
+  MasterUIComponent
+    Scoreboard
+    Fretboard
+    QA
+    Choices
+
+Exercise ( data )
+  state
+    scoreboard - show numCorrect, numWrong, correctPct, trailingPct(trailNum)
+    fretboard
+    qa
+    choices
+  this.initHistory()
+  this.sequencePlayer = new IdentificatinSequencePlayer(data)
+  play = () => {
+    this.sequencePlayer.next()
+  }
+
+SequencePlayer BaseClass
+  next = () => {}
+
+IdentificationSequencePlayer extends SequencePlayer
+  state.choices = new Choices()
+  next = () => {
+    data = this.sequence.getNext()
+    this.setQA(data.qa)
+    this.showNotes(data.notes)
+  }
+  setQA = (data) => {this.qa = new QuestionAnswerSet(data)}
+  setNotes = (data) => {this.fretboard.show(data)}
+  onAnswerReceived = (answer:string) => {
+    this.qa.correct = ( answer == this.state.qa.answer )
+    this.updateHistory(this.qa)
+    this.scoreboard.update(this.qa.correct)
+    this.next()
+  }
+
+Choices(onSelectionFunction:Function)
+  buttons.onPress(value) = this.onSelectionFunction(value)
+
+
+QuestionAnswerSet
+    question:string
+    answer:string
