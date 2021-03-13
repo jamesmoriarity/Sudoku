@@ -65,13 +65,46 @@ class GuitarTrainer extends React.Component {
   render(){
     return  <svg xmlns="http://www.w3.org/2000/svg" height="300px" width="1150px" viewBox="0 0 11500 3000" className="fretboard-super">
       <linearGradient id="stringPattern">
-        <stop offset="5%" stopColor="#888"/>
-        <stop offset="50%" stopColor="#FFF"/>
-        <stop offset="95%" stopColor="#888"/>
+        <stop offset="5%" stopColor="#222"/>
+        <stop offset="50%" stopColor="#666"/>
+        <stop offset="95%" stopColor="#222"/>
       </linearGradient>
 
       <g className="fretboard">
         <rect y="100" x="50.0" height="1000.0" width="10800"/>
+      </g>
+
+      <g className="dot">
+        <circle cy="600.0" cx="1961.45893740149" r="65"/>
+      </g>
+      <g className="dot">
+        <circle cy="600.0" cx="3308.01576725424" r="65"/>
+      </g>
+      <g className="dot">
+        <circle cy="600.0" cx="4507.66152087317" r="65"/>
+      </g>
+      <g className="dot">
+        <circle cy="600.0" cx="5576.42438499478" r="65"/>
+      </g>
+      <g className="dot">
+        <circle cy="350.0" cx="6964.96887917045" r="65"/>
+        <circle cy="850.0" cx="6964.96887917045" r="65"/>
+      </g>
+      <g className="dot">
+        <circle cy="600.0" cx="9405.69225847889" r="65"/>
+      </g>
+      <g className="dot">
+        <circle cy="600.0" cx="8132.59096674305" r="65"/>
+      </g>
+      <g className="dot">
+        <circle cy="600.0" cx="8805.86938166942" r="65"/>
+      </g>
+      <g className="dot">
+        <circle cy="600.0" cx="9940.0736905397" r="65"/>
+      </g>
+      <g className="dot">
+        <circle cy="350.0" cx="10634.3459376275" r="65"/>
+        <circle cy="850.0" cx="10634.3459376275" r="65"/>
       </g>
 
     <g className="fret">
@@ -83,17 +116,11 @@ class GuitarTrainer extends React.Component {
     <g className="fret">
       <rect y="100" x="1575.09945014535" height="1000.0" width="60"/>
     </g>
-    <g className="dot">
-      <circle cy="600.0" cx="1961.45893740149" r="65"/>
-    </g>
     <g className="fret">
       <rect y="100" x="2287.81842465763" height="1000.0" width="60"/>
     </g>
     <g className="fret">
       <rect y="100" x="2960.5355568606" height="1000.0" width="60"/>
-    </g>
-    <g className="dot">
-      <circle cy="600.0" cx="3308.01576725424" r="65"/>
     </g>
     <g className="fret">
       <rect y="100" x="3595.49597764788" height="1000.0" width="60"/>
@@ -101,17 +128,11 @@ class GuitarTrainer extends React.Component {
     <g className="fret">
       <rect y="100" x="4194.81880839855" height="1000.0" width="60"/>
     </g>
-    <g className="dot">
-      <circle cy="600.0" cx="4507.66152087317" r="65"/>
-    </g>
     <g className="fret">
       <rect y="100" x="4760.50423334779" height="1000.0" width="60"/>
     </g>
     <g className="fret">
       <rect y="100" x="5294.4401750158" height="1000.0" width="60"/>
-    </g>
-    <g className="dot">
-      <circle cy="600.0" cx="5576.42438499478" r="65"/>
     </g>
     <g className="fret">
       <rect y="100" x="5798.40859497375" height="1000.0" width="60"/>
@@ -122,10 +143,6 @@ class GuitarTrainer extends React.Component {
     <g className="fret">
       <rect y="100" x="6723.07626029859" height="1000.0" width="60"/>
     </g>
-    <g className="dot">
-      <circle cy="350.0" cx="6964.96887917045" r="65"/>
-      <circle cy="850.0" cx="6964.96887917045" r="65"/>
-    </g>
     <g className="fret">
       <rect y="100" x="7146.86149804231" height="1000.0" width="60"/>
     </g>
@@ -135,17 +152,11 @@ class GuitarTrainer extends React.Component {
     <g className="fret">
       <rect y="100" x="7924.41122311498" height="1000.0" width="60"/>
     </g>
-    <g className="dot">
-      <circle cy="600.0" cx="8132.59096674305" r="65"/>
-    </g>
     <g className="fret">
       <rect y="100" x="8280.77071037112" height="1000.0" width="60"/>
     </g>
     <g className="fret">
       <rect y="100" x="8617.12927647261" height="1000.0" width="60"/>
-    </g>
-    <g className="dot">
-      <circle cy="600.0" cx="8805.86938166942" r="65"/>
     </g>
     <g className="fret">
       <rect y="100" x="8934.60948686625" height="1000.0" width="60"/>
@@ -153,17 +164,11 @@ class GuitarTrainer extends React.Component {
     <g className="fret">
       <rect y="100" x="9234.27090224158" height="1000.0" width="60"/>
     </g>
-    <g className="dot">
-      <circle cy="600.0" cx="9405.69225847889" r="65"/>
-    </g>
     <g className="fret">
       <rect y="100" x="9517.1136147162" height="1000.0" width="60"/>
     </g>
     <g className="fret">
       <rect y="100" x="9784.08158555021" height="1000.0" width="60"/>
-    </g>
-    <g className="dot">
-      <circle cy="600.0" cx="9940.0736905397" r="65"/>
     </g>
     <g className="fret">
       <rect y="100" x="10036.0657955292" height="1000.0" width="60"/>
@@ -173,10 +178,6 @@ class GuitarTrainer extends React.Component {
     </g>
     <g className="fret">
       <rect y="100" x="10498.3996281916" height="1000.0" width="60"/>
-    </g>
-    <g className="dot">
-      <circle cy="350.0" cx="10634.3459376275" r="65"/>
-      <circle cy="850.0" cx="10634.3459376275" r="65"/>
     </g>
     <g className="fret">
       <rect y="100" x="10710.2922470635" height="1000.0" width="60"/>
