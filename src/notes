@@ -1,0 +1,31 @@
+
+
+x1 = 20
+x2 = x1 + 800  .943
+x3 = x2 + 755
+x4 = x3 + 708
+x5 = x4 +
+
+225
+212
+
+
+fretLocations = [
+
+
+]
+ for let i = 0; i < 24; i++
+    if(i == 0){fretLocations.push(20)}
+    else
+      get lastValue in fretLocations
+      * .94
+
+function(fretNumber){
+  x = 20, step = 851
+  for(let i = 0; i < fretNumber; i++){
+    step = step * .94
+    x = x + step
+  }
+  return x
+
+}
