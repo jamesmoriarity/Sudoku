@@ -14,10 +14,8 @@ class FretElm extends React.Component {
   }
 
   render(){
-    return <g className="fret">
-              <rect y="100" x={this.getFretX()} height="1000" width="60"/>
-          </g>
-    }
+    return <rect className="fret" x={this.getFretX()}/>
+  }
 
 }
 export default FretElm

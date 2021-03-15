@@ -4,29 +4,27 @@ import GuitarStringElm from "./GuitarStringElm"
 
 
 export class NoteDotProps {
-  fretNumber:number
-  stringNumber:number
-  constructor(fNum:number, sNum:number){
-    this.fretNumber = fNum
-    this.stringNumber = sNum
+  cx:number
+  cy:number
+  radius:number
+  onClick:(event:React.MouseEvent<SVGGElement, MouseEvent>)=>void
+  constructor(fNum:number, sNum:number, radius:number, onClickHandler:(event:React.MouseEvent<SVGGElement, MouseEvent>)=>void){
+    this.radius = radius
+    this.cx = FretElm.fretXPositions[fNum] - this.radius
+    this.cy = GuitarStringElm.getStringY(sNum)
+    this.onClick = onClickHandler
   }
 }
 
 export class NoteDot extends React.Component {
-  static r:number = 65
-  cx:number
-  cy:number
-
   constructor(props:NoteDotProps){
     super(props)
-    this.cx = FretElm.fretXPositions[props.fretNumber] - NoteDot.r
-    this.cy = GuitarStringElm.getStringY(props.stringNumber)
   }
-
+  getProps = () => { return this.props as NoteDotProps}
   render(){
-    return  <g className="noteDot">
-              <circle cy={this.cy} cx={this.cx} r={NoteDot.r}/>
-            </g>
+    let props = this.getProps()
+    return  <circle className="noteDot" onClick={props.onClick} cy={props.cy} cx={props.cx}/>
+
     }
 
 }

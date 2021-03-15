@@ -1,25 +1,36 @@
 import React from "react"
+import Config from "./GuitarTrainerSettings"
 
-class GuitarStringElm extends React.Component {
+export class GuitarStringElmProps{
+  static stepY:number = Config.displayConfig.guitarStrings.stepY
+
   stringIndex:number
+  constructor(index:number){
+    this.stringIndex = index
+  }
+}
+
+
+export class GuitarStringElm extends React.Component {
+  stringIndex:number
+  y:number
 
   static getStringY = (stringNumber:number) => {
-    return 173 + (167 * stringNumber)
+    return GuitarStringElmProps.stepY * (stringNumber + 1)
   }
 
-  constructor(props:any){
+  getProps = () => {
+    return this.props as GuitarStringElmProps
+  }
+
+  constructor(props:GuitarStringElmProps){
     super(props)
     this.stringIndex = props.stringIndex
-  }
-
-  getY = () => {
-    return GuitarStringElm.getStringY(this.stringIndex)
+    this.y = GuitarStringElm.getStringY(this.stringIndex)
   }
 
   render(){
-    return  <g className="guitar-string">
-              <rect y={this.getY()} x="50.0" height="20" width="10800"/>
-            </g>
+    return  <rect className="guitar-string" y={this.y}/>
     }
 
 }

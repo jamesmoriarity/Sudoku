@@ -21,19 +21,39 @@ div {
 .fret{
   stroke:black;
   fill:#747474;
+  width:60;
+  height:1000;
+  y:100;
 }
 .dot{
   stroke:none;
   fill:rgb(0,0,0);
+  cy:600;
+  r:65;
+}
+.doubledot{
+  stroke:none;
+  fill:rgb(0,0,0);
+  r:65
+}
+
+.doubledot.top{
+  cy:350;
+}
+
+.doubledot.bottom{
+  cy:850;
 }
 .guitar-string{
   stroke:none;
   fill:url(#stringPattern);
+  x:50;
+  height:20;
+  width:10800;
 }
-
-
-
 .noteDot{
-  stroke:none;
+  stroke:white;
+  stroke-width:20;
   fill:#990000;
+  r:65;
 }

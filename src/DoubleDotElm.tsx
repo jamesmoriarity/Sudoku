@@ -3,7 +3,6 @@ import React from "react"
 class DoubleDotElm extends React.Component {
   cx:number
   static cxPositions: number[] = [6964, 10634]
-  static cyPositions: number[] = [350, 850]
 
   constructor(props:any){
     super(props)
@@ -11,10 +10,10 @@ class DoubleDotElm extends React.Component {
   }
 
   render(){
-    return  <g className="dot">
-              <circle cy={DoubleDotElm.cyPositions[0]} cx={this.cx} r="65"/>
-              <circle cy={DoubleDotElm.cyPositions[1]} cx={this.cx} r="65"/>
-            </g>
+    return  <>
+              <circle className="doubledot top" cx={this.cx}/>
+              <circle className="doubledot bottom" cx={this.cx}/>
+            </>
     }
 
 }

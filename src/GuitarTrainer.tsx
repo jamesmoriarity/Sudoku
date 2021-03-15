@@ -5,6 +5,7 @@ import DotElm from "./DotElm"
 import DoubleDotElm from "./DoubleDotElm"
 import FretBoardElm from "./FretBoardElm"
 import {NoteDot, NoteDotProps} from "./NoteDot"
+import Settings from "./GuitarTrainerSettings"
 
 class GuitarTrainerState{
   cycles:number
@@ -30,7 +31,7 @@ class GuitarTrainer extends React.Component {
     let elms:any = {}
     elms.fretboard = <FretBoardElm ref={this.fbRef}/>
     elms.frets = []
-    for(let i:number = 0; i < 24; i++){
+    for(let i:number = 0; i < 25; i++){
       let e = <FretElm {...{fretIndex:i}} key={"fret" + i}/>
       elms.frets.push( e )
     }
@@ -64,18 +65,22 @@ class GuitarTrainer extends React.Component {
     return dotComps
   }
 
-  onClicked = (event:React.MouseEvent) => {
+  onClicked = () => {
     let s = Math.floor(Math.random() * 6)
     let f = Math.floor(Math.random() * 6) + 1
-    let noteDotProps:NoteDotProps = new NoteDotProps(f, s)
-    let noteDotPropsArray: NoteDotProps[] = [noteDotProps]
-
+    let radius:number = Settings.displayConfig.dotRadius
+    let noteDotPropsObj:NoteDotProps = new NoteDotProps(f, s, radius, this.onClicked)
+    let noteDotPropsArray: NoteDotProps[] = [noteDotPropsObj]
     let newCycles = this.state.cycles + 1
     this.setState(new GuitarTrainerState(noteDotPropsArray, newCycles))
   }
 
+  componentDidMount = () =>{
+    this.onClicked()
+  }
+
   render(){
-    return  <svg onClick={this.onClicked} xmlns="http://www.w3.org/2000/svg" height="300px" width="1150px" viewBox="0 0 11500 3000" className="fretboard-super">
+    return  <svg xmlns="http://www.w3.org/2000/svg" height="300px" width="1150px" viewBox="0 0 11500 3000" className="fretboard-super">
       <linearGradient id="stringPattern">
         <stop offset="5%" stopColor="#222"/>
         <stop offset="50%" stopColor="#666"/>
