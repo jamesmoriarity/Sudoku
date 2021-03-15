@@ -30,3 +30,10 @@ div {
   stroke:none;
   fill:url(#stringPattern);
 }
+
+
+
+.noteDot{
+  stroke:none;
+  fill:#990000;
+}

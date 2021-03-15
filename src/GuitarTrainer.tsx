@@ -4,17 +4,31 @@ import GuitarStringElm from "./GuitarStringElm"
 import DotElm from "./DotElm"
 import DoubleDotElm from "./DoubleDotElm"
 import FretBoardElm from "./FretBoardElm"
+import {NoteDot, NoteDotProps} from "./NoteDot"
+
+class GuitarTrainerState{
+  cycles:number
+  noteDots:NoteDotProps[]
+  constructor(noteDotsProps:NoteDotProps[], cycles:number){
+    this.cycles = cycles
+    this.noteDots = noteDotsProps
+  }
+}
 
 class GuitarTrainer extends React.Component {
-  elms:any
+  fretBoardBaseElements:any
+  fbRef:any
+  state:any
  	constructor(props:any){
  		super(props)
-    this.initRenderElements()
+    this.state = new GuitarTrainerState([], 0)
+    this.fbRef = React.createRef()
+    this.fretBoardBaseElements = this.getfretBoardBaseElements()
  	}
 
-  initRenderElements = () => {
+  getfretBoardBaseElements = () => {
     let elms:any = {}
-    elms.fretboard = <FretBoardElm/>
+    elms.fretboard = <FretBoardElm ref={this.fbRef}/>
     elms.frets = []
     for(let i:number = 0; i < 24; i++){
       let e = <FretElm {...{fretIndex:i}} key={"fret" + i}/>
@@ -35,12 +49,29 @@ class GuitarTrainer extends React.Component {
       let e = <DoubleDotElm {...{dotIndex:i}} key={"doubledot" + i}/>
       elms.doubleDots.push( e )
     }
-    this.elms = elms
+    return elms
+  }
+
+  getNoteDotComps = (onClickHandler:Function) => {
+    let dotComps = []
+    for(let i:number = 0; i < this.state.noteDots.length; i++){
+
+// notedot props onClick
+
+      let e = <NoteDot {...this.state.noteDots[i]} key={"noteDot" + i + this.state.cycles}/>
+      dotComps.push( e )
+    }
+    return dotComps
   }
 
   onClicked = (event:React.MouseEvent) => {
-    let e:FretElm = this.elms.frets[0] as FretElm
-    console.log(e)
+    let s = Math.floor(Math.random() * 6)
+    let f = Math.floor(Math.random() * 6) + 1
+    let noteDotProps:NoteDotProps = new NoteDotProps(f, s)
+    let noteDotPropsArray: NoteDotProps[] = [noteDotProps]
+
+    let newCycles = this.state.cycles + 1
+    this.setState(new GuitarTrainerState(noteDotPropsArray, newCycles))
   }
 
   render(){
@@ -50,11 +81,12 @@ class GuitarTrainer extends React.Component {
         <stop offset="50%" stopColor="#666"/>
         <stop offset="95%" stopColor="#222"/>
       </linearGradient>
-      {this.elms.fretboard}
-      {this.elms.dots}
-      {this.elms.doubleDots}
-      {this.elms.frets}
-      {this.elms.guitarStrings}
+      {this.fretBoardBaseElements.fretboard}
+      {this.fretBoardBaseElements.dots}
+      {this.fretBoardBaseElements.doubleDots}
+      {this.fretBoardBaseElements.frets}
+      {this.fretBoardBaseElements.guitarStrings}
+      {this.getNoteDotComps(this.onClicked)}
     </svg>
   }
 
