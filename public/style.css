@@ -52,8 +52,9 @@ div {
   width:10800;
 }
 .noteDot{
+  transform: translate(-65px, 0px);
   stroke:white;
-  stroke-width:20;
+  stroke-width:15;
   fill:#990000;
   r:65;
 }

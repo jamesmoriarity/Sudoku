@@ -10,7 +10,7 @@ export class NoteDotProps {
   onClick:(event:React.MouseEvent<SVGGElement, MouseEvent>)=>void
   constructor(fNum:number, sNum:number, radius:number, onClickHandler:(event:React.MouseEvent<SVGGElement, MouseEvent>)=>void){
     this.radius = radius
-    this.cx = FretElm.fretXPositions[fNum] - this.radius
+    this.cx = FretElm.fretXPositions[fNum] // are there other ways to position it?
     this.cy = GuitarStringElm.getStringY(sNum)
     this.onClick = onClickHandler
   }
