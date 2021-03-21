@@ -1,48 +1,41 @@
 import React from "react"
-import {NoteDot, NoteDotProps} from "./NoteDot"
-import Settings from "./GuitarTrainerSettings"
+import {NoteDotProps} from "./NoteDot"
+import StaticFretboard from "./StaticFretboard"
+import NoteDotCollection, { NoteDotCollectionProps} from "./NoteDotCollection"
 
-class ExerciseState{
-  cycles:number
-  noteDots:NoteDotProps[]
-  constructor(noteDotsProps:NoteDotProps[], cycles:number){
-    this.cycles = cycles
-    this.noteDots = noteDotsProps
+export class ExerciseState{
+  noteDotPropsArray:NoteDotProps[]
+  constructor(noteDotsProps:NoteDotProps[] = []){
+    this.noteDotPropsArray = noteDotsProps
   }
 }
-
-class Exercise extends React.Component {
-  state:any
+export class Exercise extends React.Component {
+  state:ExerciseState
+  noteDotsRef:any = React.createRef()
  	constructor(props:any){
  		super(props)
-    this.state = new ExerciseState([], 0)
+    this.state = new ExerciseState()
  	}
-
-  getNoteDotComps = () => {
-    let dotComps = []
-    for(let i:number = 0; i < this.state.noteDots.length; i++){
-      let e = <NoteDot {...this.state.noteDots[i]} key={"noteDot" + i + this.state.cycles}/>
-      dotComps.push( e )
-    }
-    return dotComps
-  }
-
+  onClick = () => { this.showNextDot() }
+  onDotClick = () => {}
   showNextDot = () => {
-    let s = Math.floor(Math.random() * 6)
-    let f = Math.floor(Math.random() * 6) + 1
-    let radius:number = Settings.displayConfig.dotRadius
-    let noteDotPropsObj:NoteDotProps = new NoteDotProps(f, s, radius, this.showNextDot)
+    let stringIndex = Math.floor(Math.random() * 6)
+    let fretNumIndex = Math.floor(Math.random() * 6) + 1
+    let noteDotPropsObj:NoteDotProps = new NoteDotProps(fretNumIndex, stringIndex, this.onClick)
     let noteDotPropsArray: NoteDotProps[] = [noteDotPropsObj]
-    let newCycles = this.state.cycles + 1
-    this.setState(new ExerciseState(noteDotPropsArray, newCycles))
+    this.setState(new ExerciseState(noteDotPropsArray))
   }
-
   componentDidMount = () =>{
     this.showNextDot()
   }
-
   render(){
-    return this.getNoteDotComps()
+    return <>
+            <g className="exercise">
+              <StaticFretboard/>
+              <NoteDotCollection {...new NoteDotCollectionProps(this.state.noteDotPropsArray)} ref={this.noteDotsRef}/>
+            </g>
+            <rect x="300px" y="1300px" fill="blue" height="200px" width="200px" onClick={this.onClick}/>
+          </>
   }
 
 }

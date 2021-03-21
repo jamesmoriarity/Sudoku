@@ -20,7 +20,7 @@ div {
 }
 .fret{
   stroke:black;
-  fill:#747474;
+  fill:url(#fretGradient);
   width:60;
   height:1000;
   y:100;
@@ -28,7 +28,7 @@ div {
 .dot{
   stroke:none;
   fill:rgb(0,0,0);
-  cy:600;
+  cy:611;
   r:65;
 }
 .doubledot{
@@ -48,13 +48,13 @@ div {
   stroke:none;
   fill:url(#stringPattern);
   x:50;
-  height:20;
+  height:30;
   width:10800;
 }
 .noteDot{
-  transform: translate(-65px, 0px);
+  transform: translate(-85px, 13px);
   stroke:white;
   stroke-width:15;
   fill:#990000;
-  r:65;
+  r:85;
 }

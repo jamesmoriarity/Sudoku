@@ -1,6 +1,6 @@
 import React from "react"
 
-class FretBoardElm extends React.Component {
+class FretboardElm extends React.Component {
   constructor(props:any){
     super(props)
   }
@@ -13,4 +13,4 @@ class FretBoardElm extends React.Component {
     return 'aloha'
   }
 }
-export default FretBoardElm
+export default FretboardElm

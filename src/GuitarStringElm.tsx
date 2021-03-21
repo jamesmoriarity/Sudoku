@@ -10,7 +10,6 @@ export class GuitarStringElmProps{
   }
 }
 
-
 export class GuitarStringElm extends React.Component {
   stringIndex:number
   y:number
