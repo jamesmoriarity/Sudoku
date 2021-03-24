@@ -1,0 +1,22 @@
+
+Dot on componentDidMount timer animation starts(props.answerTime)
+        -> animation finishes -> show note value from props.noteName
+                              -> notify the exercise that answerTime has elapsed
+
+Exercise
+  -> showNextDot -> pass in answerTime and note name as props to dot(s)
+  -> onAnswerTimeElapsed
+      register to exercise history, shows on exercise scoreboard
+
+  -> answerReceived
+      get time from dot
+      correct   -> show affirmative with correct letter
+      !correct -> show negative  with correct letter
+      save to exercise history (correct)
+
+
+
+Exercise Scoreboard is a component that derives from history data
+Other visualizations derive from history data
+
+Personal Scoreboard from personal history, same with visualizations

@@ -6,7 +6,7 @@ class FretboardElm extends React.Component {
   }
   render(){
     return  <g className="fretboard">
-              <rect y="100" x="50.0" height="1000.0" width="10800"/>
+              <rect y="100" x="50.0" height="1000.0" width="11000"/>
             </g>
   }
   sayHello = () => {

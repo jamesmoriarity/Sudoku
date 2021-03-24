@@ -8,4 +8,16 @@ export default class GuitarTrainerSettings{
       width:10800
     }
   }
+  static music:any = {
+    noteNames:["C", "C# Db", "D", "D# Eb", "E", "F", "F# Gb", "G", "G# Ab", "A", "A# Bb", "B"]
+  }
+  static guitar:any = {
+    stringNames:["E", "B", "G", "D", "A", "E"],
+    getNoteNameForPosition:(stringIndex:number, fretIndex:number) => {
+      let stringRootNote:string = GuitarTrainerSettings.guitar.stringNames[stringIndex]
+      let stringRootNoteIndex:number = GuitarTrainerSettings.music.noteNames.indexOf(stringRootNote)
+      let selectedNoteIndex:number = (stringRootNoteIndex + fretIndex) % 12
+      return GuitarTrainerSettings.music.noteNames[selectedNoteIndex]
+    }
+  }
 }

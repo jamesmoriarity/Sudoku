@@ -5,19 +5,19 @@ import NoteDotCollection, { NoteDotCollectionProps} from "./NoteDotCollection"
 import { NoteChoices, NoteChoicesProps } from "./NoteChoices"
 import GuitarTrainerSettings from "./GuitarTrainerSettings"
 
-export class ExerciseState{
+export class ExerciseTwoState{
   noteDotPropsArray:NoteDotProps[]
   constructor(noteDotsProps:NoteDotProps[]){
     this.noteDotPropsArray = noteDotsProps
   }
 }
 
-export class Exercise extends React.Component {
-  state:ExerciseState
+export class ExerciseTwo extends React.Component {
+  state:ExerciseTwoState
   noteDotsCollectionRef:RefObject<NoteDotCollection>
  	constructor(props:any){
  		super(props)
-    this.state = new ExerciseState([])
+    this.state = new ExerciseTwoState([])
     this.noteDotsCollectionRef = React.createRef()
  	}
   onAnswer = (note:string) => {
@@ -33,7 +33,7 @@ export class Exercise extends React.Component {
   onDotClick = () => {}
   showNextDotPattern = () => {
       let nextDotProps:NoteDotProps = this.selectNextDot()
-      this.setState(new ExerciseState([nextDotProps]))
+      this.setState(new ExerciseTwoState([nextDotProps]))
   }
   getCurrentNoteName = () => {
     return (this.state.noteDotPropsArray[0])?this.state.noteDotPropsArray[0].noteName:Math.random().toString()
@@ -53,7 +53,7 @@ export class Exercise extends React.Component {
     return new NoteDotProps(fretIndex, stringIndex, this.onDotClick, selectedNoteName, 3)
   }
   getNextFretIndex = () => {
-    let activeFrets:number[] = [0,1,2,3,4]
+    let activeFrets:number[] = [3,5]
     return activeFrets[Math.floor( Math.random() * (activeFrets.length) )]
   }
   getNextStringIndex = () => {
@@ -63,14 +63,11 @@ export class Exercise extends React.Component {
     this.showNextDotPattern()
   }
   render(){
-    return  <>
-              <text fontSize="50">Exercise</text>
-              <g className="exercise">
-                <StaticFretboard/>
-                <NoteDotCollection {...new NoteDotCollectionProps(this.state.noteDotPropsArray)} ref={this.noteDotsCollectionRef}/>
-                <NoteChoices {...new NoteChoicesProps(this.onAnswer)} />
-              </g>
-            </>
+    return  <g className="exercise">
+              <StaticFretboard/>
+              <NoteDotCollection {...new NoteDotCollectionProps(this.state.noteDotPropsArray)} ref={this.noteDotsCollectionRef}/>
+              <NoteChoices {...new NoteChoicesProps(this.onAnswer)} />
+            </g>
   }
 }
-export default Exercise
+export default ExerciseTwo
