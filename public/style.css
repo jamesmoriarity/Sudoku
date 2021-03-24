@@ -19,11 +19,11 @@ div {
 }
 
 .fretboard-super{
-  stroke-width:5;
+  stroke-width:15;
 }
 
 .fretboard{
-  stroke:black;
+  stroke:#cec59f;
   fill:#d6ad01;
 }
 .staticFretboard .fretboardDots, .staticFretboard .frets ,.noteDotCollection{
