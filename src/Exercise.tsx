@@ -4,36 +4,100 @@ import StaticFretboard from "./StaticFretboard"
 import NoteDotCollection, { NoteDotCollectionProps} from "./NoteDotCollection"
 import { NoteChoices, NoteChoicesProps } from "./NoteChoices"
 import GuitarTrainerSettings from "./GuitarTrainerSettings"
+import { Answer, TimedoutAnswer } from "./Answer"
+import Scoreboard, { ScoreboardProps } from "./Scoreboard"
+import { AnswerTimer, AnswerTimerProps } from "./AnswerTimer"
+import { ExercisePlayButton, ExercisePlayButtonProps } from "./ExercisePlayButton"
 
 export class ExerciseState{
   noteDotPropsArray:NoteDotProps[]
+  history:Answer[]
+  isPlaying:boolean
   constructor(noteDotsProps:NoteDotProps[]){
     this.noteDotPropsArray = noteDotsProps
+    this.history = []
+    this.isPlaying = false
   }
 }
-
 export class Exercise extends React.Component {
   state:ExerciseState
   noteDotsCollectionRef:RefObject<NoteDotCollection>
+  answerTimerRef:RefObject<AnswerTimer>
+  answerTimeInSeconds:number = 3
  	constructor(props:any){
  		super(props)
     this.state = new ExerciseState([])
     this.noteDotsCollectionRef = React.createRef()
+    this.answerTimerRef = React.createRef()
  	}
+  onPause = () => {
+    this.answerTimerRef.current?.stop()
+    this.setState({isPlaying:false, noteDotPropsArray:[]})
+  }
+  onStart = () => {
+    this.setState({isPlaying:true}, this.nextQuestion)
+  }
+  onAnswerTimeout = () => {
+    // freeze answers
+    let answer:TimedoutAnswer = new TimedoutAnswer(false, this.state.noteDotPropsArray)
+    this.addToHistory(answer, this.onTimedoutAnswerAddedToHistory)
+  }
   onAnswer = (note:string) => {
-    let correct:boolean = (note == this.getCurrentNoteName())
-    if(correct){
+    console.log("onAnswer")
+    this.answerTimerRef.current?.stop()
+    let isCorrect:boolean = (note == this.getCurrentNoteName())
+    // create an answer object with correct and question
+    let answer:Answer = new Answer(isCorrect, this.state.noteDotPropsArray)
+    if(isCorrect){
       console.log("correct current:" + this.getCurrentNoteName() + " note:" + note)
-      this.showNextDotPattern()
+      this.addToHistory(answer, this.onCorrectAnswerAddedToHistory)
     }
     else{
       console.log("wrong current:" + this.getCurrentNoteName() + " note:" + note)
+      this.addToHistory(answer, this.onWrongAnswerAddedToHistory)
     }
   }
+
+  addToHistory = (answer:Answer, callback:() => void) => {
+    console.log("addToHistory")
+    let newState:ExerciseState = {...this.state}
+    newState.history.push(answer)
+    this.setState(newState, callback)
+  } 
+
+  onWrongAnswerAddedToHistory = () => {
+    console.log("onWrongAnswerAddedToHistory")
+    this.nextQuestion()
+  }
+
+  onCorrectAnswerAddedToHistory = () => {
+    console.log("onCorrectAnswerAddedToHistory")
+    this.nextQuestion()
+  }
+  onTimedoutAnswerAddedToHistory = () => {
+    console.log("onTimedoutAnswerAddedToHistory")
+    this.nextQuestion()
+  }
+  onTimerCompleted = () => {
+    // cleanup?
+    this.onAnswerTimeout()
+  }
   onDotClick = () => {}
+  startExercise = () => {
+    // setup exercise
+    this.nextQuestion()
+  }
+  nextQuestion = () => {
+    // clean up from last question / setup next question
+    this.answerTimerRef.current?.start()
+    this.showNextDotPattern()
+  }
   showNextDotPattern = () => {
+    console.log("showNextDotPattern history=" + this.state.history)
       let nextDotProps:NoteDotProps = this.selectNextDot()
-      this.setState(new ExerciseState([nextDotProps]))
+      let state:ExerciseState = {...this.state}
+      state.noteDotPropsArray = [nextDotProps]
+      this.setState(state)
   }
   getCurrentNoteName = () => {
     return (this.state.noteDotPropsArray[0])?this.state.noteDotPropsArray[0].noteName:Math.random().toString()
@@ -60,7 +124,7 @@ export class Exercise extends React.Component {
     return Math.floor(Math.random() * 3)
   }
   componentDidMount = () =>{
-    this.showNextDotPattern()
+    // this.startExercise()
   }
   render(){
     return  <>
@@ -69,6 +133,9 @@ export class Exercise extends React.Component {
                 <StaticFretboard/>
                 <NoteDotCollection {...new NoteDotCollectionProps(this.state.noteDotPropsArray)} ref={this.noteDotsCollectionRef}/>
                 <NoteChoices {...new NoteChoicesProps(this.onAnswer)} />
+                <Scoreboard {...new ScoreboardProps(this.state.history)} />
+                <AnswerTimer {...new AnswerTimerProps(this.answerTimeInSeconds, this.onAnswerTimeout)} ref={this.answerTimerRef}/>
+                <ExercisePlayButton {...new ExercisePlayButtonProps(this.onStart, this.onPause, this.state.isPlaying)}/>
               </g>
             </>
   }

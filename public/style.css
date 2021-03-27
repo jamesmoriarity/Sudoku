@@ -3,12 +3,22 @@ html{
   background-color: #222;
 }
 
+.answerTimer{
+  font-size:200px;
+  fill:white;
+  transform: translateX(1000px);
+}
+
 .title{
-  font-size:25px
+  font-size:200px
 }
 
 div {
   box-sizing:border-box;
+}
+text {
+  font-size:200px;
+  fill:white;
 }
 
 .exercise{
@@ -28,6 +38,11 @@ div {
 }
 .staticFretboard .fretboardDots, .staticFretboard .frets ,.noteDotCollection{
   transform:translateX(200px);
+}
+.scoreboard{
+  transform:translateX(4000px);
+  font-size:200px;
+  fill:white;
 }
 .fret{
   stroke:black;
