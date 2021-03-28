@@ -28,6 +28,10 @@ text {
   cursor:hand;
 }
 
+.noteChoices{
+  transform:translateY(500px);
+}
+
 .fretboard-super{
   stroke-width:15;
 }

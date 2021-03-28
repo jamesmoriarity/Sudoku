@@ -23,7 +23,7 @@ export class Exercise extends React.Component {
   state:ExerciseState
   noteDotsCollectionRef:RefObject<NoteDotCollection>
   answerTimerRef:RefObject<AnswerTimer>
-  answerTimeInSeconds:number = 3
+  answerTimeInSeconds:number = 5
  	constructor(props:any){
  		super(props)
     this.state = new ExerciseState([])
