@@ -1,7 +1,7 @@
 {
   "name": "ss2",
   "version": "1.0.0",
-  "description": "Sudoku Solver 2.0 in TypeScript",
+  "description": "Guitar Trainer",
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server",

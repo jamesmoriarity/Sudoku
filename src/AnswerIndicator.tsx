@@ -1,24 +1,41 @@
 import React from "react"
+import { gsap, TweenLite, TimelineLite } from "gsap"
+import Answer from "./Answer"
 
 export class AnswerIndicatorProps{
-    isCorrect:boolean | undefined
-    circleRef:React.RefObject<SVGElement>
-    constructor(isCorrect:boolean | undefined){
-        this.isCorrect = isCorrect
-        this.circleRef = React.createRef()
+    answer:Answer | null
+    constructor(answer:Answer | null){
+        this.answer = answer
     }
 }
 export class AnswerIndicator extends React.PureComponent{
     props!:AnswerIndicatorProps
+    circleRef:SVGCircleElement | null
     constructor(props:AnswerIndicatorProps){
         super(props)
+        this.circleRef = null
     }
+    
     getFill = () => {
-      if(this.props.isCorrect == undefined){ return "none" }
-      return (this.props.isCorrect) ? "green" : "red"
+      if(this.props.answer == null){ return "none" }
+      return (this.props.answer.isCorrect) ? "green" : "red"
     }
-
+    setCircleRef = (c:SVGCircleElement) => this.circleRef = c
+    
     render(){
-        return  <circle ref="circleRef" className="answerIndicator" fill={this.getFill()}  />
+        return  <circle scale="1" id="answerIndicator" ref={this.setCircleRef} className="answerIndicator" fill="none"  />
+    }
+    componentDidMount(){
+
+    }
+    componentDidUpdate(){
+        console.log("componentDidUpdate")
+        let off:TweenLite = gsap.to(this.circleRef, {duration: 0, fill: "none"})
+        let on:TweenLite = gsap.to("#answerIndicator", {duration: 0, fill: this.getFill()})
+        let tl:TimelineLite = gsap.timeline()
+        tl.add(off, 0)
+        tl.add(on, .05)
+        tl.add(off, .20)
+        tl.play()
     }
 }

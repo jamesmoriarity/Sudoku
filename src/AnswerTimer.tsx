@@ -26,13 +26,11 @@ export class AnswerTimer extends React.Component{
         this.state = new AnswerTimerState()
     }
     start = () => {
-        console.log("start")
         this.startTime = Date.now()
         this.interval = window.setTimeout(this.onTimeout, (this.props.answerTimeInSeconds * 1000) )
         this.updateInterval = window.setInterval(this.onUpdateInterval, 50)
     }
     onTimeout = () => {
-        console.log("onTimeout")
         this.clearIntervals()
         this.props.onTimeoutHander()
     }
@@ -44,8 +42,11 @@ export class AnswerTimer extends React.Component{
     stop = () => {
         this.clearIntervals()
     }
+    reset = () => {
+        this.stop()
+        this.setState({elapsedTimeInMilliseconds:0})
+    }
     clearIntervals = () => {
-        console.log("onUpdateInterval")
         clearInterval(this.updateInterval)
         this.updateInterval = undefined
         clearTimeout(this.interval)

@@ -9,7 +9,6 @@ export class StaticFretboard extends React.PureComponent{
  		super(props)
  	}
   render(){
-    console.log("staticFretboard render")
     return  <g className="staticFretboard">
               <FretboardElm/>
               <FretboardDots/>

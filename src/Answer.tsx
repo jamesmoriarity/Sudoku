@@ -3,16 +3,13 @@ import { NoteDotProps } from "./NoteDot"
 export class Answer{
     noteDotProp:NoteDotProps
     isCorrect:boolean
-    constructor(isCorrect:boolean, noteDotProps:NoteDotProps[]){
+    didTimeout:boolean
+    time:number
+    constructor(isCorrect:boolean, noteDotProps:NoteDotProps[], didTimeOut:boolean = false){
         this.isCorrect = isCorrect
         this.noteDotProp =  noteDotProps[0]
+        this.didTimeout = false
+        this.time = Date.now()
     }
 }
-
-export class TimedoutAnswer extends Answer{
-    didTimeout:boolean
-    constructor(isCorrect:boolean, noteDotProps:NoteDotProps[]){
-        super(isCorrect, noteDotProps)
-        this.didTimeout = true
-    }
-}
+export default Answer

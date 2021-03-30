@@ -19,10 +19,15 @@ svg{
   margin-top:   50px;
 }
 .answerIndicator{
+  cx:       1600px;
+  cy:       1600px;
+  r:        900px;
+}
+.temp{
+
   cx:         1600px;
-  cy:         900px;
-  r:          50px;
-  transform:  translate(25px, 25px);
+  cy:         950px;
+  r:          100px;
 }
 .answerTimer{
   font-size:        200px;
@@ -40,7 +45,7 @@ svg{
   fill: grey;
 }
 .answerTimer .foreground-bar{
-  fill:red;
+  fill:#ffb95b;
 }
 .button-outline{
   display:none;
@@ -146,6 +151,13 @@ svg{
 }
 .playButtonBack{
   fill-opacity:0;
+}
+.restart{
+  transform:          translate(1600px, 3700px);
+  text-anchor:        middle;
+  alignment-baseline: middle;
+  font-size: 140px;
+
 }
 .scoreboard{
   font-size:  200px;

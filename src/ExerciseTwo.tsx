@@ -23,11 +23,9 @@ export class ExerciseTwo extends React.Component {
   onAnswer = (note:string) => {
     let correct:boolean = (note == this.getCurrentNoteName())
     if(correct){
-      console.log("correct current:" + this.getCurrentNoteName() + " note:" + note)
       this.showNextDotPattern()
     }
     else{
-      console.log("wrong current:" + this.getCurrentNoteName() + " note:" + note)
     }
   }
   onDotClick = () => {}
