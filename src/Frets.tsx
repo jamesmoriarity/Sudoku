@@ -3,7 +3,7 @@ import FretElm from "./FretElm"
 
 class Frets extends React.Component {
   frets:JSX.Element[]
-  static fretNum:number = 25
+  static fretNum:number = 13
  	constructor(props:any){
  		super(props)
     this.frets = this.makeFrets()

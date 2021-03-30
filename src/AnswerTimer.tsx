@@ -59,8 +59,8 @@ export class AnswerTimer extends React.Component{
 
     render(){
         return  <g className="answerTimer">
-                    <rect width={this.props.progressBarWidth} height="50" fill="grey"/>
-                    <rect width={this.getProgressWidth()} height="50" fill="white"/>
+                    <rect className="background-bar bar"/>
+                    <rect className="foreground-bar bar" width={this.getProgressWidth()}/>
                 </g>
     }
 }

@@ -9,11 +9,11 @@ class FretboardDots extends React.Component {
  	}
   getDots = () => {
     let dots = []
-    for(let i:number = 0; i < 8; i++){
+    for(let i:number = 0; i < 4; i++){
       let e = <DotElm {...{dotIndex:i}}  key={"dot" + i}/>
       dots.push( e )
     }
-    for(let i:number = 0; i < 2; i++){
+    for(let i:number = 0; i < 1; i++){
       let e = <DoubleDotElm {...{dotIndex:i}} key={"doubledot" + i}/>
       dots.push( e )
     }

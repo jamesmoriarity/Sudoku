@@ -8,6 +8,7 @@ import { Answer, TimedoutAnswer } from "./Answer"
 import Scoreboard, { ScoreboardProps } from "./Scoreboard"
 import { AnswerTimer, AnswerTimerProps } from "./AnswerTimer"
 import { ExercisePlayButton, ExercisePlayButtonProps } from "./ExercisePlayButton"
+import {AnswerIndicator, AnswerIndicatorProps } from "./AnswerIndicator"
 
 export class ExerciseState{
   noteDotPropsArray:NoteDotProps[]
@@ -44,6 +45,7 @@ export class Exercise extends React.Component {
   }
   onAnswer = (note:string) => {
     console.log("onAnswer")
+    if(!this.state.isPlaying){ return }
     this.answerTimerRef.current?.stop()
     let isCorrect:boolean = (note == this.getCurrentNoteName())
     // create an answer object with correct and question
@@ -117,26 +119,33 @@ export class Exercise extends React.Component {
     return new NoteDotProps(fretIndex, stringIndex, this.onDotClick, selectedNoteName, 3)
   }
   getNextFretIndex = () => {
-    let activeFrets:number[] = [0,1,2,3,4]
+    let activeFrets:number[] = [0,1,2,3,4,5]
     return activeFrets[Math.floor( Math.random() * (activeFrets.length) )]
   }
   getNextStringIndex = () => {
     return Math.floor(Math.random() * 3)
+  }
+  getLastAnswerCorrect = () => {
+    let l:number = this.state.history.length
+    if(l == 0){ return undefined }
+    return (this.state.history[l-1].isCorrect)
   }
   componentDidMount = () =>{
     // this.startExercise()
   }
   render(){
     return  <>
-              <text fontSize="50">Exercise</text>
-              <g className="exercise">
+              <svg className="exercise">
                 <StaticFretboard/>
                 <NoteDotCollection {...new NoteDotCollectionProps(this.state.noteDotPropsArray)} ref={this.noteDotsCollectionRef}/>
-                <NoteChoices {...new NoteChoicesProps(this.onAnswer)} />
-                <Scoreboard {...new ScoreboardProps(this.state.history)} />
-                <AnswerTimer {...new AnswerTimerProps(this.answerTimeInSeconds, this.onAnswerTimeout)} ref={this.answerTimerRef}/>
-                <ExercisePlayButton {...new ExercisePlayButtonProps(this.onStart, this.onPause, this.state.isPlaying)}/>
-              </g>
+                <g className="controls">
+                  <NoteChoices {...new NoteChoicesProps(this.onAnswer)} />
+                  <Scoreboard {...new ScoreboardProps(this.state.history)} />
+                  <AnswerTimer {...new AnswerTimerProps(this.answerTimeInSeconds, this.onAnswerTimeout)} ref={this.answerTimerRef}/>
+                  <ExercisePlayButton {...new ExercisePlayButtonProps(this.onStart, this.onPause, this.state.isPlaying)}/>
+                  <AnswerIndicator {...new AnswerIndicatorProps(this.getLastAnswerCorrect())} />
+                </g>
+              </svg>
             </>
   }
 }

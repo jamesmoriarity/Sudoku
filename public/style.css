@@ -1,94 +1,164 @@
 html{
-  color:grey;
+  color:            grey;
   background-color: #222;
+  font-family:        Arial, Helvetica, sans-serif;
 }
-
-.answerTimer{
-  font-size:200px;
-  fill:white;
-  transform: translateX(1000px);
-}
-
-.title{
-  font-size:200px
-}
-
 div {
   box-sizing:border-box;
 }
 text {
   font-size:200px;
-  fill:white;
+  fill:   white;
 }
-
-.exercise{
-  transform:translate(500px, 200px);
-}
-.newButton{
+svg{
   cursor:hand;
 }
 
-.noteChoices{
-  transform:translateY(500px);
+#pocket{
+  margin-left:  50px;
+  margin-top:   50px;
 }
-
-.fretboard-super{
-  stroke-width:15;
+.answerIndicator{
+  cx:         1600px;
+  cy:         900px;
+  r:          50px;
+  transform:  translate(25px, 25px);
 }
-
+.answerTimer{
+  font-size:        200px;
+  fill:           white;
+  transform-origin: center;
+  transform:        translate(1600px, 1600px);
+}
+.answerTimer .bar{
+  transform:  translate(-500px, -25px);
+  height:     50px;
+  rx:         40px;
+}
+.answerTimer .background-bar{
+  width:  1000px;
+  fill: grey;
+}
+.answerTimer .foreground-bar{
+  fill:red;
+}
+.button-outline{
+  display:none;
+}
+.controls{ 
+  transform:  translate(2100px, 1400px);
+  height:     3200px; 
+  width:      3200px;
+}
+.dot{
+  stroke:none;
+  fill: rgb(0,0,0);
+  cy:     611;
+  r:      65;
+}
+.doubledot{
+  stroke: none;
+  fill: rgb(0,0,0);
+  r:      65
+}
+.doubledot.top{
+  cy: 350;
+}
+.doubledot.bottom{
+  cy: 850;
+}
+.exercisePlayButton{
+  transform: translate(1200px, 1650px);
+}
 .fretboard{
-  stroke:#cec59f;
-  fill:#d6ad01;
-}
-.staticFretboard .fretboardDots, .staticFretboard .frets ,.noteDotCollection{
-  transform:translateX(200px);
-}
-.scoreboard{
-  transform:translateX(4000px);
-  font-size:200px;
-  fill:white;
+  y:      100px;
+  x:      50.0px;
+  height: 1000px;
+  width:    7350px;
+  stroke: #cec59f;
+  fill:   #c19832;
 }
 .fret{
-  stroke:black;
-  fill:url(#fretGradient);
-  width:60;
-  height:1000;
-  y:100;
+  stroke:     black;
+  fill:         url(#fretGradient);
+  width:        60;
+  height:       1000;
+  y:            100;
+  stroke-width: 5;
 }
 .fret:nth-child(2){
   fill:#ccf;
 }
-
-.dot{
-  stroke:none;
-  fill:rgb(0,0,0);
-  cy:611;
-  r:65;
-}
-.doubledot{
-  stroke:none;
-  fill:rgb(0,0,0);
-  r:65
-}
-
-.doubledot.top{
-  cy:350;
-}
-
-.doubledot.bottom{
-  cy:850;
-}
 .guitar-string{
-  stroke:none;
-  fill:url(#stringPattern);
-  x:0;
-  height:30;
-  width:11000;
+  stroke: none;
+  fill:   url(#stringPattern);
+  x:      0;
+  height: 30;
+  width:  7350;
 }
 .noteDot{
-  transform: translate(-85px, 13px);
-  stroke:white;
-  stroke-width:15;
-  fill:#990000;
-  r:85;
+  transform:    translate(-85px, 13px);
+  stroke:     white;
+  stroke-width: 15;
+  fill:       #990000;
+  r:          85;
+}
+.noteButton{
+  cursor:   hand;
+  overflow: visible;
+}
+.noteButton .label{
+  transform:          translateY(20px);
+  fill:             #aaa;
+  font-size:          200px;
+  y:                  0px;
+  x:                  0px;
+  text-anchor:        middle;
+  alignment-baseline: middle;
+}
+.noteButton .back{
+  fill-opacity: 0;
+   height:      400px; 
+   width:       600px; 
+   y:           -200px;
+   x:           -300px;
+
+}
+.noteButton:hover .label{
+  fill:white;
+}
+.noteChoices .outer-ring{
+  cx:       1600px;
+  cy:       1600px;
+  r:        1600px;
+  fill:   #292929;
+  stroke: #fff;
+}
+.noteChoices .inner-ring{
+  cx:       1600px;
+  cy:       1600px;
+  r:        900px;
+  fill:   #222;
+  stroke: #fff;
+}
+.pause-mode, .play-mode{
+  fill:grey;
+}
+.playButtonBack{
+  fill-opacity:0;
+}
+.scoreboard{
+  font-size:  200px;
+  transform:  translate(1600px, 1330px);
+}
+.scoreboard text{
+  fill:       grey !important;
+  text-anchor:  middle;
+
+}
+.staticFretboard .fretboardDots, .staticFretboard .frets ,.noteDotCollection{
+  transform:translateX(200px);
+}
+.title{
+  font-size:200px
 }
