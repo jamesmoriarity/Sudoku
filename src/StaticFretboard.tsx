@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Children } from "react"
 import FretboardElm from "./FretBoardElm"
 import Frets from "./Frets"
 import GuitarStrings from "./GuitarStrings"
@@ -12,8 +12,7 @@ export class StaticFretboard extends React.PureComponent{
     return  <g className="staticFretboard">
               <FretboardElm/>
               <FretboardDots/>
-              <Frets/>
-              <GuitarStrings/>
+              {this.props.children}
             </g>
   }
 }

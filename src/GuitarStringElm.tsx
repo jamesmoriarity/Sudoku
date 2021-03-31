@@ -5,22 +5,19 @@ export class GuitarStringElmProps{
   static stepY:number = Config.displayConfig.guitarStrings.stepY
 
   stringIndex:number
-  constructor(index:number){
+  isActive:boolean
+  onClickHander:Function
+  constructor(index:number, isActive:boolean, onClickHander:Function){
     this.stringIndex = index
+    this.isActive = isActive
+    this.onClickHander = onClickHander
   }
 }
 
 export class GuitarStringElm extends React.Component {
   stringIndex:number
   y:number
-
-  static getStringY = (stringNumber:number) => {
-    return GuitarStringElmProps.stepY * (stringNumber + 1)
-  }
-
-  getProps = () => {
-    return this.props as GuitarStringElmProps
-  }
+  props!:GuitarStringElmProps
 
   constructor(props:GuitarStringElmProps){
     super(props)
@@ -28,8 +25,18 @@ export class GuitarStringElm extends React.Component {
     this.y = GuitarStringElm.getStringY(this.stringIndex)
   }
 
+  static getStringY = (stringNumber:number) => {
+    return GuitarStringElmProps.stepY * (stringNumber + 1)
+  }
+
+  getClass = () => {
+    let modifier:string = (this.props.isActive) ? "active" : "inactive"
+    return "guitar-string " + modifier
+  }
+  onClick = () => this.props.onClickHander(this.props)
+
   render(){
-    return  <rect className="guitar-string" y={this.y}/>
+    return  <rect onClick={this.onClick} className={this.getClass()} y={this.y}/>
     }
 
 }

@@ -1,14 +1,27 @@
 import React from "react"
-import GuitarStringElm from "./GuitarStringElm"
+import GuitarStringElm, { GuitarStringElmProps } from "./GuitarStringElm"
+
+export class GuitarStringsProps{
+  activeStrings:Map<number, boolean>
+  onClickHandler:Function
+  constructor(activeStrings:Map<number, boolean>, onClickHandler:Function){
+    this.activeStrings = activeStrings
+    this.onClickHandler = onClickHandler
+  }
+}
 
 class GuitarStrings extends React.Component {
- 	constructor(props:any){
+  props!:GuitarStringsProps
+ 	constructor(props:GuitarStringsProps){
  		super(props)
  	}
   getGuitarStrings = () => {
     let guitarStrings = []
     for(let i:number = 0; i < 6; i++){
-      let e = <GuitarStringElm {...{stringIndex:i}} key={"string" + i}/>
+      let isActive:boolean | undefined = this.props.activeStrings.get(i)
+      if(isActive == undefined){ isActive = false}
+      let props:GuitarStringElmProps = new GuitarStringElmProps(i, isActive, this.props.onClickHandler)
+      let e = <GuitarStringElm {...props} key={"string" + i}/>
       guitarStrings.push( e )
     }
     return guitarStrings

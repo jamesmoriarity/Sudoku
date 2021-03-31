@@ -11,7 +11,7 @@ text {
   fill:   white;
 }
 svg{
-  cursor:hand;
+  
 }
 
 #pocket{
@@ -22,12 +22,6 @@ svg{
   cx:       1600px;
   cy:       1600px;
   r:        900px;
-}
-.temp{
-
-  cx:         1600px;
-  cy:         950px;
-  r:          100px;
 }
 .answerTimer{
   font-size:        200px;
@@ -54,6 +48,7 @@ svg{
   transform:  translate(2100px, 1400px);
   height:     3200px; 
   width:      3200px;
+  cursor:     hand;
 }
 .dot{
   stroke:none;
@@ -90,6 +85,10 @@ svg{
   height:       1000;
   y:            100;
   stroke-width: 5;
+  cursor:       hand;
+}
+.fret.inactive{
+  opacity: 0.5;
 }
 .fret:nth-child(2){
   fill:#ccf;
@@ -98,8 +97,12 @@ svg{
   stroke: none;
   fill:   url(#stringPattern);
   x:      0;
-  height: 30;
+  height: 40;
   width:  7350;
+  cursor: hand;
+}
+.guitar-string.inactive{
+  opacity:0.5;
 }
 .noteDot{
   transform:    translate(-85px, 13px);

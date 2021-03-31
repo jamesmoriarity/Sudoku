@@ -1,17 +1,29 @@
 import React from "react"
-import FretElm from "./FretElm"
+import FretElm, { FretElmProps } from "./FretElm"
+
+export class FretsProps{
+  activeFrets:Map<number, boolean>
+  onFretClickHandler:Function
+  constructor(activeFrets:Map<number, boolean>, onFretClickHandler:Function){
+    this.activeFrets = activeFrets
+    this.onFretClickHandler = onFretClickHandler
+  }
+}
 
 class Frets extends React.Component {
-  frets:JSX.Element[]
+
   static fretNum:number = 13
- 	constructor(props:any){
+  props!:FretsProps
+ 	constructor(props:FretsProps){
  		super(props)
-    this.frets = this.makeFrets()
  	}
-  makeFrets = () => {
+  getFrets = () => {
     let frets = []
     for(let i:number = 0; i < Frets.fretNum; i++){
-      let e = <FretElm {...{fretIndex:i}} key={"fret" + i}/>
+      let activeFret:boolean | undefined = this.props.activeFrets.get(i)
+      let isActive:boolean = ( activeFret == undefined) ? false : activeFret
+      let props:FretElmProps = new FretElmProps(i, isActive, this.props.onFretClickHandler)
+      let e = <FretElm {...props} key={"fret" + i}/>
       frets.push( e )
     }
     return frets
@@ -23,7 +35,7 @@ class Frets extends React.Component {
                 <stop offset="50%" stopColor="#aaa"/>
                 <stop offset="95%" stopColor="#444"/>
               </linearGradient>
-              {this.frets}
+              {this.getFrets()}
             </g>
   }
 }

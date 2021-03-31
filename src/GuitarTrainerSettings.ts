@@ -5,7 +5,8 @@ export default class GuitarTrainerSettings{
       stepY:170,
       x:50,
       height:20,
-      width:10800
+      width:10800,
+      activeStrings:[0,1,2,3,4,5]
     }
   }
   static music:any = {

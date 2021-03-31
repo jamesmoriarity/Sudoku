@@ -1,4 +1,5 @@
 import React from "react"
+import {gsap} from "gsap"
 
 export class AnswerTimerState{
     elapsedTimeInMilliseconds:number
@@ -21,47 +22,34 @@ export class AnswerTimer extends React.Component{
     updateInterval:number | undefined
     startTime:number | undefined
     state:AnswerTimerState
+    tl:TimelineLite
+    barRef:SVGRectElement | null
     constructor(props:AnswerTimerProps){
         super(props)
         this.state = new AnswerTimerState()
+        this.barRef = null
+        this.tl = gsap.timeline({paused:true})
+    }
+    componentDidMount(){
+        let expand:TweenLite = gsap.to(this.barRef, {duration:5, width: 1000, onComplete:this.onTimeout})
+        this.tl.add(expand, 0)
     }
     start = () => {
-        this.startTime = Date.now()
-        this.interval = window.setTimeout(this.onTimeout, (this.props.answerTimeInSeconds * 1000) )
-        this.updateInterval = window.setInterval(this.onUpdateInterval, 50)
+        this.tl.restart()
     }
     onTimeout = () => {
-        this.clearIntervals()
         this.props.onTimeoutHander()
     }
-    onUpdateInterval = () => {
-        let newTime:number = Date.now()
-        let elapsed:number = newTime - this.startTime!
-        this.setState({elapsedTimeInMilliseconds:elapsed})
-    }
-    stop = () => {
-        this.clearIntervals()
-    }
     reset = () => {
-        this.stop()
-        this.setState({elapsedTimeInMilliseconds:0})
+        this.tl.pause()
+        gsap.set(this.barRef, {width: 0})
     }
-    clearIntervals = () => {
-        clearInterval(this.updateInterval)
-        this.updateInterval = undefined
-        clearTimeout(this.interval)
-        this.interval = undefined
-
-    }
-    getProgressWidth = () => {
-        let pct:number = this.state.elapsedTimeInMilliseconds/(this.props.answerTimeInSeconds * 1000)
-        return Math.floor(pct * this.props.progressBarWidth)
-    }
-
+    getBarRef = (e:SVGRectElement) => this.barRef = e
+  
     render(){
         return  <g className="answerTimer">
                     <rect className="background-bar bar"/>
-                    <rect className="foreground-bar bar" width={this.getProgressWidth()}/>
+                    <rect className="foreground-bar bar" ref={this.getBarRef} width="0"/>
                 </g>
     }
 }
