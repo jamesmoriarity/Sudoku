@@ -31,7 +31,7 @@ export class AnswerTimer extends React.Component{
         this.tl = gsap.timeline({paused:true})
     }
     componentDidMount(){
-        let expand:TweenLite = gsap.to(this.barRef, {duration:5, width: 1000, onComplete:this.onTimeout})
+        let expand:TweenLite = gsap.to(this.barRef, {duration:5, width: 1000, fill:"red", onComplete:this.onTimeout})
         this.tl.add(expand, 0)
     }
     start = () => {
@@ -44,12 +44,12 @@ export class AnswerTimer extends React.Component{
         this.tl.pause()
         gsap.set(this.barRef, {width: 0})
     }
-    getBarRef = (e:SVGRectElement) => this.barRef = e
+    setProgBarRef = (e:SVGRectElement) => this.barRef = e
   
     render(){
         return  <g className="answerTimer">
                     <rect className="background-bar bar"/>
-                    <rect className="foreground-bar bar" ref={this.getBarRef} width="0"/>
+                    <rect className="foreground-bar bar" ref={this.setProgBarRef} width="0"/>
                 </g>
     }
 }

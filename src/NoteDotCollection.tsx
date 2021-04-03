@@ -9,16 +9,14 @@ export class NoteDotCollectionProps{
 }
 
 export class NoteDotCollection extends React.Component {
+  props!:NoteDotCollectionProps
  	constructor(props:NoteDotCollectionProps){
  		super(props)
  	}
-  getProps = () => {
-    return this.props as NoteDotCollectionProps
-  }
   getNoteDotComps = () => {
     let dotComps = []
-    for(let i:number = 0; i < this.getProps().noteDotsProps.length; i++){
-      let e = <NoteDot {...this.getProps().noteDotsProps[i]} key={"noteDot" + i}/>
+    for(let i:number = 0; i < this.props.noteDotsProps.length; i++){
+      let e = <NoteDot {...this.props.noteDotsProps[i]} key={"noteDot" + i}/>
       dotComps.push( e )
     }
     return dotComps

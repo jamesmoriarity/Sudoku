@@ -39,16 +39,10 @@ svg{
   fill: grey;
 }
 .answerTimer .foreground-bar{
-  fill:#ffb95b;
+  fill:#31ff2a;
 }
 .button-outline{
   display:none;
-}
-.controls{ 
-  transform:  translate(2100px, 1400px);
-  height:     3200px; 
-  width:      3200px;
-  cursor:     hand;
 }
 .dot{
   stroke:none;
@@ -69,6 +63,7 @@ svg{
 }
 .exercisePlayButton{
   transform: translate(1200px, 1650px);
+  cursor:     hand;
 }
 .fretboard{
   y:      100px;
@@ -96,7 +91,7 @@ svg{
 .guitar-string{
   stroke: none;
   fill:   url(#stringPattern);
-  x:      0;
+  x:      40;
   height: 40;
   width:  7350;
   cursor: hand;
@@ -154,6 +149,7 @@ svg{
 }
 .playButtonBack{
   fill-opacity:0;
+  transform: translate(100px,100px);
 }
 .restart{
   transform:          translate(1600px, 3700px);
@@ -169,6 +165,7 @@ svg{
 .scoreboard text{
   fill:       grey !important;
   text-anchor:  middle;
+  cursor:default;
 
 }
 .staticFretboard .fretboardDots, .staticFretboard .frets ,.noteDotCollection{

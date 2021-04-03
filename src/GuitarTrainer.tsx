@@ -2,13 +2,11 @@ import React from "react"
 import ExerciseComponents from "./ExerciseComponents"
 
 class GuitarTrainerState{
-  exerciseComponent:any | undefined
+  exerciseComponent!:Function
   exerciseName:string
-  constructor(exerciseName:string = "" ){
-    this.exerciseName = exerciseName
-    if( (exerciseName != "") && ExerciseComponents.getComponents().has(exerciseName)){
-      this.exerciseComponent = ExerciseComponents.getComponents().get(exerciseName)
-    }
+  constructor(initialExerciseName:string){
+    this.exerciseName = initialExerciseName
+    this.exerciseComponent = ExerciseComponents.getComponents().get(initialExerciseName)
   }
 }
 
@@ -31,7 +29,7 @@ class GuitarTrainer extends React.Component {
             </select>
   }
   getExerciseComponent = () => {
-    let ExceriseComponent:any = this.state.exerciseComponent
+    let ExceriseComponent:Function = this.state.exerciseComponent
     return (ExceriseComponent == undefined)? null : <ExceriseComponent {...this.state}/>
   }
   render(){

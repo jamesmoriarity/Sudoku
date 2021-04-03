@@ -13,6 +13,7 @@ import Frets, { FretsProps } from "./Frets"
 import { FretElmProps } from "./FretElm"
 import GuitarStrings, { GuitarStringsProps } from "./GuitarStrings"
 import { GuitarStringElmProps } from "./GuitarStringElm"
+import Controls from "./Controls"
 
 export class ExerciseState{
   noteDotPropsArray:NoteDotProps[]
@@ -173,14 +174,14 @@ export class Exercise extends React.Component {
                   <GuitarStrings {...this.getStringsProps()}/>
                 </StaticFretboard>
                 <NoteDotCollection {...new NoteDotCollectionProps(this.state.noteDotPropsArray)} ref={this.noteDotsCollectionRef}/>
-                <g className="controls">
+                <Controls>
                   <NoteChoices {...new NoteChoicesProps(this.onAnswer)} />
                   <AnswerIndicator {...this.getAnswerIndicatorProps()} />
                   <Scoreboard {...new ScoreboardProps(this.state.history)} />
                   <AnswerTimer {...new AnswerTimerProps(this.answerTimeInSeconds, this.onAnswerTimeout)} ref={this.answerTimerRef}/>
                   <ExercisePlayButton {...new ExercisePlayButtonProps(this.onStart, this.onPause, this.state.isPlaying)}/>
                   <text onClick={this.restart} className="restart">[ restart ]</text>
-                </g>
+                </Controls>
               </svg>
             </>
   }
