@@ -1,5 +1,5 @@
 import React from "react"
-import {gsap} from "gsap"
+import {gsap, Linear} from "gsap"
 
 export class AnswerTimerState{
     elapsedTimeInMilliseconds:number
@@ -23,16 +23,21 @@ export class AnswerTimer extends React.Component{
     startTime:number | undefined
     state:AnswerTimerState
     tl:TimelineLite
-    barRef:SVGRectElement | null
+    circleRef:SVGCircleElement | null
     constructor(props:AnswerTimerProps){
         super(props)
         this.state = new AnswerTimerState()
-        this.barRef = null
+        this.circleRef = null
         this.tl = gsap.timeline({paused:true})
     }
     componentDidMount(){
-        let expand:TweenLite = gsap.to(this.barRef, {duration:5, width: 1000, fill:"red", onComplete:this.onTimeout})
-        this.tl.add(expand, 0)
+        gsap.set(this.circleRef, {strokeDashoffset:this.getFullStrokeDashoffset()})
+        let rotate:TweenLite = gsap.to(this.circleRef, {onComplete:this.onTimeout, ease: Linear.easeNone, duration:this.props.answerTimeInSeconds, strokeDashoffset:0})
+        this.tl.add(rotate)
+        let turnYellow:TweenLite = gsap.to(this.circleRef, {duration:this.props.answerTimeInSeconds * .25, stroke:"orange"})
+        let turnRed:TweenLite = gsap.to(this.circleRef, {duration:this.props.answerTimeInSeconds * .25, stroke:"red"})
+        this.tl.add(turnYellow, this.props.answerTimeInSeconds * .5)
+        this.tl.add(turnRed, this.props.answerTimeInSeconds * .75)    
     }
     start = () => {
         this.tl.restart()
@@ -42,14 +47,20 @@ export class AnswerTimer extends React.Component{
     }
     reset = () => {
         this.tl.pause()
-        gsap.set(this.barRef, {width: 0})
+        gsap.set(this.circleRef, {strokeDashoffset:this.getFullStrokeDashoffset()})
     }
-    setProgBarRef = (e:SVGRectElement) => this.barRef = e
+    pause = () => {
+        this.tl.pause()
+    }
+    getFullStrokeDashoffset = () => {
+        return Math.PI * ( 900 * 2)
+    }
+    setProgBarRef = (e:SVGCircleElement) => this.circleRef = e
   
     render(){
         return  <g className="answerTimer">
-                    <rect className="background-bar bar"/>
-                    <rect className="foreground-bar bar" ref={this.setProgBarRef} width="0"/>
+                    <circle className="inner-ring back"/>
+                    <circle className="inner-ring" strokeDasharray="5654" strokeDashoffset="0" ref={this.setProgBarRef}/>
                 </g>
     }
 }

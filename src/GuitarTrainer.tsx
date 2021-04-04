@@ -35,7 +35,7 @@ class GuitarTrainer extends React.Component {
   render(){
     return  <>
               <div>{this.getExerciseOptions()}</div>
-              <svg className="guitarTrainer" xmlns="http://www.w3.org/2000/svg" width="740px" height="600px"
+              <svg className="guitarTrainer" xmlns="http://www.w3.org/2000/svg" width="100%"
                 viewBox="0 0 7400 6000">
                 {this.getExerciseComponent()}
               </svg>

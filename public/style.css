@@ -17,6 +17,8 @@ svg{
 #pocket{
   margin-left:  50px;
   margin-top:   50px;
+  width:        100%;
+  max-width:    1000px;
 }
 .answerIndicator{
   cx:       1600px;
@@ -41,6 +43,20 @@ svg{
 .answerTimer .foreground-bar{
   fill:#31ff2a;
 }
+
+.answerTimer .inner-ring{
+  cx: 0px;
+  cy: 0px;
+  r:  900px;
+  fill: transparent;
+  stroke: #0ae902;
+  stroke-width:35px;
+  stroke-dashoffset: 0;
+  transform:rotate(-90deg);
+}
+.answerTimer .inner-ring.back{
+  stroke: rgb(230, 230, 230);
+}
 .button-outline{
   display:none;
 }
@@ -62,7 +78,7 @@ svg{
   cy: 850;
 }
 .exercisePlayButton{
-  transform: translate(1200px, 1650px);
+  transform: translate(1200px, 1450px);
   cursor:     hand;
 }
 .fretboard{
@@ -102,9 +118,10 @@ svg{
 .noteDot{
   transform:    translate(-85px, 13px);
   stroke:     white;
-  stroke-width: 15;
-  fill:       #990000;
+  stroke-width: 25;
+  fill:       #2ea101;
   r:          85;
+  stroke-dashoffset: 0;
 }
 .noteButton{
   cursor:   hand;
@@ -135,13 +152,6 @@ svg{
   cy:       1600px;
   r:        1600px;
   fill:   #292929;
-  stroke: #fff;
-}
-.noteChoices .inner-ring{
-  cx:       1600px;
-  cy:       1600px;
-  r:        900px;
-  fill:   #222;
   stroke: #fff;
 }
 .pause-mode, .play-mode{

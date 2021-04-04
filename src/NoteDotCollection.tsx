@@ -22,7 +22,6 @@ export class NoteDotCollection extends React.Component {
     return dotComps
   }
   render(){
-    console.log('render noteDotCollection')
     return <g className="noteDotCollection">
             {this.getNoteDotComps()}
           </g>

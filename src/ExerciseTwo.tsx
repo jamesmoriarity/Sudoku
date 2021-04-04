@@ -48,7 +48,7 @@ export class ExerciseTwo extends React.Component {
     let stringIndex = this.getNextStringIndex()
     let fretIndex = this.getNextFretIndex()
     let selectedNoteName:string = GuitarTrainerSettings.guitar.getNoteNameForPosition(stringIndex, fretIndex)
-    return new NoteDotProps(fretIndex, stringIndex, this.onDotClick, selectedNoteName, 3)
+    return new NoteDotProps(fretIndex, stringIndex, this.onDotClick, selectedNoteName, 3, 0, 0, 0)
   }
   getNextFretIndex = () => {
     let activeFrets:number[] = [3,5]

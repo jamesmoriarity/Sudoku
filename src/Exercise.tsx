@@ -30,7 +30,10 @@ export class ExerciseState{
   }
   getActiveMap = (max:number) => {
     let m:Map<number, boolean> = new Map()
-    for(let i:number = 0; i < max; i++){ m.set(i, true)}
+    for(let i:number = 0; i < max; i++){ 
+      let b:boolean = (i < 2)
+      m.set(i, b)
+    }
     return m
   }
 }
@@ -38,15 +41,17 @@ export class Exercise extends React.Component {
   state:ExerciseState
   noteDotsCollectionRef:RefObject<NoteDotCollection>
   answerTimerRef:RefObject<AnswerTimer>
-  answerTimeInSeconds:number = 5
+  answerTimeInSeconds:number = GuitarTrainerSettings.QuestionTime
+  dotMotionDelay:number
  	constructor(props:any){
  		super(props)
     this.state = new ExerciseState([])
     this.noteDotsCollectionRef = React.createRef()
     this.answerTimerRef = React.createRef()
+    this.dotMotionDelay = 0.5
  	}
   onPause = () => {
-    this.answerTimerRef.current?.reset()
+    this.answerTimerRef.current?.pause()
     this.setState({isPlaying:false, noteDotPropsArray:[]})
   }
   restart = () => {
@@ -61,7 +66,8 @@ export class Exercise extends React.Component {
   }
   onAnswerTimeout = () => {
     // freeze answers
-    let answer:Answer = new Answer(false, this.state.noteDotPropsArray, true)
+    this.state.isPlaying = false
+    let answer:Answer = new Answer(false, this.state.noteDotPropsArray[0], true)
     this.addToHistory(answer, this.onAnswerProcessed)
   }
   onAnswer = (note:string) => {
@@ -69,7 +75,7 @@ export class Exercise extends React.Component {
     this.answerTimerRef.current?.reset()
     let isCorrect:boolean = (note == this.getCurrentNoteName())
     // create an answer object with correct and question
-    let answer:Answer = new Answer(isCorrect, this.state.noteDotPropsArray)
+    let answer:Answer = new Answer(isCorrect, this.state.noteDotPropsArray[0])
     if(isCorrect){
       this.addToHistory(answer, this.onAnswerProcessed)
     }
@@ -84,7 +90,7 @@ export class Exercise extends React.Component {
     this.setState(newState, callback)
   } 
   onAnswerProcessed = () => {
-    this.setState({noteDotPropsArray:[]})
+    this.setState({isPlaying:false, noteDotPropsArray:[]})
     setTimeout(this.nextQuestion, 500)
     
   }
@@ -104,15 +110,18 @@ export class Exercise extends React.Component {
   }
   showNextDotPattern = () => {
     let nextDotProps:NoteDotProps = this.selectNextDot()
-    this.setState({noteDotPropsArray:[nextDotProps]})
+    this.setState({isPlaying:true, noteDotPropsArray:[nextDotProps]})
   }
   getCurrentNoteName = () => {
-    return (this.state.noteDotPropsArray[0])?this.state.noteDotPropsArray[0].noteName:Math.random().toString()
+    if(this.state.noteDotPropsArray.length > 0){
+      return this.state.noteDotPropsArray[0].noteName
+    }
+    return Math.random().toString()
   }
   selectNextDot = ():NoteDotProps => {
-    let currentNoteName = this.getCurrentNoteName()
+    let answer:Answer | null = this.getLatestAnswer()
     let nextDotProps:NoteDotProps = this.getNextDotProps()
-    if(currentNoteName == nextDotProps.noteName){
+    if(answer?.getNoteName() == nextDotProps.noteName){
       return this.selectNextDot()
     }
     return nextDotProps
@@ -121,20 +130,27 @@ export class Exercise extends React.Component {
     let stringIndex = this.getNextStringIndex()
     let fretIndex = this.getNextFretIndex()
     let selectedNoteName:string = GuitarTrainerSettings.guitar.getNoteNameForPosition(stringIndex, fretIndex)
-    return new NoteDotProps(fretIndex, stringIndex, this.onDotClick, selectedNoteName, 3)
+    let lastAnswer:Answer | null = this.getLatestAnswer()
+    let lastX:number = 0;
+    let lastY:number = 0;
+    if(lastAnswer != null){
+      lastX = lastAnswer.noteDotProp.cx
+      lastY = lastAnswer.noteDotProp.cy
+    }
+    return new NoteDotProps(fretIndex, stringIndex, this.onDotClick, selectedNoteName, this.answerTimeInSeconds, lastX, lastY, this.dotMotionDelay)
   }
   getNextFretIndex = () => {
     // get list of active frets, check each
     let activeFrets:number[] = []
-    this.state.activeFrets.forEach((value:boolean, key:number) => {
-      if(value){ activeFrets.push(key) }
+    this.state.activeFrets.forEach((isActive:boolean, fretIndex:number) => {
+      if(isActive){ activeFrets.push(fretIndex) }
     })
     return activeFrets[Math.floor( Math.random() * (activeFrets.length) )]
   }
   getNextStringIndex = () => {
     let activeStrings:number[] = []
-    this.state.activeStrings.forEach((value:boolean, key:number) => {
-      if(value){ activeStrings.push(key) }
+    this.state.activeStrings.forEach((isActive:boolean, stringIndex:number) => {
+      if(isActive){ activeStrings.push(stringIndex) }
     })
     return activeStrings[Math.floor( Math.random() * (activeStrings.length) )]
   }
@@ -149,13 +165,11 @@ export class Exercise extends React.Component {
     // this.startExercise()
   }
   onFretClick = (fretProps:FretElmProps) => {
-      console.log("onFretClick fretIndex:" + fretProps.fretIndex)
       let activeFrets:Map<number, boolean> = new Map(this.state.activeFrets)
       activeFrets.set(fretProps.fretIndex, !fretProps.isActive)
       this.setState({activeFrets:activeFrets})
   }
   onStringClick = (stringProps:GuitarStringElmProps) => {
-      console.log("onStringClick fretIndex:" + stringProps.stringIndex)
       let activeStrings:Map<number, boolean> = new Map(this.state.activeStrings)
       activeStrings.set(stringProps.stringIndex, !stringProps.isActive)
       this.setState({activeStrings:activeStrings})
@@ -176,10 +190,10 @@ export class Exercise extends React.Component {
                 <NoteDotCollection {...new NoteDotCollectionProps(this.state.noteDotPropsArray)} ref={this.noteDotsCollectionRef}/>
                 <Controls>
                   <NoteChoices {...new NoteChoicesProps(this.onAnswer)} />
+                  <AnswerTimer {...new AnswerTimerProps(this.answerTimeInSeconds + this.dotMotionDelay, this.onAnswerTimeout)} ref={this.answerTimerRef}/>
+                  <ExercisePlayButton {...new ExercisePlayButtonProps(this.onStart, this.onPause, this.state.isPlaying)}/>
                   <AnswerIndicator {...this.getAnswerIndicatorProps()} />
                   <Scoreboard {...new ScoreboardProps(this.state.history)} />
-                  <AnswerTimer {...new AnswerTimerProps(this.answerTimeInSeconds, this.onAnswerTimeout)} ref={this.answerTimerRef}/>
-                  <ExercisePlayButton {...new ExercisePlayButtonProps(this.onStart, this.onPause, this.state.isPlaying)}/>
                   <text onClick={this.restart} className="restart">[ restart ]</text>
                 </Controls>
               </svg>

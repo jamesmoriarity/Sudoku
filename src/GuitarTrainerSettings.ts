@@ -9,6 +9,7 @@ export default class GuitarTrainerSettings{
       activeStrings:[0,1,2,3,4,5]
     }
   }
+  static QuestionTime:number = 6
   static music:any = {
     noteNames:["C", "C# Db", "D", "D# Eb", "E", "F", "F# Gb", "G", "G# Ab", "A", "A# Bb", "B"]
   }

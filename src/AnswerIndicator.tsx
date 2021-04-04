@@ -29,7 +29,6 @@ export class AnswerIndicator extends React.PureComponent{
 
     }
     componentDidUpdate(){
-        console.log("componentDidUpdate")
         let off:TweenLite = gsap.set(this.circleRef, {fill: "none"})
         let on:TweenLite = gsap.set(this.circleRef, {fill: this.getFill()})
         let tl:TimelineLite = gsap.timeline()

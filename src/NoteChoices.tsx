@@ -62,7 +62,6 @@ export class NoteChoices extends React.PureComponent{
   render(){
     return  <g className="noteChoices">
               <circle className="outer-ring"/>
-              <circle className="inner-ring"/>
               {this.buildButtons()}
             </g>
   }
