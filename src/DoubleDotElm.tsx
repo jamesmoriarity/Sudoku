@@ -11,8 +11,8 @@ class DoubleDotElm extends React.Component {
 
   render(){
     return  <>
-              <circle className="doubledot top" cx={this.cx}/>
-              <circle className="doubledot bottom" cx={this.cx}/>
+              <circle className="doubledot top" cx={this.cx} r="65"/>
+              <circle className="doubledot bottom" cx={this.cx} r="65"/>
             </>
     }
 

@@ -25,9 +25,10 @@ export class NoteChoiceButton extends React.PureComponent{
     let centerY:number = 1600
     let coordinates = MathUtils.getPointOnCircle(centerX, centerY, 1250, (this.props.index * 30) - 90)
     let buttonFill = "clear"
-    //cx="1300px" cy="2100px" r="1000px"
+    let color:string = "#888" 
+    //GuitarTrainerSettings.music.getColorForNote(this.props.noteName)
     return <svg className="noteButton" x={Math.floor(coordinates.x)} y={Math.floor(coordinates.y)} onClick={this.onClick}>
-              <text className="label">
+              <text className="label" fill={color}>
                 {this.props.noteName}
               </text>
               <rect className="back"/>
@@ -52,7 +53,7 @@ export class NoteChoices extends React.PureComponent{
   }
   buildButtons = () =>{
     let buttons:JSX.Element[] = []
-    let notes = GuitarTrainerSettings.music.noteNames
+    let notes = GuitarTrainerSettings.music.sharpNoteNames
     notes.map((noteName:string, index:number) => {
       let button:JSX.Element = <NoteChoiceButton key={"button" + index} {...new NoteChoiceButtonProps(this.onClick, noteName, index)} />
       buttons.push(button)

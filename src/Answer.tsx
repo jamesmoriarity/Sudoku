@@ -1,18 +1,24 @@
+import GuitarTrainerSettings from "./GuitarTrainerSettings"
 import { NoteDotProps } from "./NoteDot"
 
 export class Answer{
-    noteDotProp:NoteDotProps
-    isCorrect:boolean
+    isCorrect:boolean | undefined
     didTimeout:boolean
-    time:number
-    constructor(isCorrect:boolean, noteDotProps:NoteDotProps, didTimeOut:boolean = false){
-        this.isCorrect = isCorrect
-        this.noteDotProp =  noteDotProps
-        this.didTimeout = false
-        this.time = Date.now()
+    allotedAnswerTime:number
+    answerTime:number
+    fretIndex:number
+    stringIndex:number
+    noteName:string
+    noteDotProp:NoteDotProps
+    constructor(noteDotProp:NoteDotProps){
+        this.noteDotProp = noteDotProp
+        this.isCorrect = (noteDotProp.answeredCorrectly == true)
+        this.didTimeout = (noteDotProp.answeredCorrectly == undefined)
+        this.allotedAnswerTime = GuitarTrainerSettings.QuestionTimeInSeconds
+        this.answerTime = Date.now() - noteDotProp.questionStartTime
+        this.fretIndex = noteDotProp.fretIndex
+        this.stringIndex = noteDotProp.stringIndex
+        this.noteName = noteDotProp.noteName
     }
-    getFretIndex = () => { return this.noteDotProp.fretIndex }
-    getStringIndex = () => { return this.noteDotProp.stringIndex }
-    getNoteName = () => { return this.noteDotProp.noteName}
 }
 export default Answer

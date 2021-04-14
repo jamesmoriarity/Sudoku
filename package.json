@@ -4,7 +4,7 @@
   "description": "Guitar Trainer",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server",
+    "dev": "webpack-dev-server --host 0.0.0.0 --disable-host-check",
     "build": "webpack",
     "test": "jest"
   },

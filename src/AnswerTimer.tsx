@@ -32,14 +32,21 @@ export class AnswerTimer extends React.Component{
     }
     componentDidMount(){
         gsap.set(this.circleRef, {strokeDashoffset:this.getFullStrokeDashoffset()})
+    }
+    componentDidUpdate(){
+
+    }
+    start = () => {
+        gsap.set(this.circleRef, {strokeDashoffset:this.getFullStrokeDashoffset()})
+        gsap.set(this.circleRef, {stroke:"#0ae902"})
+
+        this.tl = gsap.timeline({paused:true})
         let rotate:TweenLite = gsap.to(this.circleRef, {onComplete:this.onTimeout, ease: Linear.easeNone, duration:this.props.answerTimeInSeconds, strokeDashoffset:0})
         this.tl.add(rotate)
         let turnYellow:TweenLite = gsap.to(this.circleRef, {duration:this.props.answerTimeInSeconds * .25, stroke:"orange"})
         let turnRed:TweenLite = gsap.to(this.circleRef, {duration:this.props.answerTimeInSeconds * .25, stroke:"red"})
         this.tl.add(turnYellow, this.props.answerTimeInSeconds * .5)
-        this.tl.add(turnRed, this.props.answerTimeInSeconds * .75)    
-    }
-    start = () => {
+        this.tl.add(turnRed, this.props.answerTimeInSeconds * .75)
         this.tl.restart()
     }
     onTimeout = () => {

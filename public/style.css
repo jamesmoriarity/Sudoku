@@ -6,9 +6,8 @@ html{
 div {
   box-sizing:border-box;
 }
-text {
+.controls text {
   font-size:200px;
-  fill:   white;
 }
 svg{
   
@@ -17,7 +16,7 @@ svg{
 #pocket{
   margin-left:  50px;
   margin-top:   50px;
-  width:        100%;
+  width:        90%;
   max-width:    1000px;
 }
 .answerIndicator{
@@ -77,9 +76,56 @@ svg{
 .doubledot.bottom{
   cy: 850;
 }
+.exercise-title-bar{
+  margin: 40 0 20 0;
+  font-size:18px;
+  color:white;
+}
+.exercise-title-bar span{
+  font-size:13px;
+  color:yellow;
+  margin: 0 0 0 20;
+  cursor:hand;
+}
 .exercisePlayButton{
   transform: translate(1200px, 1450px);
   cursor:     hand;
+}
+#exercise-settings{
+  position: absolute;
+  overflow: hidden;
+  height:0;
+  margin:0;
+  width:650px;
+  border-radius: 15px;
+  margin-bottom:25px;
+}
+.exercise-settings-group{
+  margin-bottom:20px;
+}
+.exercise-settings-group-title{
+  margin-bottom:10px;
+}
+.exercise-settings-string-chk-container{
+  display:inline-block;
+  margin-right:15px;
+}
+.exercise-settings-fret-chk-container{
+  display:inline-block;
+  margin-right:10px;
+}
+#exercise-settings-inner{
+  background-color: rgb(61, 61, 61);
+  margin:20px;
+  box-sizing: border-box;
+  border:1px solid white;
+  margin:10px;
+  border-radius:15px;
+  padding: 20px;
+}
+#close-button{
+  margin:25px 0 25px 0;
+  text-align:right;
 }
 .fretboard{
   y:      100px;
@@ -116,12 +162,30 @@ svg{
   opacity:0.5;
 }
 .noteDot{
-  transform:    translate(-85px, 13px);
+  overflow:visible;
+}
+
+.note-dot-label{
+  fill:#ff8000;
+}
+
+.noteDot circle{
   stroke:     white;
-  stroke-width: 25;
-  fill:       #2ea101;
-  r:          85;
+  stroke-width: 10;
+  fill:#ff8000;
   stroke-dashoffset: 0;
+  transform:translate(100px, 10px);
+}
+
+.noteDot circle.answer-correct{fill:green;}
+.noteDot circle.answer-incorrect{fill:red;}
+
+.noteDot text{
+  font-size:130px;
+  text-align: center; 
+  text-anchor:  middle;
+  transform:translate(100px, 50px);
+  fill: white;
 }
 .noteButton{
   cursor:   hand;
@@ -129,8 +193,8 @@ svg{
 }
 .noteButton .label{
   transform:          translateY(20px);
-  fill:             #aaa;
   font-size:          200px;
+  font-weight:        bold;
   y:                  0px;
   x:                  0px;
   text-anchor:        middle;
@@ -178,7 +242,7 @@ svg{
   cursor:default;
 
 }
-.staticFretboard .fretboardDots, .staticFretboard .frets ,.noteDotCollection{
+.staticFretboard .fretboardDots, .staticFretboard .frets{
   transform:translateX(200px);
 }
 .title{

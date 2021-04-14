@@ -10,7 +10,7 @@ class DotElm extends React.Component {
   }
 
   render(){
-    return  <circle className="dot" cx={this.cx}/>
+    return  <circle className="dot" cx={this.cx} r="65"/>
     }
 
 }

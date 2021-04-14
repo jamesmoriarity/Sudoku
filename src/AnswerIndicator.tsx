@@ -34,7 +34,7 @@ export class AnswerIndicator extends React.PureComponent{
         let tl:TimelineLite = gsap.timeline()
         tl.add(off, 0)
         tl.add(on, .05)
-        tl.add(off, .20)
+        tl.add(off, .30)
         tl.play()
     }
 }
