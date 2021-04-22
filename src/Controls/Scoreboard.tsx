@@ -1,5 +1,5 @@
 import React from "react"
-import { Answer } from "./Answer"
+import { Answer } from "../Answer"
 
 export class ScoreboardProps{
     history:Answer[]

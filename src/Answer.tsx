@@ -1,5 +1,5 @@
 import GuitarTrainerSettings from "./GuitarTrainerSettings"
-import { NoteDotProps } from "./NoteDot"
+import { NoteDotProps } from "./Fretboard/NoteDot"
 
 export class Answer{
     isCorrect:boolean

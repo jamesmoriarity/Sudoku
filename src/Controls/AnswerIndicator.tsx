@@ -1,6 +1,6 @@
 import React from "react"
 import { gsap, TweenLite, TimelineLite } from "gsap"
-import Answer from "./Answer"
+import Answer from "../Answer"
 
 export class AnswerIndicatorProps{
     answer:Answer | null

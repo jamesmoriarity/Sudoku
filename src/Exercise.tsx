@@ -1,19 +1,19 @@
 import React, { ChangeEvent, ChangeEventHandler, RefObject } from "react"
-import NoteDot, {NoteDotProps} from "./NoteDot"
+import NoteDot, {NoteDotProps} from "./Fretboard/NoteDot"
 import StaticFretboard from "./Fretboard/StaticFretboard"
-import NoteDotCollection, { NoteDotCollectionProps} from "./NoteDotCollection"
-import { NoteChoices, NoteChoicesProps } from "./NoteChoices"
+import NoteDotCollection, { NoteDotCollectionProps} from "./Fretboard/NoteDotCollection"
+import { NoteChoices, NoteChoicesProps } from "./Controls/NoteChoices"
 import GuitarTrainerSettings from "./GuitarTrainerSettings"
 import Answer from "./Answer"
-import Scoreboard, { ScoreboardProps } from "./Scoreboard"
-import { AnswerTimer, AnswerTimerProps } from "./AnswerTimer"
-import { ExercisePlayButton, ExercisePlayButtonProps } from "./ExercisePlayButton"
-import {AnswerIndicator, AnswerIndicatorProps } from "./AnswerIndicator"
+import Scoreboard, { ScoreboardProps } from "./Controls/Scoreboard"
+import { AnswerTimer, AnswerTimerProps } from "./Controls/AnswerTimer"
+import { ExercisePlayButton, ExercisePlayButtonProps } from "./Controls/ExercisePlayButton"
+import {AnswerIndicator, AnswerIndicatorProps } from "./Controls/AnswerIndicator"
 import Frets, { FretsProps } from "./Fretboard/Frets"
 import { FretElmProps } from "./Fretboard/FretElm"
 import GuitarStrings, { GuitarStringsProps } from "./Fretboard/GuitarStrings"
 import { GuitarStringElmProps } from "./Fretboard/GuitarStringElm"
-import Controls from "./Controls"
+import Controls from "./Controls/Controls"
 import {gsap, TweenLite, Power1} from "gsap"
 import PositionHistory from "./PositionHistory"
 
@@ -98,7 +98,7 @@ export class Exercise extends React.Component {
     this.setState(s)
   }
   onStart = () => {
-    this.setState({isPlaying:true,noteDotPropsArray:[]}, this.nextQuestion)
+    this.setState({isPlaying:true, noteDotPropsArray:[]}, this.nextQuestion)
   }
   onAnswerTimeout = () => {
     this.processAnswer(false)
@@ -274,7 +274,6 @@ export class Exercise extends React.Component {
                   <NoteChoices {...new NoteChoicesProps(this.onAnswer)} />
                   <AnswerTimer {...new AnswerTimerProps(this.state.answerTimeInSeconds, this.onAnswerTimeout)} ref={this.answerTimerRef}/>
                   <ExercisePlayButton {...new ExercisePlayButtonProps(this.onStart, this.onPause, this.state.isPlaying)}/>
-                  
                   <Scoreboard {...new ScoreboardProps(this.state.history)} />
                   <AnswerIndicator {...this.getAnswerIndicatorProps()} />
                   <text onClick={this.restart} className="restart">[ restart ]</text>

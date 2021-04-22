@@ -1,8 +1,8 @@
 import React, { RefCallback } from "react"
-import FretElm from "./Fretboard/FretElm"
-import GuitarStringElm from "./Fretboard/GuitarStringElm"
+import FretElm from "./FretElm"
+import GuitarStringElm from "./GuitarStringElm"
 import {gsap} from "gsap"
-import GuitarTrainerSettings from "./GuitarTrainerSettings"
+import GuitarTrainerSettings from "../GuitarTrainerSettings"
 
 
 export class NoteDotProps {

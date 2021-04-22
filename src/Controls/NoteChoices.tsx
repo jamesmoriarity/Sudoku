@@ -1,6 +1,6 @@
 import React from "react"
-import GuitarTrainerSettings from "./GuitarTrainerSettings"
-import MathUtils from "./MathUtils"
+import GuitarTrainerSettings from "../GuitarTrainerSettings"
+import MathUtils from "../Utils/MathUtils"
 
 export class NoteChoiceButtonProps{
   onClickHandler:Function; noteName:string; index:number
