@@ -1,6 +1,6 @@
 import React, { RefCallback } from "react"
-import FretElm from "./FretElm"
-import GuitarStringElm from "./GuitarStringElm"
+import FretElm from "./Fretboard/FretElm"
+import GuitarStringElm from "./Fretboard/GuitarStringElm"
 import {gsap} from "gsap"
 import GuitarTrainerSettings from "./GuitarTrainerSettings"
 
@@ -14,12 +14,14 @@ export class NoteDotProps {
   questionStartTime:number
   showLabel:boolean
   answeredCorrectly:boolean | undefined
-  constructor(fNum:number, sNum:number, showLabel:boolean = false){
-    this.x = FretElm.fretXPositions[fNum] // are there other ways to position it?
-    this.y = GuitarStringElm.getStringY(sNum)
-    this.noteName = GuitarTrainerSettings.guitar.getNoteNameForPosition(sNum, fNum)
-    this.fretIndex = fNum
-    this.stringIndex = sNum
+  pct:number
+  constructor(fIndex:number, sIndex:number, pct:number = 0, showLabel:boolean = false){
+    this.x = FretElm.fretXPositions[fIndex] // are there other ways to position it?
+    this.y = GuitarStringElm.getStringY(sIndex)
+    this.noteName = GuitarTrainerSettings.guitar.getNoteNameForPosition(sIndex, fIndex)
+    this.fretIndex = fIndex
+    this.stringIndex = sIndex
+    this.pct = pct
     this.questionStartTime = 0;
     this.showLabel = showLabel
     this.answeredCorrectly = undefined
@@ -34,7 +36,10 @@ export class NoteDot extends React.PureComponent {
   }
   getLabel = () => {
     if(this.props.showLabel || (this.props.answeredCorrectly != undefined)){
-      return <text x="0" y="0" width="100%">{this.props.noteName}</text>
+      let label:string = this.props.noteName
+      if(this.props.showLabel)
+        label = label.concat(":" + this.props.pct)
+      return <text x="0" y="0" width="100%">{label}</text>
     }
     return null
   }

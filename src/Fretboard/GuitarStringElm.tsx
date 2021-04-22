@@ -1,16 +1,14 @@
 import React from "react"
-import Config from "./GuitarTrainerSettings"
+import Config from "../GuitarTrainerSettings"
 
 export class GuitarStringElmProps{
   static stepY:number = Config.displayConfig.guitarStrings.stepY
 
   stringIndex:number
   isActive:boolean
-  onClickHander:Function
-  constructor(index:number, isActive:boolean, onClickHander:Function){
+  constructor(index:number, isActive:boolean){
     this.stringIndex = index
     this.isActive = isActive
-    this.onClickHander = onClickHander
   }
 }
 
@@ -33,10 +31,9 @@ export class GuitarStringElm extends React.Component {
     let modifier:string = (this.props.isActive) ? "active" : "inactive"
     return "guitar-string " + modifier
   }
-  onClick = () => this.props.onClickHander(this.props)
 
   render(){
-    return  <rect onClick={this.onClick} className={this.getClass()} y={this.y}/>
+    return  <rect className={this.getClass()} y={this.y}/>
     }
 
 }

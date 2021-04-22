@@ -1,5 +1,4 @@
 import Exercise from "./Exercise"
-import ExerciseTwo from "./ExerciseTwo"
 
 export class ExerciseComponents{
   static components:Map<string, any> | undefined = undefined
@@ -7,7 +6,6 @@ export class ExerciseComponents{
     if(!ExerciseComponents.components){
       let map:Map<string, any> = new Map()
       map.set("Exercise", Exercise)
-      map.set("ExerciseTwo", ExerciseTwo)
       ExerciseComponents.components = map
     }
     return ExerciseComponents.components

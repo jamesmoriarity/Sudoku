@@ -1,30 +1,47 @@
+import { Answer } from "./Answer";
 import GuitarTrainerSettings from "./GuitarTrainerSettings";
 
 class PositionHistory{
-    notes:Map<string,boolean[]>
+    static stringNumber:number = 6
+    static fretNumber:number = 13
+    static numberOfAnswersToUse = 20
+    static minimumNumberOfAnswers = 2
+    static fromJSON(obj:any){
+        let history:PositionHistory =  new PositionHistory()
+        history.positions = obj.positions
+        return history
+    }
+    positions:Answer[][][]
     constructor(){
-        this.notes = new Map()
-        let stringNames:string[] = GuitarTrainerSettings.guitar.stringNames
-        stringNames.forEach((stringName:string)=>{
-            this.notes.set(stringName, [])
-        })
+        this.positions = []
+        for(let f:number = 0; f < PositionHistory.fretNumber; f++){
+            let fretStrings:Answer[][] = []
+            for(let s:number = 0; s < PositionHistory.stringNumber; s++){
+                let stringAnswers:Answer[] = []
+                fretStrings.push(stringAnswers)
+            }
+            this.positions.push(fretStrings)
+        }
     }
-    addAnswer = (noteName:string, correctAnswer:boolean) => {
-        let answers:boolean[] = [...this.getAnswers(noteName)]
-        answers.push(correctAnswer)
-        this.notes.set(noteName, answers)
+
+    addAnswer = (answer:Answer) => {
+        let f:number = answer.fretIndex
+        let s:number = answer.stringIndex
+        answer.removeNoteDotProps()
+        this.positions[f][s].push(answer)
+        localStorage.setItem('GuitarTrainerExercisePositionHistory', JSON.stringify(this))
     }
-    getAnswers = (noteName:string) => {
-        let answers:boolean[] | undefined = this.notes.get(noteName)
-        if(answers == undefined){throw new Error("No note by that name")}
-        return answers
+    getAnswers = (f:number, s:number) => {
+        return this.positions[f][s]
     }
-    getNotePCT = (noteName:string) => {
-        let answers:boolean[] = [...this.getAnswers(noteName)]
+    getNotePCT = (f:number, s:number) => {
+        let answers:Answer[] = this.getAnswers(f,s)
+        if(answers.length == 0)
+            return -1
         let correctAnswers:number = 0
         answers.forEach( 
-            (correctAnswer:boolean) =>{
-                if(correctAnswer)
+            (answer:Answer) =>{
+                if(answer.isCorrect)
                     correctAnswers++
             }
         )

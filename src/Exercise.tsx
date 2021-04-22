@@ -1,6 +1,6 @@
 import React, { ChangeEvent, ChangeEventHandler, RefObject } from "react"
 import NoteDot, {NoteDotProps} from "./NoteDot"
-import StaticFretboard from "./StaticFretboard"
+import StaticFretboard from "./Fretboard/StaticFretboard"
 import NoteDotCollection, { NoteDotCollectionProps} from "./NoteDotCollection"
 import { NoteChoices, NoteChoicesProps } from "./NoteChoices"
 import GuitarTrainerSettings from "./GuitarTrainerSettings"
@@ -9,10 +9,10 @@ import Scoreboard, { ScoreboardProps } from "./Scoreboard"
 import { AnswerTimer, AnswerTimerProps } from "./AnswerTimer"
 import { ExercisePlayButton, ExercisePlayButtonProps } from "./ExercisePlayButton"
 import {AnswerIndicator, AnswerIndicatorProps } from "./AnswerIndicator"
-import Frets, { FretsProps } from "./Frets"
-import { FretElmProps } from "./FretElm"
-import GuitarStrings, { GuitarStringsProps } from "./GuitarStrings"
-import { GuitarStringElmProps } from "./GuitarStringElm"
+import Frets, { FretsProps } from "./Fretboard/Frets"
+import { FretElmProps } from "./Fretboard/FretElm"
+import GuitarStrings, { GuitarStringsProps } from "./Fretboard/GuitarStrings"
+import { GuitarStringElmProps } from "./Fretboard/GuitarStringElm"
 import Controls from "./Controls"
 import {gsap, TweenLite, Power1} from "gsap"
 import PositionHistory from "./PositionHistory"
@@ -36,7 +36,13 @@ export class ExerciseState{
     this.settingsDisplay = false
     this.instructionsDisplay = false
     this.answerTimeInSeconds = GuitarTrainerSettings.QuestionTimeInSeconds
-    this.positionHistory = new PositionHistory()
+    let historyString:string | null = localStorage.getItem('GuitarTrainerExercisePositionHistory')
+    if(historyString != null){
+      this.positionHistory = PositionHistory.fromJSON(JSON.parse(historyString))
+    }
+    else{
+      this.positionHistory = new PositionHistory()
+    }
   }
   getActiveMap = (max:number) => {
     let m:Map<number, boolean> = new Map()
@@ -54,15 +60,15 @@ export class Exercise extends React.Component {
  	constructor(props:any){
  		super(props)
     this.state = new ExerciseState([])
-    this.state.noteDotPropsArray = this.getAllActiveDots()
+    this.state.noteDotPropsArray = this.getAllActivePositions()
     this.noteDotsCollectionRef = React.createRef()
     this.answerTimerRef = React.createRef()
  	}
   onPause = () => {
     this.answerTimerRef.current?.pause()
-    this.setState({isPlaying:false, noteDotPropsArray:this.getAllActiveDots()})
+    this.setState({isPlaying:false, noteDotPropsArray:this.getAllActivePositions()})
   }
-  getAllActiveDots = () => {
+  getAllActivePositions = () => {
     // loop through all active frets and strings
     let activeStrings:number[] = []
     this.state.activeStrings.forEach((isActive:boolean, stringIndex:number) => {
@@ -73,9 +79,11 @@ export class Exercise extends React.Component {
       if(isActive){ activeFrets.push(fretIndex) }
     })
     let dotProps:NoteDotProps[] = []
-    activeStrings.forEach((stringIndex:number) =>{
-      activeFrets.forEach((fretIndex:number) => {
-        let prop:NoteDotProps = new NoteDotProps(fretIndex, stringIndex, true)
+    activeFrets.forEach((f:number) =>{
+      activeStrings.forEach((s:number) => {
+        let pct:number = this.state.positionHistory.getNotePCT(f, s)
+        console.log("pct:" + pct)
+        let prop:NoteDotProps = new NoteDotProps(f, s, pct, true)
         dotProps.push(prop)
       })
     })
@@ -109,7 +117,7 @@ export class Exercise extends React.Component {
     newState.noteDotPropsArray[0] = newProps
     let answer:Answer = new Answer(newProps)
     newState.history.push(answer)
-    newState.positionHistory.addAnswer(newProps.noteName, answeredCorrectly)
+    newState.positionHistory.addAnswer(answer)
     this.setState(newState, this.onAnswerProcessed)
   } 
   onAnswerProcessed = () => {
@@ -168,21 +176,11 @@ export class Exercise extends React.Component {
   componentDidMount = () =>{
     // this.startExercise()
   }
-  onFretClick = (fretProps:FretElmProps) => {
-      let activeFrets:Map<number, boolean> = new Map(this.state.activeFrets)
-      activeFrets.set(fretProps.fretIndex, !fretProps.isActive)
-      this.setState({activeFrets:activeFrets}, this.updateActiveDots)
-  }
-  onStringClick = (stringProps:GuitarStringElmProps) => {
-      let activeStrings:Map<number, boolean> = new Map(this.state.activeStrings)
-      activeStrings.set(stringProps.stringIndex, !stringProps.isActive)
-      this.setState({activeStrings:activeStrings}, this.updateActiveDots)
-  }
   getFretsProps = () => {
-    return new FretsProps(this.state.activeFrets, this.onFretClick)
+    return new FretsProps(this.state.activeFrets)
   }
   getStringsProps = () => {
-    return new GuitarStringsProps(this.state.activeStrings, this.onStringClick)
+    return new GuitarStringsProps(this.state.activeStrings)
   }
 
   areSettingsOpen = () => {
@@ -203,7 +201,7 @@ export class Exercise extends React.Component {
   }
   updateActiveDots = () => {
     if(!this.state.isPlaying)
-      this.setState({noteDotPropsArray:this.getAllActiveDots()})
+      this.setState({noteDotPropsArray:this.getAllActivePositions()})
   }
   onStringToggle = (stringNum:number) => {
     let activeStrings = new Map(this.state.activeStrings)

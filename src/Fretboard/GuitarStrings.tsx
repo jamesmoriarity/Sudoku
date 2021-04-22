@@ -3,10 +3,8 @@ import GuitarStringElm, { GuitarStringElmProps } from "./GuitarStringElm"
 
 export class GuitarStringsProps{
   activeStrings:Map<number, boolean>
-  onClickHandler:Function
-  constructor(activeStrings:Map<number, boolean>, onClickHandler:Function){
+  constructor(activeStrings:Map<number, boolean>,){
     this.activeStrings = activeStrings
-    this.onClickHandler = onClickHandler
   }
 }
 
@@ -20,7 +18,7 @@ class GuitarStrings extends React.Component {
     for(let i:number = 0; i < 6; i++){
       let isActive:boolean | undefined = this.props.activeStrings.get(i)
       if(isActive == undefined){ isActive = false}
-      let props:GuitarStringElmProps = new GuitarStringElmProps(i, isActive, this.props.onClickHandler)
+      let props:GuitarStringElmProps = new GuitarStringElmProps(i, isActive)
       let e = <GuitarStringElm {...props} key={"string" + i}/>
       guitarStrings.push( e )
     }

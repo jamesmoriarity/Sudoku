@@ -3,11 +3,9 @@ import React from "react"
 export class FretElmProps{
   fretIndex:number
   isActive:boolean
-  onFretClickHandler:Function
-  constructor(fretIndex:number, isActive:boolean, onFretClickHandler:Function){
+  constructor(fretIndex:number, isActive:boolean){
     this.fretIndex = fretIndex
     this.isActive = isActive
-    this.onFretClickHandler = onFretClickHandler
   }
 }
 
@@ -19,9 +17,6 @@ class FretElm extends React.Component {
     super(props)
     this.fretIndex = props.fretIndex
   }
-  onClick = () => {
-    this.props.onFretClickHandler(this.props)
-  }
 
   getFretX = () => {
     return FretElm.fretXPositions[this.fretIndex]
@@ -32,7 +27,7 @@ class FretElm extends React.Component {
   }
 
   render(){
-    return <rect onClick={this.onClick} className={this.getClass()} x={this.getFretX()}/>
+    return <rect className={this.getClass()} x={this.getFretX()}/>
   }
 
 }

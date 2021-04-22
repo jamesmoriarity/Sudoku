@@ -142,7 +142,6 @@ svg{
   height:       1000;
   y:            100;
   stroke-width: 5;
-  cursor:       hand;
 }
 .fret.inactive{
   opacity: 0.5;
@@ -156,7 +155,6 @@ svg{
   x:      40;
   height: 40;
   width:  7350;
-  cursor: hand;
 }
 .guitar-string.inactive{
   opacity:0.5;
