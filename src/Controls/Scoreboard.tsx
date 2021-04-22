@@ -1,21 +1,16 @@
 import React from "react"
-import { Answer } from "../Answer"
+import ExerciseHistory from "../Exercises/ExerciseHistory"
 
 export class ScoreboardProps{
-    history:Answer[]
+    history:ExerciseHistory
     numCorrect!:number
-    numWrong!:number
-    constructor(history:Answer[]){
+    numWrong:number
+    totalQuestions:number
+    constructor(history:ExerciseHistory){
         this.history = history
-        this.numCorrect = 0
-        this.setNumberCorrect()
-    }
-
-    setNumberCorrect = () => {
-        this.history.forEach( (answer:Answer) => {
-            if (answer.isCorrect){this.numCorrect++}
-            else{this.numWrong++}
-        })
+        this.numCorrect = this.history.getNumCorrect()
+        this.numWrong = this.history.getNumWrong()
+        this.totalQuestions = this.history.getTotalQuestions()
     }
 }
 
@@ -29,8 +24,8 @@ class Scoreboard extends React.PureComponent {
     }
     getText = ():string => {
         let c:number = this.props.numCorrect 
-        let l:number = this.props.history.length
-        let pct:number = (this.props.history.length > 0) ? Math.floor((c/l) * 100) : 0
+        let l:number = this.props.totalQuestions
+        let pct:number = (this.props.totalQuestions > 0) ? Math.floor((c/l) * 100) : 0
         return c + "/" + l + " : " + pct + "%"
     }
 }

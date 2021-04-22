@@ -1,11 +1,11 @@
 import React from "react"
 import { gsap, TweenLite, TimelineLite } from "gsap"
-import Answer from "../Answer"
+import Question from "../Question"
 
 export class AnswerIndicatorProps{
-    answer:Answer | null
-    constructor(answer:Answer | null){
-        this.answer = answer
+    question:Question | undefined
+    constructor(question:Question | undefined){
+        this.question = question
     }
 }
 export class AnswerIndicator extends React.PureComponent{
@@ -15,10 +15,9 @@ export class AnswerIndicator extends React.PureComponent{
         super(props)
         this.circleRef = null
     }
-    
     getFill = () => {
-      if(this.props.answer == null){ return "none" }
-      return (this.props.answer.isCorrect) ? "green" : "red"
+      if(this.props.question == undefined){ return "none" }
+      return (this.props.question.answeredCorrectly) ? "green" : "red"
     }
     setCircleRef = (c:SVGCircleElement) => this.circleRef = c
     

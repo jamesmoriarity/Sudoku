@@ -3,31 +3,24 @@ import FretElm from "./FretElm"
 import GuitarStringElm from "./GuitarStringElm"
 import {gsap} from "gsap"
 import GuitarTrainerSettings from "../GuitarTrainerSettings"
+import Guitar from "../Utils/Guitar"
+import Position from "../Position"
 
 
 export class NoteDotProps {
+  position:Position
   x:number
   y:number
   noteName:string
-  fretIndex:number
-  stringIndex:number
-  questionStartTime:number
-  showLabel:boolean
   answeredCorrectly:boolean | undefined
-  pct:number
-  constructor(fIndex:number, sIndex:number, pct:number = 0, showLabel:boolean = false){
-    this.x = FretElm.fretXPositions[fIndex] // are there other ways to position it?
-    this.y = GuitarStringElm.getStringY(sIndex)
-    this.noteName = GuitarTrainerSettings.guitar.getNoteNameForPosition(sIndex, fIndex)
-    this.fretIndex = fIndex
-    this.stringIndex = sIndex
-    this.pct = pct
-    this.questionStartTime = 0;
-    this.showLabel = showLabel
+  constructor(position:Position, noteName:string, answeredCorrectly:boolean | undefined = undefined){
+    this.position = position
+    this.x = FretElm.fretXPositions[position.fretIndex] // are there other ways to position it?
+    this.y = GuitarStringElm.getStringY(position.stringIndex)
+    this.noteName = noteName
     this.answeredCorrectly = undefined
   }
 }
-
 
 export class NoteDot extends React.PureComponent {
   props!:NoteDotProps
@@ -35,10 +28,8 @@ export class NoteDot extends React.PureComponent {
     super(props)
   }
   getLabel = () => {
-    if(this.props.showLabel || (this.props.answeredCorrectly != undefined)){
+    if(this.props.answeredCorrectly != undefined){
       let label:string = this.props.noteName
-      if(this.props.showLabel)
-        label = label.concat(":" + this.props.pct)
       return <text x="0" y="0" width="100%">{label}</text>
     }
     return null
@@ -51,9 +42,6 @@ export class NoteDot extends React.PureComponent {
     return className 
   }
   getBackgroundShape = () => {
-    if(this.props.showLabel){
-      return <rect className="note-dot-label" x="0" y="-100" height="200" width="200"/>
-    }
     return <circle className={this.getCircleClassName()} cx="0" cy="0" r="100"></circle>
   }
   render(){

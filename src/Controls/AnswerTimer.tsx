@@ -52,7 +52,7 @@ export class AnswerTimer extends React.Component{
     onTimeout = () => {
         this.props.onTimeoutHander()
     }
-    reset = () => {
+    stopAndReset = () => {
         this.tl.pause()
         gsap.set(this.circleRef, {strokeDashoffset:this.getFullStrokeDashoffset()})
     }

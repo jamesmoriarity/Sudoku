@@ -1,4 +1,4 @@
-import Exercise from "./Exercise"
+import Exercise from "./Exercises/Exercise"
 
 export class ExerciseComponents{
   static components:Map<string, any> | undefined = undefined

@@ -22,7 +22,7 @@ export default class GuitarTrainerSettings{
   }
   static guitar:any = {
     stringNames:["E", "B", "G", "D", "A", "E"],
-    getNoteNameForPosition:(stringIndex:number, fretIndex:number) => {
+    getNoteNameForPosition:(fretIndex:number, stringIndex:number) => {
       let stringRootNote:string = GuitarTrainerSettings.guitar.stringNames[stringIndex]
       let stringRootNoteIndex:number = GuitarTrainerSettings.music.sharpNoteNames.indexOf(stringRootNote)
       let selectedNoteIndex:number = (stringRootNoteIndex + fretIndex) % 12

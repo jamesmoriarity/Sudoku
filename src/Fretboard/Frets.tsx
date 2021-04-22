@@ -1,27 +1,22 @@
 import React from "react"
+import SettingsProps from "../SettingsProps"
 import FretElm, { FretElmProps } from "./FretElm"
-
-export class FretsProps{
-  activeFrets:Map<number, boolean>
-  constructor(activeFrets:Map<number, boolean>){
-    this.activeFrets = activeFrets
-  }
-}
 
 class Frets extends React.Component {
   static fretNum:number = 13
-  props!:FretsProps
- 	constructor(props:FretsProps){
+  props!:SettingsProps
+ 	constructor(props:SettingsProps){
  		super(props)
  	}
+  getActiveFrets = () => {
+    return this.props.get().activeFrets
+  }
   getFrets = () => {
     let frets = []
     for(let i:number = 0; i < Frets.fretNum; i++){
-      let activeFret:boolean | undefined = this.props.activeFrets.get(i)
-      let isActive:boolean = ( activeFret == undefined) ? false : activeFret
+      let isActive:boolean = ( this.getActiveFrets().get(i) == true)
       let props:FretElmProps = new FretElmProps(i, isActive)
-      let e = <FretElm {...props} key={"fret" + i}/>
-      frets.push( e )
+      frets.push( <FretElm {...props} key={"fret" + i}/> )
     }
     return frets
   }
