@@ -1,32 +1,19 @@
 import React from "react"
-import ExerciseHistory from "../Exercises/ExerciseHistory"
-
-export class ScoreboardProps{
-    history:ExerciseHistory
-    numCorrect!:number
-    numWrong:number
-    totalQuestions:number
-    constructor(history:ExerciseHistory){
-        this.history = history
-        this.numCorrect = this.history.getNumCorrect()
-        this.numWrong = this.history.getNumWrong()
-        this.totalQuestions = this.history.getTotalQuestions()
-    }
-}
+import ExerciseHistory, { ExerciseHistoryStats } from "../Exercises/ExerciseHistory"
 
 class Scoreboard extends React.PureComponent {
-    props!:ScoreboardProps
-    constructor(props:ScoreboardProps){
+    props!:ExerciseHistoryStats
+    constructor(props:ExerciseHistoryStats){
         super(props)
     }
     render(){
         return <g className="scoreboard"><text>{this.getText()}</text></g> 
     }
     getText = ():string => {
-        let c:number = this.props.numCorrect 
-        let l:number = this.props.totalQuestions
-        let pct:number = (this.props.totalQuestions > 0) ? Math.floor((c/l) * 100) : 0
-        return c + "/" + l + " : " + pct + "%"
+        let correct:number = this.props.rightAnswers 
+        let total:number = this.props.totalAnswers
+        let pct:number = (this.props.totalAnswers > 0) ? Math.floor((correct/total) * 100) : 0
+        return correct + "/" + total + " : " + pct + "%"
     }
 }
 export default Scoreboard

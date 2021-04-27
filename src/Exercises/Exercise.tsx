@@ -2,10 +2,10 @@ import React, { RefObject } from "react"
 import { AnswerTimer, AnswerTimerProps } from "../Controls/AnswerTimer"
 import { ExercisePlayButton, ExercisePlayButtonProps } from "../Controls/ExercisePlayButton"
 import NoteChoices, { NoteChoicesProps } from "../Controls/NoteChoices"
-import Scoreboard, { ScoreboardProps } from "../Controls/Scoreboard"
+import Scoreboard from "../Controls/Scoreboard"
 import Frets from "../Fretboard/Frets"
 import GuitarStrings from "../Fretboard/GuitarStrings"
-import NoteDotContainer from "../Fretboard/NoteDotContainer"
+import NoteDotContainer, {NoteDotContainerProps} from "../Fretboard/NoteDotContainer"
 import Question from "../Question"
 import ExerciseHistory from "./ExerciseHistory"
 import ExerciseSequence from "./ExerciseSequence"
@@ -22,10 +22,12 @@ export class ExerciseState{
     settings:ExerciseSettings
     currentQuestion:Question | undefined
     isPlaying:boolean
+    acceptingAnswers:boolean
     constructor(){
       this.history = new ExerciseHistory()
       this.settings = new ExerciseSettings()
       this.isPlaying = false
+      this.acceptingAnswers = false
     }
   }
 
@@ -46,16 +48,20 @@ class Exercise extends React.Component{
     toggleSettingsPanel = () => {}
     toggleInstructions = () => {}
     nextQuestion = () => {
-      this.timerRef.current?.start()
-      this.setState( {isPlaying:true, currentQuestion:this.sequence.getNextQuestion()} ) 
+      let nextQuestion:Question = this.sequence.getNextQuestion()
+      this.setState( {isPlaying:true, currentQuestion:nextQuestion, acceptingAnswers:true}, this.startTimer ) 
     }
+    startTimer = () => this.timerRef.current?.start()
+    stopTimer = () => this.timerRef.current?.pause()
     onAnswer = (note:string) => {
-      if(!this.state.isPlaying){ return }
-      let isCorrect:boolean = (note == this.state.currentQuestion?.answer)
-      this.processAnswer(isCorrect)
+      if (this.state.isPlaying && this.state.currentQuestion != undefined && this.state.acceptingAnswers) { 
+        let isCorrect:boolean = (note == this.state.currentQuestion.answer)
+        this.processAnswer(isCorrect)
+      }
     }
     onPause = () => {
-        this.timerRef.current?.pause()
+        this.stopTimer()
+        this.setState({isPlaying:false, currentQuestion:undefined})
     }
     restart = () => {
       this.timerRef.current?.stopAndReset()
@@ -73,14 +79,20 @@ class Exercise extends React.Component{
       this.timerRef.current?.stopAndReset()
       let newState:ExerciseState = {...this.state}
       newState.isPlaying = false
-      if(this.state.currentQuestion != undefined){
-        this.state.currentQuestion.answeredCorrectly = answeredCorrectly
-        newState.history.add(this.state.currentQuestion)
+      newState.acceptingAnswers = false
+      if(newState.currentQuestion != undefined){
+        newState.currentQuestion = {...newState.currentQuestion}
+        newState.currentQuestion.answeredCorrectly = answeredCorrectly
+        newState.history.add(newState.currentQuestion)
       }
       this.setState(newState, this.onAnswerProcessed)
     } 
     onAnswerProcessed = () => {
       setTimeout(this.nextQuestion, 2000)
+    }
+    getNoteDotContainer = () => {
+      if(this.state.currentQuestion == undefined){ return null }
+      return <NoteDotContainer {...new NoteDotContainerProps(this.state.currentQuestion)}/>
     }
     render(){
       return  <>
@@ -94,12 +106,12 @@ class Exercise extends React.Component{
                     <Frets {...this.settingsProps}/>
                     <GuitarStrings {...this.settingsProps}/>
                   </StaticFretboard>
-                  <NoteDotContainer {...this.state.currentQuestion}/>
+                  {this.getNoteDotContainer()}
                   <Controls>
                     <NoteChoices {...new NoteChoicesProps(this.onAnswer)} />
                     <AnswerTimer {...new AnswerTimerProps(this.state.settings.answerTimeInSeconds, this.onAnswerTimeout)} ref={this.timerRef}/>
                     <ExercisePlayButton {...new ExercisePlayButtonProps(this.onStart, this.onPause, this.state.isPlaying)}/>
-                    <Scoreboard {...new ScoreboardProps(this.state.history)} />
+                    <Scoreboard {...this.state.history.getExerciseStats()} />
                     <AnswerIndicator {...new AnswerIndicatorProps(this.state.currentQuestion)} />
                     <text onClick={this.restart} className="restart">[ restart ]</text>
                   </Controls>

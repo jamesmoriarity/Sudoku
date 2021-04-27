@@ -5,47 +5,49 @@ import {gsap} from "gsap"
 import GuitarTrainerSettings from "../GuitarTrainerSettings"
 import Guitar from "../Utils/Guitar"
 import Position from "../Position"
+import Question from "../Question"
 
 
 export class NoteDotProps {
-  position:Position
+  question:Question
   x:number
   y:number
-  noteName:string
-  answeredCorrectly:boolean | undefined
-  constructor(position:Position, noteName:string, answeredCorrectly:boolean | undefined = undefined){
-    this.position = position
-    this.x = FretElm.fretXPositions[position.fretIndex] // are there other ways to position it?
-    this.y = GuitarStringElm.getStringY(position.stringIndex)
-    this.noteName = noteName
-    this.answeredCorrectly = undefined
+  static radius:number = 100
+  constructor(question:Question){
+    this.question = question
+    this.x = FretElm.fretXPositions[question.position.fretIndex] // are there other ways to position it?
+    this.y = GuitarStringElm.getStringY(question.position.stringIndex)
   }
 }
 
-export class NoteDot extends React.PureComponent {
+export class NoteDot extends React.Component {
   props!:NoteDotProps
+  x:number
+  y:number
   constructor(props:NoteDotProps){
     super(props)
+    this.x = this.props.x
+    this.y = this.props.y
   }
   getLabel = () => {
-    if(this.props.answeredCorrectly != undefined){
-      let label:string = this.props.noteName
+    if(this.props.question.answeredCorrectly != undefined){
+      let label:string = this.props.question.answer
       return <text x="0" y="0" width="100%">{label}</text>
     }
     return null
   }
   getCircleClassName = () => {
     let className:string = ""
-    if(this.props.answeredCorrectly != undefined){
-      className = (this.props.answeredCorrectly) ? "answer-correct" : "answer-incorrect"
+    if(this.props.question.answeredCorrectly != undefined){
+      className = (this.props.question.answeredCorrectly) ? "answer-correct" : "answer-incorrect"
     }
     return className 
   }
   getBackgroundShape = () => {
-    return <circle className={this.getCircleClassName()} cx="0" cy="0" r="100"></circle>
+    return <circle className={this.getCircleClassName()} cx="0" cy="0" r={NoteDotProps.radius}></circle>
   }
   render(){
-    return  <svg className="noteDot" y={this.props.y} x={this.props.x}> 
+    return  <svg className="noteDot" y={this.y} x={this.x}> 
               {this.getBackgroundShape()}
               {this.getLabel()}
             </svg>

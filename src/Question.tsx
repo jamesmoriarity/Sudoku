@@ -1,5 +1,6 @@
 import GuitarTrainerSettings from "./GuitarTrainerSettings"
 import Position from "./Position"
+import Guitar from "./Utils/Guitar"
 
 class Question{
     position: Position
@@ -7,10 +8,10 @@ class Question{
     answeredCorrectly:boolean | undefined
     constructor(position:Position){
         this.position = position
-        this.answer = GuitarTrainerSettings.guitar.getNoteNameForPosition(position)
+        this.answer = Guitar.getNoteForPosition(position, )
     }
-    equals = (position:Position) => {
-        return (this.position.fretIndex == position.fretIndex && this.position.stringIndex == position.stringIndex)
+    equals = (question:Question) => {
+        return (question != undefined && this.position.fretIndex == question.position.fretIndex && this.position.stringIndex == question.position.stringIndex)
     }
 }
 export default Question
