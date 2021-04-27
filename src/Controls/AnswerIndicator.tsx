@@ -16,7 +16,7 @@ export class AnswerIndicator extends React.PureComponent{
         this.circleRef = null
     }
     getFill = () => {
-      if(this.props.question == undefined){ return "none" }
+      if(this.props.question?.answeredCorrectly == undefined){ return "none" }
       return (this.props.question.answeredCorrectly) ? "green" : "red"
     }
     setCircleRef = (c:SVGCircleElement) => this.circleRef = c
@@ -24,16 +24,15 @@ export class AnswerIndicator extends React.PureComponent{
     render(){
         return  <circle scale="1" id="answerIndicator" ref={this.setCircleRef} className="answerIndicator" fill="none"  />
     }
-    componentDidMount(){
-
-    }
     componentDidUpdate(){
-        let off:TweenLite = gsap.set(this.circleRef, {fill: "none"})
-        let on:TweenLite = gsap.set(this.circleRef, {fill: this.getFill()})
-        let tl:TimelineLite = gsap.timeline()
-        tl.add(off, 0)
-        tl.add(on, .05)
-        tl.add(off, .30)
-        tl.play()
+        if(this.props.question?.answeredCorrectly != undefined) {
+            let off:TweenLite = gsap.set(this.circleRef, {fill: "none"})
+            let on:TweenLite = gsap.set(this.circleRef, {fill: this.getFill()})
+            let tl:TimelineLite = gsap.timeline()
+            tl.add(off, 0)
+            tl.add(on, .05)
+            tl.add(off, .30)
+            tl.play()
+        }
     }
 }

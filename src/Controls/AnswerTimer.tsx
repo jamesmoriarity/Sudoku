@@ -31,15 +31,8 @@ export class AnswerTimer extends React.Component{
         this.tl = gsap.timeline({paused:true})
     }
     componentDidMount(){
-        gsap.set(this.circleRef, {strokeDashoffset:this.getFullStrokeDashoffset()})
-    }
-    componentDidUpdate(){
-
-    }
-    start = () => {
-        gsap.set(this.circleRef, {strokeDashoffset:this.getFullStrokeDashoffset()})
-        gsap.set(this.circleRef, {stroke:"#0ae902"})
-
+        this.tl.kill()
+        gsap.set(this.circleRef, {strokeDashoffset:this.getFullStrokeDashoffset()})        
         this.tl = gsap.timeline({paused:true})
         let rotate:TweenLite = gsap.to(this.circleRef, {onComplete:this.onTimeout, ease: Linear.easeNone, duration:this.props.answerTimeInSeconds, strokeDashoffset:0})
         this.tl.add(rotate)
@@ -47,6 +40,12 @@ export class AnswerTimer extends React.Component{
         let turnRed:TweenLite = gsap.to(this.circleRef, {duration:this.props.answerTimeInSeconds * .25, stroke:"red"})
         this.tl.add(turnYellow, this.props.answerTimeInSeconds * .5)
         this.tl.add(turnRed, this.props.answerTimeInSeconds * .75)
+    }
+ 
+    start = () => {
+        console.log("starting...")
+        gsap.set(this.circleRef, {strokeDashoffset:this.getFullStrokeDashoffset()})
+        gsap.set(this.circleRef, {stroke:"#0ae902"})
         this.tl.restart()
     }
     onTimeout = () => {
@@ -55,9 +54,6 @@ export class AnswerTimer extends React.Component{
     stopAndReset = () => {
         this.tl.pause()
         gsap.set(this.circleRef, {strokeDashoffset:this.getFullStrokeDashoffset()})
-    }
-    pause = () => {
-        this.tl.pause()
     }
     getFullStrokeDashoffset = () => {
         return Math.PI * ( 900 * 2)

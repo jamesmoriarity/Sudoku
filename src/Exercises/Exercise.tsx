@@ -5,7 +5,6 @@ import NoteChoices, { NoteChoicesProps } from "../Controls/NoteChoices"
 import Scoreboard from "../Controls/Scoreboard"
 import Frets from "../Fretboard/Frets"
 import GuitarStrings from "../Fretboard/GuitarStrings"
-import NoteDotContainer, {NoteDotContainerProps} from "../Fretboard/NoteDotContainer"
 import Question from "../Question"
 import ExerciseHistory from "./ExerciseHistory"
 import ExerciseSequence from "./ExerciseSequence"
@@ -15,7 +14,7 @@ import { AnswerIndicator, AnswerIndicatorProps } from "../Controls/AnswerIndicat
 import Controls from "../Controls/Controls"
 import StaticFretboard from "../Fretboard/StaticFretboard"
 import SettingsEditor from "./Settings/SettingsEditor"
-import { NoteDotProps } from "../Fretboard/NoteDot"
+import NoteDot, { NoteDotProps } from "../Fretboard/NoteDot"
 
 export class ExerciseState{
     history:ExerciseHistory
@@ -28,10 +27,11 @@ export class ExerciseState{
       this.settings = new ExerciseSettings()
       this.isPlaying = false
       this.acceptingAnswers = false
+      this.currentQuestion = undefined
     }
   }
 
-class Exercise extends React.Component{
+class Exercise extends React.PureComponent{
     state:ExerciseState
     settingsProps:SettingsProps
     timerRef:RefObject<AnswerTimer>
@@ -49,11 +49,21 @@ class Exercise extends React.Component{
     toggleInstructions = () => {}
     nextQuestion = () => {
       let nextQuestion:Question = this.sequence.getNextQuestion()
-      this.setState( {isPlaying:true, currentQuestion:nextQuestion, acceptingAnswers:true}, this.startTimer ) 
+      let newState:ExerciseState = {...this.state}
+      newState.currentQuestion = {...nextQuestion}
+      newState.isPlaying = true
+      newState.acceptingAnswers = true
+      this.setState( newState ) 
+    }
+    onDotDisplayComplete = () => {
+      console.log("onDotDisplayComplete")
+      if(this.state.isPlaying)
+        this.startTimer()
     }
     startTimer = () => this.timerRef.current?.start()
-    stopTimer = () => this.timerRef.current?.pause()
+    stopTimer = () => this.timerRef.current?.stopAndReset()
     onAnswer = (note:string) => {
+      this.stopTimer()
       if (this.state.isPlaying && this.state.currentQuestion != undefined && this.state.acceptingAnswers) { 
         let isCorrect:boolean = (note == this.state.currentQuestion.answer)
         this.processAnswer(isCorrect)
@@ -70,7 +80,8 @@ class Exercise extends React.Component{
       this.setState(s)
     }
     onStart = () => {
-      this.nextQuestion()
+      if (!this.state.isPlaying)
+        this.nextQuestion()
     }
     onAnswerTimeout = () => {
       this.processAnswer(false)
@@ -78,7 +89,6 @@ class Exercise extends React.Component{
     processAnswer = (answeredCorrectly:boolean)=>{
       this.timerRef.current?.stopAndReset()
       let newState:ExerciseState = {...this.state}
-      newState.isPlaying = false
       newState.acceptingAnswers = false
       if(newState.currentQuestion != undefined){
         newState.currentQuestion = {...newState.currentQuestion}
@@ -92,7 +102,7 @@ class Exercise extends React.Component{
     }
     getNoteDotContainer = () => {
       if(this.state.currentQuestion == undefined){ return null }
-      return <NoteDotContainer {...new NoteDotContainerProps(this.state.currentQuestion)}/>
+      return 
     }
     render(){
       return  <>
@@ -106,7 +116,7 @@ class Exercise extends React.Component{
                     <Frets {...this.settingsProps}/>
                     <GuitarStrings {...this.settingsProps}/>
                   </StaticFretboard>
-                  {this.getNoteDotContainer()}
+                  <NoteDot {...new NoteDotProps(this.state.currentQuestion, this.onDotDisplayComplete)}/>
                   <Controls>
                     <NoteChoices {...new NoteChoicesProps(this.onAnswer)} />
                     <AnswerTimer {...new AnswerTimerProps(this.state.settings.answerTimeInSeconds, this.onAnswerTimeout)} ref={this.timerRef}/>
