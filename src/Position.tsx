@@ -1,3 +1,5 @@
+import PositionHistory from "./PositionHistory"
+
 class Position{
     fretIndex:number
     stringIndex:number
@@ -8,5 +10,8 @@ class Position{
     setFretIndex = (fretIndex:number) => this.fretIndex = fretIndex
     setStringIndex = (stringIndex:number) => this.stringIndex = stringIndex
     toString = () => { return this.fretIndex.toString() + "." + this.stringIndex.toString()}
+    equals = (position:Position) => {
+        return ( position.fretIndex == this.fretIndex && position.stringIndex == this.stringIndex)
+    }
 }
 export default Position

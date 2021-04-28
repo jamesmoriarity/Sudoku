@@ -1,36 +1,28 @@
 import { NoteDotProps } from "../Fretboard/NoteDot"
 import Position from "../Position"
 import Question from "../Question"
-import SettingsProps from "../SettingsProps"
+import SettingsProxy from "../SettingsProxy"
+import { ExerciseSessionCurrentQuestionProxy, ExerciseSessionState } from "./ExerciseSession"
 import ExerciseSettings from "./Settings/ExerciseSettings"
 
 class ExerciseSequence{
-  getState:Function
-  getSettings:Function
-  constructor(getState:Function, getSettings:Function){
-    this.getState = getState
-    this.getSettings = getSettings
+  settingsGetter:Function
+  currentQuestionGetter:Function
+  constructor(settings:Function, currentQuestionGetter:Function){
+    this.settingsGetter = settings
+    this.currentQuestionGetter = currentQuestionGetter
+  }
+  getCurrentQuestion = ():Question|null => {
+    let currentQuestion:Question | null = this.currentQuestionGetter()
+    return currentQuestion
   }
   reset = () => {}
   getNextQuestion = ():Question => {
-    let stringIndex:number = this.getNextStringIndex()
-    let fretIndex:number = this.getNextFretIndex()
-    let nextQuestion:Question = new Question(new Position(fretIndex, stringIndex))
-    return (nextQuestion.equals(this.getState().currentQuestion)) ? this.getNextQuestion() : nextQuestion
-  }
-  getNextFretIndex = () => {
-    let activeFrets:number[] = []
-    this.getSettings().activeFrets.forEach((isActive:boolean, fretIndex:number) => {
-      if(isActive){ activeFrets.push(fretIndex) }
-    })
-    return activeFrets[Math.floor( Math.random() * (activeFrets.length) )]
-  }
-  getNextStringIndex = () => {
-    let activeStrings:number[] = []
-    this.getSettings().activeStrings.forEach((isActive:boolean, stringIndex:number) => {
-      if(isActive){ activeStrings.push(stringIndex) }
-    })
-    return activeStrings[Math.floor( Math.random() * (activeStrings.length) )]
+    let currentQuestion:Question | null = this.getCurrentQuestion()
+    let currentPosition:Position | null = (currentQuestion) ? currentQuestion.position : null
+    let nextPosition:Position = this.settingsGetter().getRandomActivePosition(currentPosition)
+    let nextQuestion:Question = new Question(nextPosition)
+    return nextQuestion
   }
 }
 export default ExerciseSequence

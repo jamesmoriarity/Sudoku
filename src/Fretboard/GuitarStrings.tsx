@@ -1,22 +1,25 @@
 import React from "react"
-import SettingsProps from "../SettingsProps"
+import ExerciseSettings from "../Exercises/Settings/ExerciseSettings"
+import SettingsProxy from "../SettingsProxy"
+import SettingsProps from "../SettingsProxy"
 import GuitarStringElm, { GuitarStringElmProps } from "./GuitarStringElm"
 
 class GuitarStrings extends React.Component {
-  props!:SettingsProps
- 	constructor(props:SettingsProps){
+  props!:ExerciseSettings
+ 	constructor(props:ExerciseSettings){
  		super(props)
  	}
   getActiveStrings = () => {
-    return this.props.get().activeStrings
+    return this.props.activeStrings
   }
   getGuitarStrings = () => {
     let guitarStrings = []
+    let activeStrings:Map<number,boolean> = this.getActiveStrings()
     for(let i:number = 0; i < 6; i++){
-      let isActive:boolean | undefined = this.getActiveStrings().get(i)
+      let isActive:boolean = activeStrings.get(i) ?? false
       if(isActive == undefined){ isActive = false}
-      let props:GuitarStringElmProps = new GuitarStringElmProps(i, isActive)
-      let e = <GuitarStringElm {...props} key={"string" + i}/>
+      let gProps:GuitarStringElmProps = new GuitarStringElmProps(i, isActive)
+      let e = <GuitarStringElm {...gProps} key={"string" + i}/>
       guitarStrings.push( e )
     }
     return guitarStrings

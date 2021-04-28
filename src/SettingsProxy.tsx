@@ -1,6 +1,6 @@
 import ExerciseSettings from "./Exercises/Settings/ExerciseSettings"
 
-class SettingsProps{
+class SettingsProxy{
     getter:Function
     constructor(getter:Function){
         this.getter = getter
@@ -9,4 +9,4 @@ class SettingsProps{
         return this.getter()
     }
 }
-export default SettingsProps
+export default SettingsProxy

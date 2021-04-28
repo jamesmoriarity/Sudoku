@@ -1,7 +1,7 @@
 import { runInThisContext } from "vm"
 import Question from "../Question"
 
-export class ExerciseHistoryStats{
+export class ExerciseSessionHistoryStats{
   rightAnswers:number
   wrongAnswers:number
   totalAnswers:number
@@ -15,25 +15,26 @@ export class ExerciseHistoryStats{
   }
 }
 
-class ExerciseHistory{
+class ExerciseSessionHistory{
     historyString:string | null
     questions:Question[]
     constructor(){
-      console.log("ExerciseHistory")
         this.historyString = localStorage.getItem('GuitarTrainerExercisePositionHistory')
         this.questions = []
-        /* if(this.historyString != null){
-            this.positionHistory = PositionHistory.fromJSON(JSON.parse(historyString))
-          }
-          else{
-            this.positionHistory = new PositionHistory()
-          } */
+        // position history?
     }
-    add = (question:Question) => { this.questions.push(question)}
+    add = (question:Question) => { 
+      this.questions.push(question)
+      return this
+    }
     getExerciseStats = () => {
-      console.log("getExerciseStats")
-      let summary = new ExerciseHistoryStats(this.questions)
+      let summary = new ExerciseSessionHistoryStats(this.questions)
       return summary
     }
+    clone = ():ExerciseSessionHistory => {
+      let copy:ExerciseSessionHistory = new ExerciseSessionHistory()
+      copy.questions = this.questions.concat()
+      return copy
+    }
 }
-export default ExerciseHistory
+export default ExerciseSessionHistory

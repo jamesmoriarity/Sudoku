@@ -31,7 +31,6 @@ export class NoteChoiceButton extends React.PureComponent{
               <text className="label" fill={color}>
                 {this.props.noteName}
               </text>
-              <rect className="back"/>
             </svg>
   }
 }
@@ -62,7 +61,6 @@ export class NoteChoices extends React.PureComponent{
   }
   render(){
     return  <g className="noteChoices">
-              <circle className="outer-ring"/>
               {this.buildButtons()}
             </g>
   }

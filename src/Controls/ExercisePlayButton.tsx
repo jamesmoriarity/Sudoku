@@ -3,11 +3,11 @@ import React from "react"
 export class ExercisePlayButtonProps{
     onStartHander:Function
     onPauseHandler:Function
-    isPlaying:boolean
-    constructor(onStartHander:Function, onPauseHandler:Function, isPlaying:boolean){
+    isPaused:boolean
+    constructor(onStartHander:Function, onPauseHandler:Function, isPaused:boolean){
         this.onStartHander = onStartHander
         this.onPauseHandler = onPauseHandler
-        this.isPlaying = isPlaying
+        this.isPaused = isPaused
     }
 }
 export class ExercisePlayButton extends React.PureComponent{
@@ -18,10 +18,10 @@ export class ExercisePlayButton extends React.PureComponent{
     }
 
     getMessage = () => {
-        return (this.props.isPlaying) ? "[pause]" : "[start]"
+        return (this.props.isPaused) ? "[start]" : "[pause]"
     }
     getHandler = ():Function => {
-        return (this.props.isPlaying) ? this.props.onPauseHandler : this.props.onStartHander
+        return (this.props.isPaused) ? this.props.onStartHander : this.props.onPauseHandler
     }
     onClick = () => {
         this.getHandler()()
@@ -52,7 +52,7 @@ export class ExercisePlayButton extends React.PureComponent{
     render(){
         return  <g className="exercisePlayButton" onClick={this.onClick}>
                     <rect className="playButtonBack" width="600px" height="600px"/>
-                    {(this.props.isPlaying) ? this.renderPause() : this.renderPlay()}
+                    {(this.props.isPaused) ? this.renderPlay() : this.renderPause()}
                 </g>
     }
 }
