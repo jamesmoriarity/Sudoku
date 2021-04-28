@@ -6,6 +6,7 @@ import GuitarTrainerSettings from "../GuitarTrainerSettings"
 import Guitar from "../Utils/Guitar"
 import Position from "../Position"
 import Question from "../Question"
+import Coordinates from "../Coordinates"
 
 
 export class NoteDotProps {
@@ -13,14 +14,13 @@ export class NoteDotProps {
   question:Question
   static radius:number = 100
   onAnimationComplete:Function
-  x:number
-  y:number
+  coordinates:Coordinates
   constructor(question:Question, onAnimationComplete:Function){
     this.question = question
     this.onAnimationComplete = onAnimationComplete
-    this.x = FretElm.fretXPositions[this.question.position.fretIndex] // are there other ways to position it?
-    this.y = GuitarStringElm.getStringY(this.question!.position.stringIndex)
-
+    let x:number = FretElm.fretXPositions[this.question.position.fretIndex] // are there other ways to position it?
+    let y:number = GuitarStringElm.getStringY(this.question!.position.stringIndex)
+    this.coordinates = new Coordinates(x,y)
   }
 }
 
@@ -34,10 +34,11 @@ export class NoteDot extends React.PureComponent {
     this.dotRef = null
     this.timeline  = gsap.timeline({paused:true})
   }
-  resetTimeline = () => {
+  resetTimeline = (oldCoordinates:Coordinates) => {
+    // create array of old coordinates and currentcoordinates with motionpath
     this.timeline.pause()
     this.timeline.clear()
-    let move:TweenLite = gsap.to(this.dotRef, {x: this.props.x, y: this.props.y, duration:NoteDotProps.animationInSeconds }) 
+    let move:TweenLite = gsap.to(this.dotRef, {x: this.props.coordinates.x, y: this.props.coordinates.y, duration:NoteDotProps.animationInSeconds }) 
     this.timeline.eventCallback("onComplete", this.onAnimationComplete)
     this.timeline.add(move)
   }
@@ -65,8 +66,8 @@ export class NoteDot extends React.PureComponent {
               {this.getLabel()}
             </g>
   }
-  animateToPosition = () => {
-    this.resetTimeline()
+  animateToPosition = (oldCoordinates:Coordinates) => {
+    this.resetTimeline(oldCoordinates)
     this.timeline.restart()
   }
   onAnimationComplete = () => {
@@ -77,13 +78,13 @@ export class NoteDot extends React.PureComponent {
     this.timeline.pause()
   }
   componentDidMount = () => {
-    this.animateToPosition()
+    this.animateToPosition(new Coordinates(0,0))
   }
   componentDidUpdate = (prevProps:NoteDotProps) => {
-    let currentPosition:Position = this.props.question.position
-    let newPosition:Position = prevProps.question.position
-    if( !currentPosition.equals(newPosition) ) 
-      this.animateToPosition()
+    let newPosition:Position = this.props.question.position
+    let oldPosition:Position = prevProps.question.position
+    if( !newPosition.equals(oldPosition) ) 
+      this.animateToPosition(prevProps.coordinates)
   }
 }
 export default NoteDot
