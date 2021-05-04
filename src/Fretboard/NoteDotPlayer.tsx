@@ -43,7 +43,8 @@ export class NoteDotPlayer extends React.PureComponent{
     this.state = new NoteDotPlayerState(this.props.isPaused)
   }
   getClass = () => {
-    return (this.state.isPaused) ? "paused" : "playing"
+    // return (this.state.isPaused) ? "paused" : "playing"
+    return "playing"
   }
   componentDidUpdate = (oldProps:NoteDotPlayerProps) => {
     if(oldProps.isPaused != this.props.isPaused){

@@ -5,10 +5,10 @@ import GuitarStrings from "./GuitarStrings"
 import FretboardDots from "./FretboardDots"
 
 export class StaticFretboardProps{
-  isPaused:boolean
+  hasStarted:boolean
   children!:JSX.Element[]
   constructor(isPaused:boolean){
-    this.isPaused = isPaused
+    this.hasStarted = isPaused
   }
 }
 
@@ -18,8 +18,7 @@ export class StaticFretboard extends React.PureComponent{
  		super(props)
  	}
   getOpacity = () => {
-    console.log("isPaused:" + this.props.isPaused)
-    return (this.props.isPaused) ? 1 : 0.25
+    return (this.props.hasStarted) ? 0.25 : 1
   }
   render(){
     return  <g className="staticFretboard" opacity={this.getOpacity()}>
