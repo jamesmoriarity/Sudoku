@@ -1,12 +1,17 @@
 import React from "react"
 import ExerciseComponents from "./ExerciseComponents"
+import Exercise from "./Exercises/Exercise"
+import Player from "./Player/Player"
 
 class GuitarTrainerState{
   exerciseComponent!:Function
   exerciseName:string
-  constructor(initialExerciseName:string){
-    this.exerciseName = initialExerciseName
-    this.exerciseComponent = ExerciseComponents.getComponents().get(initialExerciseName)
+  constructor(componentName:string){
+    this.exerciseName = componentName
+    let components:Map<string,Function> = ExerciseComponents.getAllComponents()
+    let component: Function | undefined = components.get(componentName)
+    if(!component){ component = ExerciseComponents.getValues()[0] }
+    this.exerciseComponent = component
   }
 }
 
@@ -17,7 +22,8 @@ class GuitarTrainer extends React.Component {
     this.state = new GuitarTrainerState(ExerciseComponents.getNames()[0])
  	}
   onExerciseSelect = (event:React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState(new GuitarTrainerState(event.currentTarget.value))
+    let newState = new GuitarTrainerState(event.currentTarget.value)
+    this.setState(newState)
   }
   buildOption = (name:string) => {
     return <option value={name} key={name}>{name}</option>

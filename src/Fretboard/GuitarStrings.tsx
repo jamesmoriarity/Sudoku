@@ -4,35 +4,38 @@ import SettingsProxy from "../SettingsProxy"
 import SettingsProps from "../SettingsProxy"
 import GuitarStringElm, { GuitarStringElmProps } from "./GuitarStringElm"
 
-class GuitarStrings extends React.Component {
-  props!:ExerciseSettings
- 	constructor(props:ExerciseSettings){
+export class GuitarStringsProps{
+  strings:Map<number, boolean>
+  constructor(strings:Map<number, boolean>){
+    this.strings = strings
+  }
+} 
+export class GuitarStrings extends React.Component {
+  props!:GuitarStringsProps
+ 	constructor(props:GuitarStringsProps){
  		super(props)
  	}
-  getActiveStrings = () => {
-    return this.props.activeStrings
+  getStringsMap = () => {
+    return this.props.strings
   }
-  getGuitarStrings = () => {
-    let guitarStrings = []
-    let activeStrings:Map<number,boolean> = this.getActiveStrings()
-    for(let i:number = 0; i < 6; i++){
-      let isActive:boolean = activeStrings.get(i) ?? false
-      if(isActive == undefined){ isActive = false}
-      let gProps:GuitarStringElmProps = new GuitarStringElmProps(i, isActive)
-      let e = <GuitarStringElm {...gProps} key={"string" + i}/>
-      guitarStrings.push( e )
-    }
-    return guitarStrings
+  getGuitarStringElms = ():JSX.Element[] => {
+    return [...this.getStringsMap().values()].map(this.buildGuitarStringElm)
+  }
+  buildGuitarStringElm = (isActive:boolean, stringIndex:number) => {
+    let gProps:GuitarStringElmProps = new GuitarStringElmProps(stringIndex, isActive)
+    return <GuitarStringElm {...gProps} key={"string" + stringIndex}/>
   }
   render(){
-    return  <g className="guitarStrings">
+    return  <>
               <linearGradient id="stringPattern">
                 <stop offset="5%" stopColor="#222"/>
                 <stop offset="50%" stopColor="#666"/>
                 <stop offset="95%" stopColor="#222"/>
               </linearGradient>
-              {this.getGuitarStrings()}
-            </g>
+              <g className="guitarStrings">
+                {this.getGuitarStringElms()}
+              </g>
+            </>
   }
 }
 export default GuitarStrings

@@ -19,7 +19,6 @@ class ExerciseHistory{
     historyString:string | null
     questions:Question[]
     constructor(){
-      console.log("ExerciseHistory")
         this.historyString = localStorage.getItem('GuitarTrainerExercisePositionHistory')
         this.questions = []
         /* if(this.historyString != null){
@@ -31,7 +30,6 @@ class ExerciseHistory{
     }
     add = (question:Question) => { this.questions.push(question)}
     getExerciseStats = () => {
-      console.log("getExerciseStats")
       let summary = new ExerciseHistoryStats(this.questions)
       return summary
     }

@@ -2,12 +2,23 @@ import Position from "../Position"
 import Music from "./Music"
 
 class Guitar{
+    static TuningE:string[] = ["E", "B", "G", "D", "A", "E"]
+    static TuningEb:string[] = ["Eb", "Bb", "Gb", "Db", "Ab", "Eb"]
+    static TuningDefault:string[] = Guitar.TuningE
+    static TuningSelected:string[] = Guitar.TuningDefault
+
     static getNoteForPosition = (position:Position) =>{
-        let rootNoteName:string = Guitar.stringNames[position.stringIndex]
-        let rootNoteIndex:number = Music.activeNoteNames.indexOf(rootNoteName)
-        let selectedNoteIndex:number = (rootNoteIndex + position.fretIndex) % 12
-        return Music.activeNoteNames[selectedNoteIndex]
+        let rootNoteName:string = Guitar.TuningSelected[position.stringIndex]
+        return Music.getNoteHalfStepsFrom(rootNoteName, position.fretIndex)
     }
-    static stringNames:string[] = ["E", "B", "G", "D", "A", "E"]
+    static getAllTunings():Map<string,string[]> {
+        let m:Map<string, string[]> = new Map()
+        m.set("E", Guitar.TuningE)
+        m.set("Eb", Guitar.TuningEb)
+        return m
+    } 
+    static setTuning(tuning:string[]){
+        Guitar.TuningSelected = tuning
+    }
 }
 export default Guitar

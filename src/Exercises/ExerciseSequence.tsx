@@ -20,7 +20,7 @@ class ExerciseSequence{
   getNextQuestion = ():Question => {
     let currentQuestion:Question | null = this.getCurrentQuestion()
     let currentPosition:Position | null = (currentQuestion) ? currentQuestion.position : null
-    let nextPosition:Position = this.settingsGetter().getRandomActivePosition(currentPosition)
+    let nextPosition:Position = this.settingsGetter().getRandomActivePositionExcept(currentPosition)
     let nextQuestion:Question = new Question(nextPosition)
     return nextQuestion
   }

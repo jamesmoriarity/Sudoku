@@ -51,7 +51,6 @@ class SettingsEditor extends React.Component{
     }
 
     onStringToggle = (stringNum:number) => {
-      console.log("stringNumber=" + stringNum)
       let activeStrings = new Map(this.getSettings().activeStrings)
       let activeStringVal:boolean | undefined = activeStrings.get(stringNum)
       if (activeStringVal != undefined)
@@ -90,14 +89,12 @@ class SettingsEditor extends React.Component{
       
     }
     open = () => {
-      console.log("open called!!!")
       let tl:TimelineLite = gsap.timeline({paused:true})
       let open:TweenLite = gsap.to(this.domRef, {height: 318, opacity:1, duration:.3 }) 
       tl.add(open)
       tl.play()
     }
     close = () => {
-      console.log("close called!!!")
       let tl:TimelineLite = gsap.timeline({paused:true})
       let close:TweenLite = gsap.to(this.domRef, {height: 0, opacity:0, duration:.3 }) 
       tl.add(close)

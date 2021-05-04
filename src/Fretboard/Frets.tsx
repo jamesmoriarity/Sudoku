@@ -1,20 +1,26 @@
 import React from "react"
 import ExerciseSettings from "../Exercises/Settings/ExerciseSettings"
-import SettingsProxy from "../SettingsProxy"
+import Settings from "../Exercises/Settings/Settings"
 import FretElm, { FretElmProps } from "./FretElm"
 
-class Frets extends React.Component {
+export class FretsProps{
+  frets:Map<number, boolean>
+  constructor(frets:Map<number, boolean>){
+    this.frets = frets
+  }
+}
+export class Frets extends React.Component {
   static fretNum:number = 13
-  props!:ExerciseSettings
- 	constructor(props:ExerciseSettings){
+  props!:FretsProps
+ 	constructor(props:FretsProps){
  		super(props)
  	}
-  getActiveFrets = () => {
-    return this.props.activeFrets
+  getFretsMap = ():Map<number, boolean> => {
+    return this.props.frets
   }
   getFrets = () => {
     let frets = []
-    let fretMap:Map<number,boolean> = this.getActiveFrets()
+    let fretMap:Map<number,boolean> = this.getFretsMap()
     for(let i:number = 0; i < Frets.fretNum; i++){
       let isActive:boolean = fretMap.get(i) ?? false
       frets.push( <FretElm {...new FretElmProps(i, isActive)} key={"fret" + i}/> )

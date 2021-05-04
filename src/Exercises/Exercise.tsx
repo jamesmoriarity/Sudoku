@@ -54,9 +54,10 @@ class Exercise extends React.PureComponent{
                   Name the Note: <span onClick={this.toggleSettingsPanel}>Settings</span> <span onClick={this.toggleInstructions}>Instructions</span>
                 </div>
                 <SettingsEditor {...new SettingsEditorProps(this.updateSettings, this.state.settings)}/>
-                <svg className="guitarTrainer" xmlns="http://www.w3.org/2000/svg" width="100%"
-                  viewBox="0 0 7400 6000">
+                <svg className="guitarTrainer" width="100%" viewBox="0 0 7400 6000" xmlns="http://www.w3.org/2000/svg">
+
                   <ExerciseSession {...sessionProps}></ExerciseSession>
+                  
                   <text onClick={this.restart} className="restart">[ restart ]</text>
                 </svg>
               </>

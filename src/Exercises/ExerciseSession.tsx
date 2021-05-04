@@ -5,10 +5,10 @@ import Controls from "../Controls/Controls";
 import { ExercisePlayButton, ExercisePlayButtonProps } from "../Controls/ExercisePlayButton";
 import NoteChoices, { NoteChoicesProps } from "../Controls/NoteChoices";
 import Scoreboard from "../Controls/Scoreboard";
-import Frets from "../Fretboard/Frets";
-import GuitarStrings from "../Fretboard/GuitarStrings";
+import Frets, { FretsProps } from "../Fretboard/Frets";
+import GuitarStrings, { GuitarStringsProps } from "../Fretboard/GuitarStrings";
 import NoteDot, { NoteDotProps } from "../Fretboard/NoteDot";
-import StaticFretboard from "../Fretboard/StaticFretboard";
+import StaticFretboard, { StaticFretboardProps } from "../Fretboard/StaticFretboard";
 import Question from "../Question";
 import SettingsProxy from "../SettingsProxy";
 import ExerciseHistory from "./ExerciseHistory";
@@ -149,10 +149,12 @@ export class ExerciseSession extends React.Component{
         return <NoteDot {...new NoteDotProps(this.state.currentQuestion, this.onDotDisplayComplete)}/>
       }
     render(){
+      let fretsProps = new FretsProps(this.props.settings.activeFrets)
+      let stringsProps = new GuitarStringsProps(this.props.settings.activeStrings)
         return <g>
-                    <StaticFretboard>
-                        <Frets {...this.props.settings}/>
-                        <GuitarStrings {...this.props.settings}/>
+                    <StaticFretboard {...new StaticFretboardProps(false)}>
+                        <Frets {...fretsProps}/>
+                        <GuitarStrings {...stringsProps}/>
                     </StaticFretboard>
                     {this.getNoteDot()}
                     <Controls>

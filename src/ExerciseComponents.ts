@@ -1,18 +1,21 @@
 import Exercise from "./Exercises/Exercise"
+import Player from "./Player/Player"
 
 export class ExerciseComponents{
-  static components:Map<string, any> | undefined = undefined
-  static getComponents(){
-    if(!ExerciseComponents.components){
-      let map:Map<string, any> = new Map()
+
+  static getAllComponents():Map<string, Function>{
+      let map:Map<string, Function> = new Map()
+      map.set("Player", Player)
       map.set("Exercise", Exercise)
-      ExerciseComponents.components = map
-    }
-    return ExerciseComponents.components
+      return map
   }
   static getNames():string[]{
-    return [...ExerciseComponents.getComponents().keys()]
+    return [...ExerciseComponents.getAllComponents().keys()]
+  }
+  static getValues():Function[]{
+    return [...ExerciseComponents.getAllComponents().values()]
   }
 }
 
 export default ExerciseComponents
+

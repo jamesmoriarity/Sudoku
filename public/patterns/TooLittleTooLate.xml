@@ -1,0 +1,59 @@
+<playerSequence>
+    <description>Intro to 'Too Little Too Late' by Metric</description>
+    <patterns>
+        <pattern>
+            <time>0</time>
+            <description>First Note</description>
+            <positions>
+                <position>
+                    <stringIndex>4</stringIndex>
+                    <fretIndex>3</fretIndex>
+                    <intro>standard</intro>
+                    <outro>standard</outro>
+                    <tone>standard</tone>
+                    <description>G Note</description>
+                    <isroot>false</isroot>
+                </position>
+                <position>
+                    <stringIndex>3</stringIndex>
+                    <fretIndex>3</fretIndex>
+                    <intro>standard</intro>
+                    <outro>standard</outro>
+                    <tone>standard</tone>
+                    <description>G Note</description>
+                    <isroot>false</isroot>
+                </position>
+            </positions>
+        </pattern>
+        <pattern>
+            <time>1</time>
+            <description>Second Note</description>
+            <positions>
+                <position>
+                    <stringIndex>4</stringIndex>
+                    <fretIndex>5</fretIndex>
+                    <intro>standard</intro>
+                    <outro>standard</outro>
+                    <tone>standard</tone>
+                    <description>G Note</description>
+                    <isroot>false</isroot>
+                </position>
+            </positions>
+        </pattern>
+        <pattern>
+            <time>2</time>
+            <description>Third Note</description>
+            <positions>
+                <position>
+                    <stringIndex>4</stringIndex>
+                    <fretIndex>7</fretIndex>
+                    <intro>standard</intro>
+                    <outro>standard</outro>
+                    <tone>standard</tone>
+                    <description>G Note</description>
+                    <isroot>false</isroot>
+                </position>
+            </positions>
+        </pattern>
+    <patterns>
+</playerSequence>

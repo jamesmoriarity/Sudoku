@@ -1,7 +1,7 @@
 import React, { RefCallback } from "react"
 import FretElm from "./FretElm"
 import GuitarStringElm from "./GuitarStringElm"
-import {gsap} from "gsap"
+import {gsap, Power3} from "gsap"
 import GuitarTrainerSettings from "../GuitarTrainerSettings"
 import Guitar from "../Utils/Guitar"
 import Position from "../Position"
@@ -30,17 +30,20 @@ export class NoteDot extends React.PureComponent {
   timeline:TimelineLite
   constructor(props:NoteDotProps){
     super(props)
-    console.log("constructor")
     this.dotRef = null
-    this.timeline  = gsap.timeline({paused:true})
+    this.timeline = gsap.timeline({paused:true})
   }
-  resetTimeline = (oldCoordinates:Coordinates) => {
-    // create array of old coordinates and currentcoordinates with motionpath
-    this.timeline.pause()
-    this.timeline.clear()
-    let move:TweenLite = gsap.to(this.dotRef, {x: this.props.coordinates.x, y: this.props.coordinates.y, duration:NoteDotProps.animationInSeconds }) 
-    this.timeline.eventCallback("onComplete", this.onAnimationComplete)
-    this.timeline.add(move)
+  resetTimeLine = () => {
+    this.timeline?.kill()
+    this.timeline = this.getSliderTimeline()
+  }
+  getSliderTimeline = () => {
+    let timeline:TimelineLite  = gsap.timeline({paused:true})
+    let duration:number = NoteDotProps.animationInSeconds
+    let move:TweenLite = gsap.to(this.dotRef, {opacity:1, x: this.props.coordinates.x, y: this.props.coordinates.y, duration: duration, ease:Power3.easeOut }) 
+    timeline.eventCallback("onComplete", this.onAnimationComplete)
+    timeline.add(move)
+    return timeline
   }
   getLabel = () => {
     if(this.props.question.answered){
@@ -56,35 +59,39 @@ export class NoteDot extends React.PureComponent {
     }
     return className 
   }
+  getRadius = () => {
+    return NoteDotProps.radius
+  }
   getBackgroundShape = () => {
-    return <circle className={this.getCircleClassName()} cx="0" cy="0" r={NoteDotProps.radius}></circle>
+    return <circle className={this.getCircleClassName()} cx="0" cy="0" r={this.getRadius()}></circle>
   }  
   setDotRef = (e:SVGSVGElement) => this.dotRef = e
+  getClassName = () => {
+    return "noteDot"
+  }
   render(){
-    return  <g ref={this.setDotRef} className="noteDot"> 
+    return  <g ref={this.setDotRef} className={this.getClassName()}> 
               {this.getBackgroundShape()}
               {this.getLabel()}
             </g>
   }
-  animateToPosition = (oldCoordinates:Coordinates) => {
-    this.resetTimeline(oldCoordinates)
+  animateToPosition = () => {
+    this.resetTimeLine()
     this.timeline.restart()
   }
   onAnimationComplete = () => {
-    console.log("onAnimationComplete")
     this.props.onAnimationComplete()
   }
   stopAnimation = () => {
     this.timeline.pause()
   }
   componentDidMount = () => {
-    this.animateToPosition(new Coordinates(0,0))
+    this.animateToPosition()
   }
   componentDidUpdate = (prevProps:NoteDotProps) => {
     let newPosition:Position = this.props.question.position
     let oldPosition:Position = prevProps.question.position
-    if( !newPosition.equals(oldPosition) ) 
-      this.animateToPosition(prevProps.coordinates)
+    this.animateToPosition()
   }
 }
 export default NoteDot

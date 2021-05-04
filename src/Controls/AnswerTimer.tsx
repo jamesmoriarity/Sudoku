@@ -43,7 +43,6 @@ export class AnswerTimer extends React.Component{
     }
  
     start = () => {
-        console.log("starting...")
         gsap.set(this.circleRef, {strokeDashoffset:this.getFullStrokeDashoffset()})
         gsap.set(this.circleRef, {stroke:"#0ae902"})
         this.tl.restart()
