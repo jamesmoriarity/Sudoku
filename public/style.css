@@ -16,8 +16,7 @@ svg{
 #pocket{
   margin-left:  50px;
   margin-top:   50px;
-  width:        90%;
-  max-width:    1000px;
+  width:        95%;
 }
 .answerIndicator{
   cx:       1600px;
@@ -236,6 +235,10 @@ g .guitar-string:nth-child(6){ height:28; }
   transform: translateY(250px);
   fill:white;
 }
+.pattern-label-2{
+  transform:translateY(600px);
+  fill:white;
+}
 .playButtonBack{
   fill-opacity:0;
   transform: translate(100px,100px);
@@ -244,14 +247,13 @@ g .guitar-string:nth-child(6){ height:28; }
   opacity:0;
 }
 .player-notedot text{
-    font-size:120px;
+    font-size:100px;
     text-align: center; 
     text-anchor:  middle;
     transform:translate(100px, 50px);
     fill: white;
 }
 .player-notedot circle{
-  
   stroke:white;
   stroke-width:5px;
   transform:translate(100px, 0px);
@@ -277,7 +279,22 @@ g .guitar-string:nth-child(6){ height:28; }
   fill:       grey !important;
   text-anchor:  middle;
   cursor:default;
-
+}
+.scrubber-repeat{
+  transform:translate(50%, 1250px);
+  cursor:hand;
+}
+.scrubber-repeat-icon{
+  width: 240px;
+  height:240px;
+  overflow:visible;
+  fill:#afaeae;
+}
+.scrubber-repeat-icon.repeat{
+  fill:orange;
+}
+.repeat-icon{
+  transform:translateX(-50%);
 }
 .staticFretboard .fretboardDots, .staticFretboard .frets{
   transform:translateX(200px);

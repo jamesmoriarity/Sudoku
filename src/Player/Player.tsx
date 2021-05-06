@@ -38,7 +38,6 @@ export class Player extends React.PureComponent{
     onPlayerSequenceLoaded = () => {
       let obj = parser.parse(this.request.response)
       let playerSequence:PlayerSequence = PlayerSequence.fromJSON(obj)
-      console.log(playerSequence)
       this.setState({playerSequence:playerSequence})
     }
     updateSettings = (newSettings:PlayerSessionSettings) => {

@@ -2,12 +2,17 @@ import React from "react";
 import gsap from "gsap"
 import {TimelineLite} from "gsap"
 import {Draggable} from "gsap/Draggable"
+import {ScrubberRepeatButton, ScrubberRepeatButtonProps} from "./ScrubberRepeatButton"
 gsap.registerPlugin(Draggable)
 
 export class ScrubberProps{
     timelineGetter:Function
-    constructor(timelineGetter:Function){
+    toggleRepeat:Function
+    repeat:boolean
+    constructor(timelineGetter:Function, toggleRepeat:Function, repeat:boolean){
         this.timelineGetter = timelineGetter
+        this.toggleRepeat = toggleRepeat
+        this.repeat = repeat
     }
     getTimeline = ():TimelineLite => {
         return this.timelineGetter()
@@ -31,18 +36,14 @@ export class Scrubber extends React.Component{
             let timeline:TimelineLite = this.props.getTimeline()
             timeline.progress(pct)
         }
-
     }
     onTimelineUpdate = () => {
         let progress:number = this.props.getTimeline().progress()
         progress = Math.round(progress * 100)/100
-        this.draggable.target
         var tl = new TimelineLite();
         tl.set(this.draggable.target, {x:progress * 3200})
         let width:number = (progress * 3200) + 10
-        if(width > 3200){
-            width = 3200
-        }
+        if(width > 3200){width = 3200}
         tl.set(".scrubber-progress", {width: width})
     }
     componentDidMount(){
@@ -57,9 +58,10 @@ export class Scrubber extends React.Component{
     }
     render(){
         return  <g className="scrubber">
-                    <rect className="scrubber-track" width="3200" height="100" y="1000" fill="white"/>
-                    <rect className="scrubber-progress" width="0" height="100" y="1000" fill="grey"/>
-                    <circle className="scrubber-head" r="100" cy="1050" fill="orange"/>
+                    <rect className="scrubber-track" width="3200" height="50" y="1000" fill="white" rx="40"/>
+                    <rect className="scrubber-progress" width="0" height="50" y="1000" fill="grey" rx="40"/>
+                    <circle className="scrubber-head" r="100" cy="1025" fill="orange"/>
+                    <ScrubberRepeatButton {...new ScrubberRepeatButtonProps(this.props.toggleRepeat, this.props.repeat)}></ScrubberRepeatButton>
                 </g>
     }
 }

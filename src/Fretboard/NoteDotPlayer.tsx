@@ -12,7 +12,7 @@ import NoteDot, { NoteDotProps } from "./NoteDot"
 export class NoteDotPlayerProps{
     static animationInSeconds:number = 1
     static fadeOutDurationInSeconds:number = 0.2
-    static radius:number = 80
+    static radius:number = 90
     stringIndex:number
     noteName:string
     isPaused:boolean

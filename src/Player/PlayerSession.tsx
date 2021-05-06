@@ -62,12 +62,14 @@ export class PlayerSessionState{
     hasStarted:boolean
     currentPattern:PlayerPattern | null
     stringNotes:string[]
+    repeat:boolean
     constructor(props:PlayerSessionProps){
         this.props = props
         this.isPaused = true
         this.hasStarted = false
         this.currentPattern = null
         this.stringNotes = ["", "", "", "", "", ""]
+        this.repeat = false
     }
     clone = () => {
         let copy:PlayerSessionState = new PlayerSessionState(this.props)
@@ -81,7 +83,7 @@ export class PlayerSession extends React.Component{
     // timerRef:RefObject<AnswerTimer>
     props!:PlayerSessionProps
     state:PlayerSessionState
-    patternTimeLine!:TimelineLite 
+    patternTimeline!:TimelineLite 
     stringDotRefs:RefObject<NoteDotPlayer>[]
     scrubberRef:RefObject<Scrubber>
     constructor(props:PlayerSessionProps){
@@ -89,8 +91,9 @@ export class PlayerSession extends React.Component{
         this.state = new PlayerSessionState(props)
         this.stringDotRefs = []
         this.scrubberRef = React.createRef()
-        this.patternTimeLine = gsap.timeline({paused:true, repeat:-1});
-        this.patternTimeLine.eventCallback("onUpdate", this.onTimelineUpdate)
+        this.patternTimeline = gsap.timeline({paused:true});
+        this.patternTimeline.eventCallback("onUpdate", this.onTimelineUpdate)
+        this.patternTimeline.eventCallback("onComplete", this.onTimelineComplete)
     }
     getDots = ():JSX.Element[] => {
         let dots:JSX.Element[] = []
@@ -103,11 +106,12 @@ export class PlayerSession extends React.Component{
         return dots
     }
     getTimeline = ():TimelineLite => {
-        return this.patternTimeLine
+        return this.patternTimeline
     }
     rebuildTimeline = () => {
-        this.patternTimeLine.pause()
-        this.patternTimeLine.clear()
+        console.log("rebuildTimeline")
+        this.patternTimeline.pause()
+        this.patternTimeline.clear()
         if(this.props.playerSequence){
             let patterns:PlayerPattern[] = this.props.playerSequence.patterns
             patterns.forEach((pattern:PlayerPattern, index:number) => {
@@ -115,22 +119,25 @@ export class PlayerSession extends React.Component{
                     let x:number = FretElm.fretXPositions[position.fretIndex] // are there other ways to position it?
                     let y:number = GuitarStringElm.getStringY(position.stringIndex)
                     let id:string = "#" + NoteDotPlayer.getIDFromIndex(position.stringIndex)
-                    this.patternTimeLine.set(id, {x:x, y:y}, pattern.time)
-                    let note:string = Guitar.getNoteForPosition(position)
-                    this.patternTimeLine.call(this.setStringNote,[position.stringIndex, note], pattern.time)
-                    this.patternTimeLine.set(id, {opacity:1}, pattern.time)
+                    this.patternTimeline.set(id, {x:x, y:y}, pattern.time)
+                    this.patternTimeline.set(id, {opacity:1}, pattern.time)
                     let fadeStart:number = pattern.time + .8
-                    this.patternTimeLine.to(id, {opacity:0, duration:.2}, fadeStart)  
-                    this.patternTimeLine.call(this.setStringNote,[position.stringIndex, note], pattern.time + 0.99)             
+                    this.patternTimeline.to(id, {opacity:0, duration:.2}, fadeStart)              
                 })
+                this.patternTimeline.call(this.setPattern,[pattern], pattern.time)
+                this.patternTimeline.call(this.setPattern,[pattern], pattern.time + 0.99)
             })
-            // this.patternTimeLine.eventCallback("onComplete", this.onAnimationComplete)
         }
     }
-    setStringNote = (stringIndex:number, note:string) => {
+    setPattern = (pattern:PlayerPattern) => {
         let newStringNotes:string[] = this.state.stringNotes.concat()
-        newStringNotes[stringIndex] = note
-        this.setState({stringNotes:newStringNotes})
+        pattern.positions.forEach( (position:Position, index:number) => {
+            let stringIndex:number = position.stringIndex
+            let note:string = Guitar.getNoteForPosition(position)
+            newStringNotes[stringIndex] = note
+        })
+        this.setState({currentPattern:pattern, stringNotes:newStringNotes})
+
     }
 
     componentDidMount(){
@@ -141,37 +148,37 @@ export class PlayerSession extends React.Component{
         if(prevProps.playerSequence !== this.props.playerSequence)
             this.rebuildTimeline()
     }
-    onAnimationComplete = () => {
-        console.log("onAnimationComplete")
-        if(PlayerSessionSettings.repeat)
-            return
-        this.setState({isPaused:true, currentPattern:null})
-    }
-    rebuildTimeLine = () => {
-        this.patternTimeLine.kill()
-        this.rebuildTimeline()
+    onTimelineComplete = () => {
+        this.patternTimeline.progress(0)
+        if(!this.state.repeat){
+            this.patternTimeline.pause()
+            this.setState({isPaused:true, hasStarted:false})
+        }
     }
     showPattern = (pattern:PlayerPattern) => {
         this.setState({currentPattern:pattern})
     }
     onTimelineUpdate = () => {
-        let isPaused:boolean = this.patternTimeLine.paused()
-        console.log("PlayerSession.onTimelineUpdate isPaused: " + isPaused);
+        let isPaused:boolean = this.patternTimeline.paused()
         if(this.state.isPaused != isPaused){
             this.setPaused(isPaused)
         }
         this.scrubberRef.current?.onTimelineUpdate()
     }
+    toggleRepeat = () => {
+        this.setState({repeat:!this.state.repeat})
+    }
     onPause = () => {
-        this.patternTimeLine.pause()
+        this.patternTimeline.pause()
         this.setPaused(true)
     }
     onPlay = () => {
-        this.patternTimeLine.play()
+        if(this.patternTimeline.progress() < 1){ this.patternTimeline.play() }
+        else{ this.patternTimeline.restart() }
         this.setState({hasStarted:true})
     }
     restart = () => {
-        this.patternTimeLine.restart()
+        this.patternTimeline.restart()
     }
     setPaused = (b:boolean) => {
         this.setState({isPaused:b})
@@ -186,9 +193,14 @@ export class PlayerSession extends React.Component{
                     </StaticFretboard>
                     {this.getDots()}
                     <Controls>
-                        <text className="pattern-label">{this.state.currentPattern?.description}</text>
+                        <text className="pattern-label">
+                            {this.props.playerSequence?.description} 
+                        </text>
+                        <text className="pattern-label-2">
+                            {this.state.currentPattern?.description}
+                        </text>
                         <ExercisePlayButton {...new ExercisePlayButtonProps(this.onPlay, this.onPause, this.state.isPaused)}/>
-                        <Scrubber ref={this.scrubberRef} {...new ScrubberProps(this.getTimeline)}></Scrubber>
+                        <Scrubber ref={this.scrubberRef} {...new ScrubberProps(this.getTimeline, this.toggleRepeat, this.state.repeat)}></Scrubber>
                     </Controls>
                 </g>
     }
