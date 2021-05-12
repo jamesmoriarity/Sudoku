@@ -3,7 +3,7 @@
     <patterns>
         <pattern>
             <time>0</time>
-            <description>First Note</description>
+            <description>C</description>
             <positions>
                 <position>
                     <stringIndex>4</stringIndex>
@@ -11,23 +11,14 @@
                     <intro>standard</intro>
                     <outro>standard</outro>
                     <tone>standard</tone>
-                    <description>G Note</description>
-                    <isroot>false</isroot>
-                </position>
-                <position>
-                    <stringIndex>3</stringIndex>
-                    <fretIndex>3</fretIndex>
-                    <intro>standard</intro>
-                    <outro>standard</outro>
-                    <tone>standard</tone>
-                    <description>G Note</description>
+                    <description>C</description>
                     <isroot>false</isroot>
                 </position>
             </positions>
         </pattern>
         <pattern>
             <time>1</time>
-            <description>Second Note</description>
+            <description>D</description>
             <positions>
                 <position>
                     <stringIndex>4</stringIndex>
@@ -35,14 +26,14 @@
                     <intro>standard</intro>
                     <outro>standard</outro>
                     <tone>standard</tone>
-                    <description>G Note</description>
+                    <description>D</description>
                     <isroot>false</isroot>
                 </position>
             </positions>
         </pattern>
         <pattern>
             <time>2</time>
-            <description>Third Note</description>
+            <description>E</description>
             <positions>
                 <position>
                     <stringIndex>4</stringIndex>
@@ -50,7 +41,162 @@
                     <intro>standard</intro>
                     <outro>standard</outro>
                     <tone>standard</tone>
-                    <description>G Note</description>
+                    <description>E</description>
+                    <isroot>false</isroot>
+                </position>
+            </positions>
+        </pattern>
+        <pattern>
+            <time>3</time>
+            <description>F</description>
+            <positions>
+                <position>
+                    <stringIndex>4</stringIndex>
+                    <fretIndex>8</fretIndex>
+                    <intro>standard</intro>
+                    <outro>standard</outro>
+                    <tone>standard</tone>
+                    <description>F</description>
+                    <isroot>false</isroot>
+                </position>
+            </positions>
+        </pattern>
+        <pattern>
+            <time>4</time>
+            <description>C</description>
+            <positions>
+                <position>
+                    <stringIndex>4</stringIndex>
+                    <fretIndex>3</fretIndex>
+                    <intro>standard</intro>
+                    <outro>standard</outro>
+                    <tone>standard</tone>
+                    <description>C</description>
+                    <isroot>false</isroot>
+                </position>
+            </positions>
+        </pattern>
+
+        <pattern>
+            <time>5</time>
+            <description>G slides into A</description>
+            <positions>
+                <position>
+                    <stringIndex>3</stringIndex>
+                    <fretIndex>7</fretIndex>
+                    <intro>slide</intro>
+                    <slideOrigin>
+                        <stringIndex>3</stringIndex>
+                        <fretIndex>5</fretIndex>
+                    </slideOrigin>
+                    <outro>standard</outro>
+                    <tone>standard</tone>
+                    <description></description>
+                    <isroot>false</isroot>
+                </position>
+            </positions>
+        </pattern>
+        <pattern>
+            <time>6</time>
+            <description>G</description>
+            <positions>
+                <position>
+                    <stringIndex>3</stringIndex>
+                    <fretIndex>5</fretIndex>
+                    <intro>standard</intro>
+                    <outro>standard</outro>
+                    <tone>standard</tone>
+                    <description>G</description>
+                    <isroot>false</isroot>
+                </position>
+            </positions>
+        </pattern>
+        <pattern>
+            <time>7</time>
+            <description>F</description>
+            <positions>
+                <position>
+                    <stringIndex>3</stringIndex>
+                    <fretIndex>3</fretIndex>
+                    <intro>standard</intro>
+                    <outro>standard</outro>
+                    <tone>standard</tone>
+                    <description>F</description>
+                    <isroot>false</isroot>
+                </position>
+            </positions>
+        </pattern>
+        <pattern>
+            <time>8</time>
+            <description>D</description>
+            <positions>
+                <position>
+                    <stringIndex>4</stringIndex>
+                    <fretIndex>5</fretIndex>
+                    <intro>standard</intro>
+                    <outro>standard</outro>
+                    <tone>standard</tone>
+                    <description>D</description>
+                    <isroot>false</isroot>
+                </position>
+            </positions>
+        </pattern>
+        <pattern>
+            <time>9</time>
+            <description>C</description>
+            <positions>
+                <position>
+                    <stringIndex>4</stringIndex>
+                    <fretIndex>3</fretIndex>
+                    <intro>standard</intro>
+                    <outro>standard</outro>
+                    <tone>standard</tone>
+                    <description>C</description>
+                    <isroot>false</isroot>
+                </position>
+            </positions>
+        </pattern>
+        <pattern>
+            <time>10</time>
+            <description>D</description>
+            <positions>
+                <position>
+                    <stringIndex>4</stringIndex>
+                    <fretIndex>5</fretIndex>
+                    <intro>standard</intro>
+                    <outro>standard</outro>
+                    <tone>standard</tone>
+                    <description>D</description>
+                    <isroot>false</isroot>
+                </position>
+            </positions>
+        </pattern>
+        <pattern>
+            <time>11</time>
+            <description>F</description>
+            <positions>
+                <position>
+                    <stringIndex>3</stringIndex>
+                    <fretIndex>3</fretIndex>
+                    <intro>standard</intro>
+                    <outro>standard</outro>
+                    <tone>standard</tone>
+                    <description>F</description>
+                    <isroot>false</isroot>
+                </position>
+            </positions>
+        </pattern>
+        <pattern>
+            <time>12</time>
+            <description>D</description>
+            <positions>
+                <position>
+                    <stringIndex>4</stringIndex>
+                    <fretIndex>5</fretIndex>
+                    <intro>standard</intro>
+                    <outro>standard</outro>
+                    <tone>standard</tone>
+                    <description>D</description>
                     <isroot>false</isroot>
                 </position>
             </positions>

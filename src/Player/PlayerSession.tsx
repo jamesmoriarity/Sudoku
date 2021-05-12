@@ -14,7 +14,7 @@ import SettingsProxy from "../SettingsProxy";
 import ExerciseHistory from "../Exercises/ExerciseHistory";
 import ExerciseSequence from "../Exercises/ExerciseSequence";
 import ExerciseSettings from "../Exercises/Settings/ExerciseSettings";
-import {gsap} from "gsap"
+import {gsap, Power1} from "gsap"
 import { PlayerPattern } from "./PlayerPattern";
 import Settings from "../Exercises/Settings/Settings";
 import Position from "../Position";
@@ -115,17 +115,26 @@ export class PlayerSession extends React.Component{
         if(this.props.playerSequence){
             let patterns:PlayerPattern[] = this.props.playerSequence.patterns
             patterns.forEach((pattern:PlayerPattern, index:number) => {
+                let baseTime:number = pattern.time
                 pattern.positions.forEach( (position:PlayerPosition) => {
                     let x:number = FretElm.fretXPositions[position.fretIndex] // are there other ways to position it?
                     let y:number = GuitarStringElm.getStringY(position.stringIndex)
                     let id:string = "#" + NoteDotPlayer.getIDFromIndex(position.stringIndex)
-                    this.patternTimeline.set(id, {x:x, y:y}, pattern.time)
-                    this.patternTimeline.set(id, {opacity:1}, pattern.time)
-                    let fadeStart:number = pattern.time + .8
+                    if(position.intro == "slide"){
+                        let slideOriginX:number = FretElm.fretXPositions[position.slideOrigin.fretIndex]
+                        let slideOriginY:number = GuitarStringElm.getStringY(position.slideOrigin.stringIndex)
+                        this.patternTimeline.set(id, {x:slideOriginX, y:slideOriginY, opacity:0.4}, baseTime) 
+                        this.patternTimeline.to(id, {x:x, y:y, opacity:1, ease: Power1.easeInOut, duration:0.15}, baseTime + 0.1) 
+                    }
+                    else{
+                        this.patternTimeline.set(id, {x:x, y:y}, baseTime) 
+                        this.patternTimeline.set(id, {opacity:1}, baseTime)
+                    }
+                    let fadeStart:number = baseTime + .8
                     this.patternTimeline.to(id, {opacity:0, duration:.2}, fadeStart)              
                 })
-                this.patternTimeline.call(this.setPattern,[pattern], pattern.time)
-                this.patternTimeline.call(this.setPattern,[pattern], pattern.time + 0.99)
+                this.patternTimeline.call(this.setPattern,[pattern], baseTime)
+                this.patternTimeline.call(this.setPattern,[pattern], baseTime + 0.99)
             })
         }
     }

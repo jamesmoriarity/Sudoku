@@ -22,13 +22,20 @@ export class ScrubberProps{
 export class Scrubber extends React.Component{
     props!:ScrubberProps
     draggable!:Draggable
+    isDragging:boolean
     constructor(props:ScrubberProps){
         super(props)
+        this.isDragging = false
+    }
+    onDragEnd = () => {
+        console.log("onDragStop")
+        this.isDragging = false
     }
     onDragPress = () => {
         this.props.getTimeline().pause()
     }
     onDrag = () => {
+        this.isDragging = true
         let drag:Draggable = this.draggable
         if(drag.deltaX != 0){
             let newX:number = drag.endX
@@ -38,13 +45,16 @@ export class Scrubber extends React.Component{
         }
     }
     onTimelineUpdate = () => {
-        let progress:number = this.props.getTimeline().progress()
-        progress = Math.round(progress * 100)/100
         var tl = new TimelineLite();
-        tl.set(this.draggable.target, {x:progress * 3200})
+        let progress:number = this.props.getTimeline().progress()
         let width:number = (progress * 3200) + 10
-        if(width > 3200){width = 3200}
+        width = (width > 3200) ? 3200 : width
         tl.set(".scrubber-progress", {width: width})
+        if(!this.isDragging){
+            progress = Math.round(progress * 100)/100
+            let duration:number = (progress == 1) ? 0 : 0.2
+            tl.to(this.draggable.target, {duration:duration, x:Math.round(progress * 3200)})
+        }
     }
     componentDidMount(){
         let vars:any = {
@@ -52,7 +62,8 @@ export class Scrubber extends React.Component{
             type:"x",
             bounds:{minX:0, maxX:3200},
             onDrag:this.onDrag,
-            onPress:this.onDragPress
+            onPress:this.onDragPress,
+            onDragEnd:this.onDragEnd
         }
        this.draggable = Draggable.create(".scrubber-head", vars)[0]
     }
