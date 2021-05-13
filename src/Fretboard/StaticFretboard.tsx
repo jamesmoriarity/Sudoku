@@ -5,7 +5,7 @@ export class StaticFretboard extends React.Component{
         super(props)
     }
     render(){
-        return <></>
+        return <>{this.props.children}</>
     }
 
 }
