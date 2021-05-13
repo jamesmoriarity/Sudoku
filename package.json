@@ -17,6 +17,7 @@
   "devDependencies": {
     "@babel/core": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
+    "@types/prop-types": "^15.7.3",
     "babel-jest": "^26.3.0",
     "react": "^16.13.1",
     "ts-loader": "^8.0.3",
@@ -33,6 +34,7 @@
     "@types/react-dom": "^16.9.8",
     "fast-xml-parser": "^3.19.0",
     "gsap": "^3.6.1",
+    "prop-types": "^15.7.2",
     "react-dom": "^16.13.1"
   }
 }

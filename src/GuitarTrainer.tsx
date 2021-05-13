@@ -1,7 +1,7 @@
 import React from "react"
-import ExerciseComponents from "./ExerciseComponents"
-import Exercise from "./Exercises/Exercise"
-import Player from "./Player/Player"
+import ExerciseComponents from "./Exercises/ExerciseComponents"
+
+// import Player from "./Player/Player"
 
 class GuitarTrainerState{
   exerciseComponent!:Function
@@ -16,7 +16,8 @@ class GuitarTrainerState{
 }
 
 class GuitarTrainer extends React.Component {
-  props:any; state:GuitarTrainerState
+  props:any
+  state:GuitarTrainerState
  	constructor(props:any){
  		super(props)
     this.state = new GuitarTrainerState(ExerciseComponents.getNames()[0])
@@ -36,7 +37,7 @@ class GuitarTrainer extends React.Component {
   }
   getExerciseComponent = () => {
     let ExceriseComponent:Function = this.state.exerciseComponent
-    return (ExceriseComponent == undefined)? null : <ExceriseComponent {...this.state}/>
+    return (ExceriseComponent == undefined) ? null : <ExceriseComponent/>
   }
   render(){
     return  <>

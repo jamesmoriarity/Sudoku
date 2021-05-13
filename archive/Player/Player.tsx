@@ -1,6 +1,6 @@
 import parser from "fast-xml-parser"
 import React, { RefObject } from "react"
-import Exercise from "../Exercises/Exercise"
+
 import ExerciseSession, { ExerciseSessionProps } from "../Exercises/ExerciseSession"
 import SettingsEditor, { SettingsEditorProps } from "../Exercises/Settings/SettingsEditor"
 import Position from "../Position"
