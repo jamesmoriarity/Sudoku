@@ -1,5 +1,5 @@
 import React from "react";
-import { Position } from "../../Guitar/Guitar";
+import { Position } from "../../Guitar/GuitarSettings";
 
 export class BaseUserAnswer{
     answer:string
@@ -37,7 +37,7 @@ export class BaseQuestion{
 
 class BaseQuestionComponent extends React.Component{
     propTypes:any
-    constructor(props:BaseQuestion){
+    constructor(props:any){
         super(props)
     }
     render(){ return <></> }

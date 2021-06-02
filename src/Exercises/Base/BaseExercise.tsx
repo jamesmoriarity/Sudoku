@@ -1,4 +1,5 @@
 import React, { RefObject } from "react"
+import { GuitarSettings } from "../../Guitar/GuitarSettings"
 
 
 export class BaseExerciseState{
@@ -12,7 +13,7 @@ export class BaseExerciseState{
 
 export class BaseExercise extends React.PureComponent{
     state:BaseExerciseState
-    constructor(props:any){
+    constructor(props:GuitarSettings){
       super(props)
       this.state = new BaseExerciseState()
     }

@@ -1,17 +1,20 @@
 import React from "react"
 import ExerciseComponents from "./Exercises/ExerciseComponents"
+import { GuitarSettings } from "./Guitar/GuitarSettings"
 
 // import Player from "./Player/Player"
 
 class GuitarTrainerState{
   exerciseComponent!:Function
   exerciseName:string
+  guitarSettings:GuitarSettings
   constructor(componentName:string){
     this.exerciseName = componentName
     let components:Map<string,Function> = ExerciseComponents.getAllComponents()
     let component: Function | undefined = components.get(componentName)
     if(!component){ component = ExerciseComponents.getValues()[0] }
     this.exerciseComponent = component
+    this.guitarSettings = new GuitarSettings()
   }
 }
 
@@ -37,7 +40,7 @@ class GuitarTrainer extends React.Component {
   }
   getExerciseComponent = () => {
     let ExceriseComponent:Function = this.state.exerciseComponent
-    return (ExceriseComponent == undefined) ? null : <ExceriseComponent/>
+    return (ExceriseComponent == undefined) ? null : <ExceriseComponent {...this.state.guitarSettings}/>
   }
   render(){
     return  <>

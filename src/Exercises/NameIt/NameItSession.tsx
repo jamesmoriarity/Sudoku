@@ -1,13 +1,14 @@
 import React from "react";
 import { StaticFretboard } from "../../Fretboard/StaticFretboard";
-import { Position } from "../../Guitar/Guitar";
+import { GuitarSettings, Position } from "../../Guitar/GuitarSettings";
 import BaseExerciseSession, { BaseExerciseSessionProps, BaseExerciseSessionState } from "../Base/BaseExerciseSession";
 import { NameItQuestionComponent, NameItQuestion } from "./NameItQuestionComponent";
-import {gsap} from "gsap"
+import {gsap, TimelineLite} from "gsap"
 import { Sequencer } from "./Sequencer";
 import { SessionHistory } from "./SessionHistory";
 
-export class NameItSessionProps extends BaseExerciseSessionProps{}
+export class NameItSessionProps extends BaseExerciseSessionProps{
+}
 
 export class NameItSessionState{
     currentQuestion:NameItQuestion
@@ -53,7 +54,7 @@ export class NameItSession extends BaseExerciseSession{
     }
     getComponents = () => {
         if(!this.state.currentQuestion){ return <></>}
-        return  <NameItQuestionComponent question={this.state.currentQuestion} onComplete={this.onQuestionComplete}/> 
+        return  <NameItQuestionComponent guitarSettings={this.props.guitarSettings} question={this.state.currentQuestion} onComplete={this.onQuestionComplete}/> 
     }
     render(){
         return this.getComponents()

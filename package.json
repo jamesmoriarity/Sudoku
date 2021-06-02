@@ -34,6 +34,7 @@
     "@types/react-dom": "^16.9.8",
     "fast-xml-parser": "^3.19.0",
     "gsap": "^3.6.1",
+    "immer": "^9.0.2",
     "prop-types": "^15.7.2",
     "react-dom": "^16.13.1"
   }

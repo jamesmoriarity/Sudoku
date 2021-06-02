@@ -1,15 +1,19 @@
 import React from "react";
-import { Position } from "../../Guitar/Guitar";
+import { GuitarSettings, Position } from "../../Guitar/GuitarSettings";
 import BaseQuestionComponent, { BaseQuestion, BaseUserAnswer } from "../Base/BaseQuestionComponent";
 import PropTypes from "prop-types"
 import { StaticFretboard } from "../../Fretboard/StaticFretboard";
+import {gsap, Linear} from "gsap"
+import { immerable } from "immer";
 
 export class NameItQuestion extends BaseQuestion{
+    [immerable] = true
     constructor(positions:Position[], answer:string, autoPlay:boolean = true){
         super(positions, answer, autoPlay)
     }
 }
 export interface NameItQuestionComponentProps {
+    guitarSettings: any,
     question: any,
     onComplete: Function
   }
@@ -43,7 +47,7 @@ export class TimelineManager{
     getIntroTimeline  = ():TimelineLite => {
         let introTimeline:TimelineLite = gsap.timeline({paused:true, onComplete:this.client.onIntroAnimationComplete})
         this.client.getQuestion().positions.forEach( (position:Position, index:number) => {
-            introTimeline.to(position.getDomId(), {ease: Linear.easeNone, duration:0.5, opacity:1}, 0)
+            introTimeline.to(position.getDomId(), {ease: Linear.easeNone, duration:0.35, opacity:1}, 0)
         })
         return introTimeline
     }
@@ -58,6 +62,7 @@ export class NameItQuestionComponent extends BaseQuestionComponent{
     props!:NameItQuestionComponentProps
     timelineManager:TimelineManager
     static propTypes:NameItQuestionComponentProps = {
+        guitarSettings: PropTypes.instanceOf(GuitarSettings),
         question: PropTypes.instanceOf(NameItQuestion),
         onComplete:PropTypes.func
     }
@@ -66,8 +71,10 @@ export class NameItQuestionComponent extends BaseQuestionComponent{
         this.timelineManager = new TimelineManager(this)
     }
     getQuestion = ():NameItQuestion => { return this.props.question as NameItQuestion }
-    onCompleteHander = (question:NameItQuestion):void => { this.props.onComplete(question) }
+    getGuitarSettings = ():GuitarSettings => { return this.props.guitarSettings as GuitarSettings}
+
     // events
+    onCompleteHander = (question:NameItQuestion):void => { this.props.onComplete(question) }
     onComplete = () => {
         this.cleanUp()
         this.onCompleteHander(this.getQuestion())
@@ -113,7 +120,7 @@ export class NameItQuestionComponent extends BaseQuestionComponent{
         return []
     }
     render(){ 
-        return <StaticFretboard>
+        return <StaticFretboard {...this.props.guitarSettings}>
                     {this.getPositionDots()}
                 </StaticFretboard>
             // controls

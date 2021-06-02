@@ -1,19 +1,18 @@
 import React, { RefObject } from "react";
 import {gsap} from "gsap"
 import { BaseQuestion } from "./BaseQuestionComponent";
+import { GuitarSettings } from "../../Guitar/GuitarSettings";
 
 export class BaseExerciseSessionState{
     currentQuestion:BaseQuestion | undefined
     constructor(){}
 }
 
-
-
 export class BaseExerciseSessionProps{
     children!:JSX.Element[]
-    // settings:ExerciseSettings
-    constructor(){
-        // this.settings = settings
+    guitarSettings:GuitarSettings
+    constructor(guitarSettings:GuitarSettings){
+        this.guitarSettings = guitarSettings
     }
 }
 

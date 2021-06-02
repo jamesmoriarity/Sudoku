@@ -1,4 +1,4 @@
-import { Position } from "../../Guitar/Guitar"
+import { Position } from "../../Guitar/GuitarSettings"
 import { NameItQuestion } from "./NameItQuestionComponent"
 
 export class Sequencer{
