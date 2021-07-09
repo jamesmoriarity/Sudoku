@@ -1,4 +1,4 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
-import GuitarTrainer from "./GuitarTrainer"
-ReactDOM.render(React.createElement(GuitarTrainer, {}), document.getElementById('pocket'))
+import SudokuSolver from "./SudokuSolver"
+ReactDOM.render(React.createElement(SudokuSolver, {}), document.getElementById('pocket'))

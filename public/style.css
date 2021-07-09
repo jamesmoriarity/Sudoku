@@ -1,304 +1,46 @@
 html{
-  color:            grey;
-  background-color: #222;
-  font-family:        Arial, Helvetica, sans-serif;
+  background-color: white;
 }
-div {
-  box-sizing:border-box;
-}
-.controls text {
-  font-size:200px;
-}
-svg{
-  
-}
-
-#pocket{
-  margin-left:  50px;
-  margin-top:   50px;
-  width:        95%;
-}
-.answerIndicator{
-  cx:       1600px;
-  cy:       1600px;
-  r:        900px;
-}
-.answerTimer{
-  font-size:        200px;
-  fill:           white;
-  transform-origin: center;
-  transform:        translate(1600px, 1600px);
-}
-.answerTimer .bar{
-  transform:  translate(-500px, -25px);
-  height:     50px;
-  rx:         40px;
-}
-.answerTimer .background-bar{
-  width:  1000px;
-  fill: grey;
-}
-.answerTimer .foreground-bar{
-  fill:#31ff2a;
-}
-
-.answerTimer .inner-ring{
-  cx: 0px;
-  cy: 0px;
-  r:  900px;
-  fill: transparent;
-  stroke: #0ae902;
-  stroke-width:35px;
-  stroke-dashoffset: 0;
-  transform:rotate(-90deg);
-}
-.answerTimer .inner-ring.back{
-  stroke: rgb(230, 230, 230);
-}
-.button-outline{
-  display:none;
-}
-.dot{
-  stroke:none;
-  fill: rgb(0,0,0);
-  cy:     611;
-  r:      65;
-}
-.doubledot{
-  stroke: none;
-  fill: rgb(0,0,0);
-  r:      65
-}
-.doubledot.top{
-  cy: 350;
-}
-.doubledot.bottom{
-  cy: 850;
-}
-.exercise-title-bar{
-  margin: 40 0 20 0;
-  font-size:18px;
-  color:white;
-}
-.exercise-title-bar span{
-  font-size:13px;
-  color:yellow;
-  margin: 0 0 0 20;
-  cursor:hand;
-}
-.exercisePlayButton{
-  transform: translate(1200px, 1450px);
-  cursor:     hand;
-}
-#exercise-settings{
-  position: absolute;
-  overflow: hidden;
-  height:0;
-  margin:0;
-  width:650px;
-  border-radius: 15px;
-  margin-bottom:25px;
-}
-.exercise-settings-group{
-  margin-bottom:20px;
-}
-.exercise-settings-group-title{
-  margin-bottom:10px;
-}
-.exercise-settings-string-chk-container{
-  display:inline-block;
-  margin-right:15px;
-}
-.exercise-settings-fret-chk-container{
-  display:inline-block;
-  margin-right:10px;
-}
-#exercise-settings-inner{
-  background-color: rgb(61, 61, 61);
-  margin:20px;
-  box-sizing: border-box;
-  border:1px solid white;
-  margin:10px;
-  border-radius:15px;
-  padding: 20px;
-}
-#close-button{
-  margin:25px 0 25px 0;
-  text-align:right;
-}
-.neck{
-  y:      100px;
-  x:      50px;
-  height: 1000px;
-  width:    7350px;
-  stroke: #cec59f;
-  fill:   #c19832;
-}
-.fret{
-  stroke:     black;
-  fill:         url(#fretGradient);
-  width:        60;
-  height:       1000;
-  y:            100;
-  stroke-width: 5;
-}
-.fret.inactive{
-  opacity: 0.5;
-}
-.fret:nth-child(2){
-  fill:#ccf;
-}
-g .guitar-string{
-  stroke: none;
-  fill:   url(#stringPattern);
-  x:      50;
-  width:  7360;
-}
-g .guitar-string:nth-child(1){ height:19; }
-g .guitar-string:nth-child(2){ height:20; }
-g .guitar-string:nth-child(3){ height:22; }
-g .guitar-string:nth-child(4){ height:24; }
-g .guitar-string:nth-child(5){ height:26; }
-g .guitar-string:nth-child(6){ height:28; }
-.guitar-string.inactive{
-  opacity:0.5;
-}
-.noteDot{
-  overflow:visible;
-  opacity:0.25;
-}
-
-.note-dot-label{
-  fill:#ff8000;
-}
-
-.noteDot circle{
-  stroke:     white;
-  stroke-width: 10;
-  fill:#ff8000;
-  stroke-dashoffset: 0;
-  transform:translate(100px, 10px);
-}
-
-.noteDot circle.answer-correct{fill:green;}
-.noteDot circle.answer-incorrect{fill:red;}
-
-.noteDot text{
-  font-size:130px;
-  text-align: center; 
-  text-anchor:  middle;
-  transform:translate(100px, 50px);
-  fill: white;
-}
-.noteDot.noteDotPlayer text{
-  font-size:110px;
-}
-.noteDot.noteDotPlayer circle{
-  font-size:120px;
-  stroke-width:5px;
-}
-.noteButton{
-  cursor:   hand;
-  overflow: visible;
-}
-.noteButton .label{
-  transform:          translateY(20px);
-  font-size:          200px;
-  font-weight:        bold;
-  y:                  0px;
-  x:                  0px;
-  text-anchor:        middle;
-  alignment-baseline: middle;
-}
-.noteButton .back{
-  fill-opacity: 0;
-   height:      400px; 
-   width:       600px; 
-   y:           -200px;
-   x:           -300px;
-
-}
-.noteButton:hover .label{
+.cell{
+  width:50px;
+  height:50px;
+  stroke-width:1px;
+  stroke:black;
   fill:white;
 }
-.noteChoices .outer-ring{
-  cx:       1600px;
-  cy:       1600px;
-  r:        1600px;
-  fill:   #292929;
-  stroke: #fff;
+.cell.selected{
+  fill:rgb(202, 202, 202);
 }
-.pause-mode, .play-mode{
-  fill:grey;
-}
-.pattern-label{
-  transform: translateY(250px);
-  fill:white;
-}
-.pattern-label-2{
-  transform:translateY(600px);
-  fill:white;
-}
-.playButtonBack{
-  fill-opacity:0;
-  transform: translate(100px,100px);
-}
-.player-notedot{
-  opacity:0;
-}
-.player-notedot text{
-    font-size:100px;
-    text-align: center; 
-    text-anchor:  middle;
-    transform:translate(100px, 50px);
-    fill: white;
-}
-.player-notedot circle{
-  stroke:white;
-  stroke-width:5px;
-  transform:translate(100px, 0px);
-}
-.player-notedot circle.playing{
-  fill:rgb(228, 129, 0);
-}
-.player-notedot circle.paused{
-  fill:rgb(100, 37, 0);
-  stroke:rgb(100, 37, 0);
-}
-.restart{
-  transform:          translate(1600px, 3700px);
-  text-anchor:        middle;
-  font-size: 140px;
 
+.superv{
+  height:450px;
+  width:3px
 }
-.scoreboard{
-  font-size:  200px;
-  transform:  translate(1600px, 1330px);
+.superv.one{
+  x:0px;
 }
-.scoreboard text{
-  fill:       grey !important;
-  text-anchor:  middle;
-  cursor:default;
+.superv.two{
+  x:150px;
 }
-.scrubber-repeat{
-  transform:translate(50%, 1250px);
-  cursor:hand;
+.superv.three{
+  x:300px;
 }
-.scrubber-repeat-icon{
-  width: 240px;
-  height:240px;
-  overflow:visible;
-  fill:#afaeae;
+.superv.four{
+  x:450px;
 }
-.scrubber-repeat-icon.repeat{
-  fill:orange;
+.superh{
+  height:3px;
+  width:450px
 }
-.repeat-icon{
-  transform:translateX(-50%);
+.superh.one{
+  y:0px;
 }
-.staticFretboard .fretboardDots, .staticFretboard .frets{
-  transform:translateX(200px);
+.superh.two{
+  y:150px;
 }
-.title{
-  font-size:200px
+.superh.three{
+  y:300px;
+}
+.superh.four{
+  y:450px;
 }
